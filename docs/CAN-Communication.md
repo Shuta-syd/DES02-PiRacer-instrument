@@ -1,4 +1,4 @@
-****# CAN Communication
+# CAN Communication
 ## CAN Communication with Speed Sensor (LM393)
 This section is about how to communicate with Speed Sensor (LM393) using Arduino and 2CH CAN BUS FD HAT.
 ### Materials
