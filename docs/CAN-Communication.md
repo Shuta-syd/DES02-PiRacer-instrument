@@ -1,4 +1,4 @@
-# CAN Communication
+****# CAN Communication
 ## CAN Communication with Speed Sensor (LM393)
 This section is about how to communicate with Speed Sensor (LM393) using Arduino and 2CH CAN BUS FD HAT.
 ### Materials
@@ -32,9 +32,10 @@ This section is about how to communicate with Speed Sensor (LM393) using Arduino
 | D2 or D3| INT     |
 > **Note**: D2 or D3 is optional. If you want to use interrupt, connect D2 or D3 to INT pin of MCP2515. 
 
-#### Set up Raspberry Pi and 2CH-CAN-FD-HAT
+### Set up Raspberry Pi and 2CH-CAN-FD-HAT
 [How to set up 2CH-CAN-FD-HAT](https://www.waveshare.com/wiki/Template:2-CH_CAN_FD_HAT_User_Manual#Working_with_Raspberry_Pi)
 
+## Code Example
 ### Transmitter Code Example (Arduino Nano)
 ```cpp
 #include <mcp2515.h>
