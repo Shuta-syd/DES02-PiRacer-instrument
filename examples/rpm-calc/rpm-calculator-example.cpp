@@ -13,18 +13,20 @@ int main() {
   int readingsCnt = 1;
 
   double ElapsedTimeAvg = 0.0;
-  double ElapsedTimeSum = 0.0;
+  double ElapsedTimeSum = 100000.0;
 
   // get start time
   auto prevTime = TIME();
   int i = 0;
 
   while (i++ < 100) {
+    usleep(2500);
     RPM++;
     // get current time
     auto current_time = TIME();
     // elapse time (μs)
     size_t elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(current_time - prevTime).count();
+    std::cout << "elapsed_time: [ " << elapsed_time << "μs]" << std::endl;
     // renew prev time
     prevTime = TIME();
 
@@ -50,8 +52,6 @@ int main() {
     // RPM calculating
     RPM = (frqRaw / PURSE_PER_ROTATION * 60) / 1000;
     std::cout << "RPM: [ " << RPM << "rpm/min]" << std::endl;
-
-    usleep(5000);
   }
   return 0;
 }
