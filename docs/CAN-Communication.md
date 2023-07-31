@@ -35,7 +35,7 @@ This section is about how to communicate with Speed Sensor (LM393) using Arduino
 ### Set up Raspberry Pi and 2CH-CAN-FD-HAT
 ##### OS: Ubuntu 22.04 LTS
 [How to set up 2CH-CAN-FD-HAT](https://www.waveshare.com/wiki/Template:2-CH_CAN_FD_HAT_User_Manual#Working_with_Raspberry_Pi)
-> **Note** Sometimes can0 and can01 is swapped, So Please note that. If they are swapped, you cannot receive any message from CAN BUS correctly.
+> **Note** Sometimes can0 and can01 is swapped, So Please note that. If they are swapped, you have to rename can0 can1.
 
 ## Code Example
 ### Transmitter Code Example (Arduino Nano)
