@@ -9,7 +9,7 @@ This section is about how to communicate with Speed Sensor (LM393) using Arduino
 
 ### Wiring  Diagram
 ---
-/image here which show line dependency/
+<img src="../imgs/piracer-wiring.jpeg" alt="2ch CAN BUS FD HAT" width="70%" height="70%">
 
 #### Arduino nano and Sensor Sensor (LM393)
 | Arduino | Speed Sensor (LM393) |
@@ -33,19 +33,23 @@ This section is about how to communicate with Speed Sensor (LM393) using Arduino
 > **Note**: D2 or D3 is optional. If you want to use interrupt, connect D2 or D3 to INT pin of MCP2515. 
 
 ### Set up Raspberry Pi and 2CH-CAN-FD-HAT
+##### OS: Ubuntu 22.04 LTS
 [How to set up 2CH-CAN-FD-HAT](https://www.waveshare.com/wiki/Template:2-CH_CAN_FD_HAT_User_Manual#Working_with_Raspberry_Pi)
+> **Note** Sometimes can0 and can01 is swapped, So Please note that. If they are swapped, you cannot receive any message from CAN BUS correctly.
 
 ## Code Example
 ### Transmitter Code Example (Arduino Nano)
-```cpp
-#include <mcp2515.h>
+> **Note**: We used to try to use MCP2515 Library, but it didn't work. So we used MCP_CAN Library instead of MCP2515 Library.
+> Maybe it might work depending on the external environment such as OS, Arduino version, etc. so please try it to use MCP2515 Library.
+
+```c++
+#include <mcp_can.h>
 #include <SPI.h>
 
 #define SENSOR_PIN 2
 
-MCP2515 mcp2515(10);
-struct can_frame canMsg;
-int count = 0;
+MCP_CAN CAN(10);
+uint8_t count = 0;
 
 void rpmCounter() {
  count++;
@@ -53,29 +57,35 @@ void rpmCounter() {
 }
 
 void setup() {
-  canMsg.can_id = 0x010;
-  canMsg.can_dlc = 2;
-  canMsg.data[0] = 0xff;
-  canMsg.data[1] = 0xff;
 
   Serial.begin(9600);
 
-  mcp2515.reset();
-  mcp2515.setBitrate(CAN_125KBPS);
-  mcp2515.setNormalMode();
+  CAN.begin(MCP_ANY, CAN_125KBPS, MCP_8MHZ);
+  CAN.setMode(MCP_NORMAL);
 
   pinMode(SENSOR_PIN, INPUT);
   attachInterrupt(digitalPinToInterrupt(SENSOR_PIN), rpmCounter, RISING);
 }
 
 void loop() {
-  canMsg.data[0] = count;
-  mcp2515.sendMessage(&canMsg);
+
+  uint8_t data[8];
+  int can_id = 0x125; // optional can id
+  int can_dlc = 8; // data length you want to send
+  memcpy(data, &count, 8); // copy count to data array
+
+  int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
+
+  if (status == CAN_OK)
+    Serial.println("Success");
+  else 
+    Serial.println("Error");
   delay(1000);
 }
 ```
 Reference:
-> - [MCP2515 Library](www.github.com/autowp/arduino-mcp2515)
+> 1. [MCP_CAN Library](https://github.com/coryjfowler/MCP_CAN_lib/)
+> 2. [MCP2515 Library](www.github.com/autowp/arduino-mcp2515)
 
 ### Receiver Code Example (Raspberry Pi)
 ```python
@@ -95,3 +105,5 @@ def receive_can_messages():
 if __name__ == "__main__":
     receive_can_messages()
 ```
+Reference:
+> 1. [ python-can Library](https://pypi.org/project/python-can/)
