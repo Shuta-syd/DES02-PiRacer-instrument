@@ -1,8 +1,9 @@
 # DES02-PiRacer-instrument
 ## Contents Index
 [1. Software Architecture](#software-architecture)  
-[2. Basic knowledge of Architecture](#basics-knowledge-of-the-architecture)  
+[2. Basic knowledge of Architecture](#basic-knowledge-of-the-architecture)  
 [3. CAN Communication](./docs/CAN-Communication.md)  
+[4. RPM Calculation](./docs/RPM-Calculation.md)
 
 ## Software Architecture
 /image here/
