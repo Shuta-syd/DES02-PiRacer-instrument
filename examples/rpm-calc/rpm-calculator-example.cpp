@@ -6,8 +6,8 @@
 #define TIME() std::chrono::high_resolution_clock::now()
 
 int main() {
+  // debug value
   size_t RPM = 0;
-  double prevTimeStamp = 0.0;
 
   int PurseCounter = 1;
   int readingsCnt = 1;
