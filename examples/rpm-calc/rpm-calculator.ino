@@ -16,8 +16,8 @@ double prevTime = 0;
 unsigned long frqRaw = 0;
 unsigned long RPM_s = 0;
 unsigned long RPM_w = 0;
-int readingsCnt = 1;
-int purseCounter = 1;
+int readingCnt = 1;
+int purseCnt = 1;
 
 
 void setup() {
@@ -36,7 +36,7 @@ void loop() {
   int can_dlc = 8;
   memcpy(data, &count, 8);
 
-  frqRaw = 10000000 * 1000 / elapsedTimeAvg;
+  frqRaw = 1000000 * 1000 / elapsedTimeAvg;
   RPM_s = (frqRaw * 60 / PPR) / 1000;
   RPM_w = RPM_s * (SPeedMeterDiameter / WheelDiameter);
 
@@ -48,22 +48,21 @@ void loop() {
     Serial.println("Success");
    } else
     Serial.println("Error");
-  delay(1000);
 }
 
 void purseCounter() {
   elapsedTime = micros() - prevTime;
   prevTime = micros();
 
-  if (purseCounter >= readingCnt) {
-    elapsedTimeAvg = elapsedTimeSum / readingsCnt;
-    purseCounter = 1;
+  if (purseCnt >= readingCnt) {
+    elapsedTimeAvg = elapsedTimeSum / readingCnt;
+    purseCnt = 1;
     elapsedTimeSum = elapsedTime;
 
     int tmpReadCnt = map(elapsedTime, 0, 100000, 1, 10);
     readingCnt = constrain(tmpReadCnt, 1, 10);
   } else {
-    purseCounter++;
+    purseCnt++;
     elapsedTimeSum += elapsedTime;
   }
 }
