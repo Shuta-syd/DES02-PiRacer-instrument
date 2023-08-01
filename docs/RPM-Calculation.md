@@ -1,15 +1,15 @@
 # Speed Calculation
 ## Step1. RPM Calculation
 To get vector of RPM values, you need below variables:  
-$N_k$ *[rpm]* - rpm value  
-$PPR$ *[pulses/rev]* - pulses per revolution  
-$pulse$ *[pulses]* - number of pulses in one second
+$RPM_s$ *[rpm]* - rpm value of Speed Sensor Wheel
+$PPR$ - pulses per revolution  
+$pulse$ - number of pulses in one second
 
 #### Basic Formula
 Basically, you can calculate rpm value by dividing number of pulses in one second by pulses per revolution and multiply by 60 to get rpm value.
 
 $$
-N_k = \frac{pulse}{PPR} \cdot 60
+RPM_s = \frac{pulse}{PPR} \cdot 60
 $$
 
 #### Pulse Counter
@@ -22,4 +22,27 @@ $$
 
 $$
 ElapsedTimeAvg = \frac{ElapsedTime}{ReadingCount}
+$$
+
+## Step2 Speed Calculation km/h
+To get speed km/h, you need below variables:  
+$Speed$ *[km/h]* - speed value  
+$RPM_w$ - rpm value of Wheel
+$rpm$ - rpm value  
+$C$ *[km]* - Circumference length of Wheel  
+$d_1$ *[mm]* - Diameter of Wheel  
+$d_2$ *[mm]* - Diameter of Speed Sensor Wheel  
+
+#### Basic Formula
+$$
+Speed(km/h) = \frac{RPM_w \cdot C \cdot 60}{1000}
+$$
+$$
+RPM_w = {RPM_s} \cdot {GearRatio}
+$$
+$$
+GearRatio = \frac{d_2}{d_1} (d1 > d2)
+$$ 
+$$
+C = \frac{d_1 \cdot \pi}{1000}
 $$
