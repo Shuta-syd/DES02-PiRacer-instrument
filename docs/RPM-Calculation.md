@@ -37,12 +37,15 @@ $d_2$ *[mm]* - Diameter of Speed Sensor Wheel
 $$
 Speed(km/h) = \frac{RPM_w \cdot C \cdot 60}{1000}
 $$
+
 $$
 RPM_w = {RPM_s} \cdot {GearRatio}
 $$
+
 $$
 GearRatio = \frac{d_2}{d_1} (d1 > d2)
 $$ 
+
 $$
 C = \frac{d_1 \cdot \pi}{1000}
 $$
