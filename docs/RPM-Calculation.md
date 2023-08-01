@@ -1,7 +1,8 @@
 # Speed Calculation
 ## Step1. RPM Calculation
 To get vector of RPM values, you need below variables:  
-$RPM_s$ *[rpm]* - rpm value of Speed Sensor Wheel
+
+$RPM_s$ *[rpm]* - rpm value of Speed Sensor Wheel  
 $PPR$ - pulses per revolution  
 $pulse$ - number of pulses in one second
 
@@ -26,6 +27,7 @@ $$
 
 ## Step2 Speed Calculation km/h
 To get speed km/h, you need below variables:  
+
 $Speed$ *[km/h]* - speed value  
 $RPM_w$ - rpm value of Wheel
 $rpm$ - rpm value  
