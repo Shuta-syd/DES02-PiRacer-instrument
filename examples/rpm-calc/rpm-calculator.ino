@@ -6,8 +6,9 @@ MCP_CAN CAN(10);
 
 /** values to calculate RPM */
 #define PPR 20
+#define PI 3.1415926535897932384626433832795
 #define WheelDiameter 0.65
-#define SPeedMeterDiameter 0.20
+#define SpeedSensorDiameter 0.20
 
 double elapsedTimeAvg = 0.0;
 double elapsedTimeSum = 100000.0;
@@ -16,6 +17,7 @@ double prevTime = 0;
 unsigned long frqRaw = 0;
 unsigned long RPM_s = 0;
 unsigned long RPM_w = 0;
+unsigned long speed = 0;
 int readingCnt = 1;
 int purseCnt = 1;
 
@@ -34,15 +36,19 @@ void loop() {
   uint8_t data[8];
   int can_id = 0x125;
   int can_dlc = 8;
-  memcpy(data, &count, 8);
+  double C = WheelDiameter * PI / 1000;
 
   frqRaw = 1000000 * 1000 / elapsedTimeAvg;
   RPM_s = (frqRaw * 60 / PPR) / 1000;
-  RPM_w = RPM_s * (SPeedMeterDiameter / WheelDiameter);
+  RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
+  unsigned long speed = RPM_w * C * 60 / 1000;
 
-  Serial.print("RPM_w: ", RPM_w, "RPM");
+  Serial.print("RPM: ");
+  Serial.print(RPM_w);
+  Serial.print(" Speed [km/h]: ");
+  Serial.println(speed);
 
-
+  memcpy(data, &speed, 8);
   int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
   if (status == CAN_OK) {
     Serial.println("Success");
@@ -59,7 +65,7 @@ void purseCounter() {
     purseCnt = 1;
     elapsedTimeSum = elapsedTime;
 
-    int tmpReadCnt = map(elapsedTime, 0, 100000, 1, 10);
+    int tmpReadCnt = map(elapsedTime, 40000, 5000, 1, 10);
     readingCnt = constrain(tmpReadCnt, 1, 10);
   } else {
     purseCnt++;
