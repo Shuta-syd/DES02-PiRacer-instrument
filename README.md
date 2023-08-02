@@ -6,20 +6,20 @@
 [4. RPM Calculation](./docs/RPM-Calculation.md)
 
 ## Software Architecture
-<img src="./imgs/software-architecture.png" width="75%" height="75%">
+<img src="./docs/imgs/software-architecture.png" width="75%" height="75%">
 
 ## Basic knowledge of the Architecture
 ### What is CAN?
 A Controller Area Network (CAN bus) is a vehicle bus standard designed to allow microcontrollers and devices to communicate with each other's applications without a host computer. It is a message-based protocol, designed originally for multiplex electrical wiring within automobiles to save on copper, but it can also be used in many other contexts.
 
-<img src="./imgs/CAN.png" alt="CAN" width="50%" height="50%">
+<img src="./docs/imgs/CAN.png" alt="CAN" width="50%" height="50%">
 
 ### What is Arduino?
 Arduino is an open-source electronics platform based on easy-to-use hardware and software.
 
 Arduino boards are able to read inputs - a light on a sensor, a finger on a button, or a Twitter message - and turn them into an output - activating a motor, turning on an LED, or publishing something online.
 
-<img src="./imgs/Arduino.png" alt="CAN" width="50%" height="50%">
+<img src="./docs/imgs/Arduino.png" alt="CAN" width="50%" height="50%">
 
 ### Why Arduino, not Raspberry Pi?
 
@@ -35,10 +35,10 @@ MCP2515 is a module that receives and sends CAN signals. MCP2515 has a chip that
 
 The TJA1050 is a CAN transceiver responsible for properly converting signals on the CAN bus to communicate with microcontrollers and other devices.
 
-<img src="./imgs/MCP2515.png" alt="CAN" width="30%" height="30%">
+<img src="./docs/imgs/MCP2515.png" alt="CAN" width="30%" height="30%">
 
 ### ****CAN BUS Shield V2.0****
 
 CAN Bus Shield allows the microcontroller which is like Arduino to support CAN Protocol and easily communicate with other CAN devices. This is like an attachment that enhances the microcontroller.
 
-<img src="./imgs/CAN_BUS_Shieldv2.png" alt="CAN" width="30%" height="**30**%">
+<img src="./docs/imgs/CAN_BUS_Shieldv2.png" alt="CAN" width="30%" height="**30**%">
