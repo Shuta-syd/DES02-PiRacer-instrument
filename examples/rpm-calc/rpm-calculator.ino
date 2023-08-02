@@ -7,8 +7,8 @@ MCP_CAN CAN(10);
 /** values to calculate RPM */
 #define PPR 20
 #define PI 3.1415926535897932384626433832795
-#define WheelDiameter 65 // [mm]
-#define SpeedSensorDiameter 20 // [mm]
+#define WheelDiameter 65.0 // [mm]
+#define SpeedSensorDiameter 20.0 // [mm]
 
 double elapsedTimeAvg = 0.0;
 double elapsedTimeSum = 100000.0;
@@ -36,12 +36,12 @@ void loop() {
   uint8_t data[8];
   int can_id = 0x125;
   int can_dlc = 8;
-  double C = WheelDiameter * PI / 100;
+  double C = WheelDiameter * PI / 1000;
 
   frqRaw = 1000000 * 1000 / elapsedTimeAvg;
-  RPM_s = (frqRaw * 60 / PPR) / 100;
+  RPM_s = (frqRaw * 60 / PPR) / 1000;
   RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
-  unsigned long speed = RPM_w * C;
+  speed = RPM_w * C / 1000;
 
   Serial.print("RPM: ");
   Serial.print(RPM_w);
