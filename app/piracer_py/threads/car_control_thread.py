@@ -12,6 +12,6 @@ def car_control_thread(vehicle: PiRacerStandard, gamepad: ShanWanGamepad):
             vehicle.set_throttle_percent(throttle)
             vehicle.set_steering_percent(steering)
 
-            print(f'throttle: {throttle}, steering: {steering}')
+            #print(f'throttle: {throttle}, steering: {steering}')
     except KeyboardInterrupt:
         vehicle.set_steering_percent(0)
