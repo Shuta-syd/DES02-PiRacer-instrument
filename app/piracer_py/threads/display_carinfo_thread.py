@@ -47,6 +47,7 @@ def display_carinfo_thread(vehicle: PiRacerStandard):
             batlvl  = get_battery_info(vehicle)
             curtime = get_current_time()
             display_carinfo(currenttime=curtime , ipAddress=ipAddr, batterylevel=batlvl, vehicle=vehicle)
-            time.sleep(1)                                                                                   # Update the display every 1 second
+            #print("OLED")
+            time.sleep(1)                                                                                 
     except KeyboardInterrupt:
         pass
