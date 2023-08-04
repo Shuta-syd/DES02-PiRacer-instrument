@@ -2,3 +2,13 @@
 sample
 .DS_Store
 examples/build-playground-qt-quick-Desktop_Qt_5_15_2_clang_64bit-Debug
+
+# Environments
+.env
+.venv
+env/
+**venv/
+ENV/
+env.bak/
+venv.bak/
+/home/seame01/dev/DES02-PiRacer-instrument/app/piracer_py/venv/

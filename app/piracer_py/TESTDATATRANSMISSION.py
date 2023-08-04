@@ -1,18 +1,29 @@
+import can
 import time
-import socket 
+import time
+import socket
+from queue import Queue
 
+
+can_interface = 'can0'
 server_address  ='localhost'	# 127.0.0.1 for loopback 
 server_port 	= 23513 	# Duke Nukem 3D port
 
-def send_data_socket_thread(queue):
-
+def main():
     try: 
-        # create a socket
+        queue = Queue()
+        # create a can bus instance
+        bus = can.interface.Bus(channel=can_interface, bustype='socketcan')
         soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # connect to C++ server
         server = (server_address,server_port) 
         #soc.connect(server)
         while True:
+            # Receive message from CAN bus
+            message = bus.recv() 
+            # Put message into queue
+            print(message)
+            queue.put(message.data[0])
             # get value from queue
             if (queue.empty()):
                print("NO DATA IN QUEUE")
@@ -23,4 +34,8 @@ def send_data_socket_thread(queue):
                print(f"SEND TO SOCKET:{value}")
             time.sleep(1)
     except KeyboardInterrupt:
+        bus.shutdown()
         soc.close()
+        
+if __name__ == "__main__":
+	main()

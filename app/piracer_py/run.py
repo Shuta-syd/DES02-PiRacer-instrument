@@ -6,7 +6,7 @@ from    piracer.gamepads                        import ShanWanGamepad
 from    threads.display_carinfo_thread          import display_carinfo_thread
 from    threads.car_control_thread              import car_control_thread
 from    threads.receive_can_messages_thread     import receive_can_messages_thread
-from 	threads.send_data_socket_thread		    import send_data_socket_thread
+from 	threads.send_data_socket_thread		import send_data_socket_thread
 
 if __name__ == '__main__':
     
