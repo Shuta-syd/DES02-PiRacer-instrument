@@ -1,52 +1,35 @@
 import  time
-import  threading
-from queue import Queue
-from    piracer.vehicles                        import PiRacerStandard
-from    piracer.gamepads                        import ShanWanGamepad
-from    threads.display_carinfo_thread          import display_carinfo_thread
-from    threads.car_control_thread              import car_control_thread
-from    threads.receive_can_messages_thread     import receive_can_messages_thread
-from 	threads.send_data_socket_thread		import send_data_socket_thread
+from  multiprocessing                 import Process 
+from    piracer.vehicles              import PiRacerStandard
+from    piracer.gamepads              import ShanWanGamepad
+from    process.display_carinfo       import display_carinfo
+from    process.car_control           import car_control
+from    process.data_transmission     import data_transmission
 
 if __name__ == '__main__':
     
     piracer         = PiRacerStandard()             
     shanwan_gamepad = ShanWanGamepad()
-    #create a FIFO queue to share data between threads
-    queue = Queue()
-    
+
     try:      
+        # Run display_carinfo() in a seperate process 
+        display_carinfo_process = Process(target=display_carinfo, args=(piracer,))
+        display_carinfo_process.start()
 
-        # Run "carinfo@oled" thread
-        car_control          = threading.Thread(target=car_control_thread, args=(piracer, shanwan_gamepad))
-        car_control.daemon   = True
-        car_control.start()     
+        # Run car_controll() in a seperate process 
+        car_control_process = Process(target=car_control, args=(piracer, shanwan_gamepad))
+        car_control_process.start()
 
-        # Run "car control" thread
-        display_carinfo             = threading.Thread(target=display_carinfo_thread, args=(piracer,))
-        display_carinfo.daemon      = True
-        display_carinfo.start()
+        # Run data_transmission() in a seperate process
+        data_transmission_process = Process(target=data_transmission)
+        data_transmission_process.start()
 
-        # Run "read can message" thread
-        receive_can_messages           = threading.Thread(target=receive_can_messages_thread, args=(queue,))
-        receive_can_messages.daemon    = True
-        receive_can_messages.start()      
-
-        # Run "send data @ socket" thread
-        send_data_socket            = threading.Thread(target=send_data_socket_thread, args=(queue,))
-        send_data_socket.daemon     = True
-        send_data_socket.start()   
-
-        send_data_socket.join()
-        receive_can_messages.join()
-        display_carinfo.join()
-        car_control.join()
-
-
-        while True:
-            # Ensure the main thread doesn't exit and keeps running indefinitely
-            time.sleep(1)
+        # Wait for processes to finish
+        display_carinfo_process.join()
+        car_control_process.join()
+        data_transmission_process.join()
 
     except KeyboardInterrupt:
-        # Exit with Cmd+C
+        # Exit with cmd+c
         print(" - Programm has been stopped. - ")
+        pass

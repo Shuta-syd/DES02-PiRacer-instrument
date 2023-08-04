@@ -7,7 +7,7 @@ from   piracer.vehicles import PiRacerStandard
 
 FILE_DIR = pathlib.Path(os.path.abspath(os.path.dirname(__file__)))
 
-def display_carinfo_thread(vehicle: PiRacerStandard):
+def display_carinfo(vehicle: PiRacerStandard):
 
     def get_current_time():
         now = datetime.now()
@@ -40,14 +40,13 @@ def display_carinfo_thread(vehicle: PiRacerStandard):
         display.text(ipAddress      , 0, 10,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # Print second row
         display.text(currenttime    , 0, 20,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # 
         display.show()                                                                             # Show the updated display with both texts
-
     try:
         while True:
             ipAddr  = get_ip_address()                                                              
             batlvl  = get_battery_info(vehicle)
             curtime = get_current_time()
             display_carinfo(currenttime=curtime , ipAddress=ipAddr, batterylevel=batlvl, vehicle=vehicle)
-            #print("OLED")
             time.sleep(1)                                                                                 
     except KeyboardInterrupt:
+        print(" - Display carinfo process has been stopped. -")
         pass
