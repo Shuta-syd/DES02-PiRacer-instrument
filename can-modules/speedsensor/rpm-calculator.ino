@@ -26,9 +26,9 @@ double elapsedTime = 0;
 double prevTime = 0;
 // frequency
 unsigned long frqRaw = 0;
-// Rotations per minute (sender)
+// Sensor Rotations per minute
 unsigned long RPM_s = 0;
-// Rotations per minute (wheel)
+// Wheel Rotations per minute
 unsigned long RPM_w = 0;
 // Speed [m/min]
 unsigned long speed = 0;
@@ -50,17 +50,21 @@ void setup() {
 }
 
 void loop() {
+  // Create an array of 8 unsigned integer type to send via CAN bus
   uint8_t data[8];
   // CAN message id
   int can_id = 0x125;
   // CAN Data Length Code (DLC) 8 bytes
   int can_dlc = 8;
-  // Wheel circumference [m?]
+  // Wheel circumference [m]
   double C = WheelDiameter * PI / 1000;
-  // calculate RPM and speed from elapsed time (see docs for more info)
+  // calculate RPM and speed from elapsed time
   frqRaw = 1000000 * 1000 / elapsedTimeAvg;
+  // calculate RPM of sensor 
   RPM_s = (frqRaw * 60 / PPR) / 1000;
+  // calculate RPM of wheel
   RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
+  // calculate speed
   speed = RPM_w * C / 1000;
   // print values to serial monitor
   Serial.print("RPM: ");

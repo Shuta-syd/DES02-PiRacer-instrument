@@ -2,18 +2,16 @@ import can
 import time
 import time
 import socket
-from queue import Queue
 import random
+import math
 
-
-can_interface = 'can0'
-server_address  ='localhost'	# 127.0.0.1 for loopback 
-server_port 	= 23513 	# Duke Nukem 3D port
+can_interface   = 'can0'        # CAN interface
+server_address  = 'localhost'	
+server_port 	= 23513 	    # Duke Nukem 3D port
+speedsensor_can_id = 0x125      # CAN ID for speed sensor
 
 def data_transmission():
     try: 
-        #create queue 
-        queue = Queue()
         # create a can bus instance
         bus = can.interface.Bus(channel=can_interface, bustype='socketcan')
         # create a socket instance
@@ -23,35 +21,41 @@ def data_transmission():
         while True:
             # Receive message from CAN bus
             message = bus.recv() 
-            # Print CAN message
-            #print all messages data from can bus
-            print(f"ID: {message.arbitration_id} DLC: {message.dlc} DATA: {message.data}")
-            # extract values from message.data
-            for i in range(0, len(message.data)):
-                print(f"MESSAGE.DATA[{i}]: {message.data[i]}")
-            # load all message from CAN bus to FIFO queue
-            #for i in range(0, len(message.data)): 
-            #    queue.put(message.data[i])
-            # put first element of message to queue 
-            # queue.put(message.data[0])
-            queue.put(random.randint(0, 255))
-            # get value from queue, if queue is not empty send data to socket
-            if (queue.empty()):
-               print("NO DATA IN QUEUE")
-            else: 
-               # get value from FIFO queue and send to socket
-            #    for i in range(0, len(message.data)):
-            #     value = queue.get()
-            #     # send data to socket
-            #     soc.sendall(value.encode())
-            #     print(f"(SEND TO SOCKET:{value}")
-               value = queue.get()
-               # Send data to socket
-               #soc.senall(value.encode()
-               print(f"SEND TO SOCKET:{value}")
-            #pause process for 1 second
-            time.sleep(1)
+            if message is not None:
+                # Print CAN message
+                print(f"ID: {message.arbitration_id} DLC: {message.dlc} DATA: {message.data}")
+
+                #choose depending on sender ID
+                if message.arbitration_id == speedsensor_can_id:
+                    
+                    # Interpret the data payload as a 16-bit unsigned integer (uint8_t data[8];) that holds a usigned long value
+                    recieve = int.from_bytes(message.data, byteorder='big', signed=False)
+                    # recieve = int.from_bytes(message.data[:4], byteorder='little', signed=False)
+
+                    # calculate speed [m/min] from RPM of the wheel and wheel circumference [mm]
+                    WheelDiameter = 65.0 #[mm]
+                    wheel_circumference =  (WheelDiameter * math.pi)/1000 #Wheel circumference [m]
+                    RPM_wheel = recieve
+                    speed = RPM_wheel * wheel_circumference / 1000 # [m/min]
+
+                    send = speed
+
+                    # test data
+                    send = random.randint(0, 255)
+            else:
+                # If no data received from CAN bus, send 0 to socket
+                send = 0
+                print("No data received from CAN bus")
+
+            # Send data to socket    
+            #soc.senall(send)
+            print(f"SEND TO SOCKET:{send}")
+
+            #pause process for 0.5 seconds
+            time.sleep(0.5)
+
     except KeyboardInterrupt:
+
         # Exit with cmd+c and close socket and can bus
         print(" - Data transmission process has been stopped. - ")
         bus.shutdown()
