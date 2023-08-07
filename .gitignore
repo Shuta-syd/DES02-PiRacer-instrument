@@ -8,4 +8,5 @@ build*/
 .qtc_clangd/
 *.pro.user
 qrc*.cpp
-dashboard
+app/dashboard/dashboard
+Makefile
