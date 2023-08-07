@@ -5,3 +5,7 @@ build*/
 app/dashboard/Makefile
 *.o
 *.qrc
+*.stash
+.qtc_calngd/
+*.pro.user
+qrc*.cpp
