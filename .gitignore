@@ -2,10 +2,10 @@
 sample
 .DS_Store
 build*/
-app/dashboard/Makefile
 *.o
 *.qrc
 *.stash
 .qtc_clangd/
 *.pro.user
 qrc*.cpp
+dashboard
