@@ -6,6 +6,6 @@ app/dashboard/Makefile
 *.o
 *.qrc
 *.stash
-.qtc_calngd/
+.qtc_clangd/
 *.pro.user
 qrc*.cpp
