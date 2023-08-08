@@ -1,7 +1,7 @@
 .vscode/
 sample
 .DS_Store
-examples/build-playground-qt-quick-Desktop_Qt_5_15_2_clang_64bit-Debug
+
 
 # Environments
 .env
@@ -11,3 +11,11 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+build*/
+*.o
+*.qrc
+*.stash
+.qtc_clangd/
+qrc*.cpp
+app/dashboard/dashboard
+Makefile

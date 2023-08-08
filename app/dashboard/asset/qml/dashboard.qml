@@ -6,11 +6,11 @@ import  QtQuick.Extras          1.4
 
 Window {
   id:       root
+  title:    "QT5 based dashboard"
   visible:  (true)
   width:    (1024)
   height:   (600)
   color:    ("#161616")
-  title:    ("Qt Quick Extras Demo")
 
   ValueSource {
       id:     valueSource

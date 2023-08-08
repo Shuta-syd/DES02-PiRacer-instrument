@@ -28,16 +28,16 @@ $$
 ## Step2 Speed Calculation km/h
 To get speed km/h, you need below variables:  
 
-$Speed$ *[km/h]* - speed value  
+$Speed$ *[m/min]* - speed value  
 $RPM_w$ - rpm value of Wheel
 $rpm$ - rpm value  
-$C$ *[km]* - Circumference length of Wheel  
+$C$ *[m]* - Circumference length of Wheel  
 $d_1$ *[mm]* - Diameter of Wheel  
 $d_2$ *[mm]* - Diameter of Speed Sensor Wheel  
 
 #### Basic Formula
 $$
-Speed(km/h) = \frac{RPM_w \cdot C \cdot 60}{1000}
+Speed(m/min) = RPM_w \cdot C
 $$
 
 $$
