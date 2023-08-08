@@ -6,7 +6,6 @@ build*/
 *.qrc
 *.stash
 .qtc_clangd/
-*.pro.user
 qrc*.cpp
 app/dashboard/dashboard
 Makefile
