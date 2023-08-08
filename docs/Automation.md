@@ -1,14 +1,10 @@
-# Automation
-```
-Last Updated: 2023.08.08, kkim
-```
+# :robot: Automation
+### :information_source: Table of Contents
+- [:robot: Automation](#robot-automation)
+    - [:information\_source: Table of Contents](#information_source-table-of-contents)
+  - [:crossed\_swords: Cross Compile Automation](#crossed_swords-cross-compile-automation)
+  - [:gear: System Automation](#gear-system-automation)
 
-## Table of Contents
+## :crossed_swords: Cross Compile Automation
 
-> ℹ️ **Indexes**
-> [1. Cross-Compile Automation](#cross-compile-automation)
-> [2. System Automation](#system-automation)
-
-## Cross Compile Automation
-
-## System Automation
+## :gear: System Automation
