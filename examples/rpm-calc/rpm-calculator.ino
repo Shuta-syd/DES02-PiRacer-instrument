@@ -49,7 +49,7 @@ void loop() {
 
   RPM_s = (frqRaw * 60 / PPR) / 1000;
   RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
-  speed = RPM_w * C / 1000;
+  speed = RPM_w * C;
 
   Serial.print("RPM: ");
   Serial.print(RPM_w);

@@ -1,3 +1,4 @@
+
 ## Inter-Process Communication
 
 Inter-process communication (IPC) is a set of programming interfaces that allow a programmer to coordinate activities among different program processes that can run concurrently in an operating system. This allows data to be shared between processes. 
@@ -17,3 +18,16 @@ The following table shows different approaches to IPC tailored to specific needs
 | 🗺 Memory-mapped file        | A file mapped to RAM and can be modified by changing memory addresses directly instead of outputting to a stream. This shares the same benefits as a standard file. |
 
 Reference: [Wikipedia](https://en.m.wikipedia.org/wiki/Inter-process_communication)
+
+
+
+# IPC (Inter Process Communication)
+## What is D-BUS?
+D-BUS is an interprocess communication(IPC) system, providing a simple yet powerful mechanism allowing applications to talk to one another, communication information and request services.
+
+## D-BUS vs TCP/IP socket vs Unix socket
+### D-BUS
+
+## Reference
+[Get on the D-BUS](https://www.linuxjournal.com/article/7744)
+
