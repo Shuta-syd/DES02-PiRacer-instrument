@@ -37,14 +37,13 @@ void setup() {
 }
 
 void loop() {
-  // Create an array of 8 unsigned integer type to send via CAN bus
   uint8_t data[8];
-  // CAN message id
   int can_id = 0x125;
-  // CAN Data Length Code (DLC) 8 bytes
   int can_dlc = 8;
   double C = WheelDiameter * PI / 1000; // Wheel circumference [m]
 
+  double prev_cycle_time = micros();
+  double current_time = micros();
   frqRaw = 1000000 * 1000 / elapsedTimeAvg; // calculate RPM and speed from elapsed time
 
   if (elapsedTime > ZERO_TIMEOUT || (current_time - prev_cycle_time) > ZERO_TIMEOUT)
