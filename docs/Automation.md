@@ -7,8 +7,8 @@
 <hr>
 
 ## :crossed_swords: Cross Compile Automation
-```
-💡 **What is the issue?**
+```Plain Text
+💡 Issue
 ```
 1. **Installing Cross-Compile environment to non-ubuntu system is not easy**.
 2. **Because of this, there was a complicated process to launch our dashboard**.
