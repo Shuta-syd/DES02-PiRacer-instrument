@@ -8,11 +8,9 @@ This python application runs three Processes which are responsible for the follw
 
 |Process			   |Task																	|
 |:--------------------:|:----------------------------------------------------------------------:|
-| ℹ️ Car_Info		   | Display ip address & battery information on the on-board OLED display	|         
-| 🛞 Remote_Controll   | Throttle and steering controll via Gamepad-Remotecontrol    			|
-| 📡 Data_Transmission | Recieve data from CAN-Bus & send to RPi's socket. 				|
-
-Reference: [[1]](https://docs.python.org/3/library/multiprocessing.html)
+| ℹ️ <br>Car_Info		   | Display ip address & battery information on the on-board OLED display	|         
+| 🛞 <br> Remote_Controll   | Throttle and steering controll via Gamepad-Remotecontrol    			|
+| 📡 <br> Data_Transmission | Recieve data from CAN-Bus & send to RPi's socket. 				|
 
 💡Note: The script is designed to be run on a Raspberry Pi 4 with a PiRacerStandard vehicle and an SSD1306 I2C on-board display. 
 
@@ -27,15 +25,18 @@ This Python script allows remote control of a PiRacerStandard vehicle using the 
 !!! Insert picture of Gamepad & Gif of driving Piracer here !!! <br>
 
 # Recieve Data from CAN Bus & Send to Dashboard
-## IPC: UNIX Domain Socket vs. TCP/IP Socket
-Sockets provide good performance and flexibility for inter-process communication (IPC), especially when using binary data serialization.
+
+While using inter-process-communication (IPC), we have to decide which method we want to use.
+An overview of the different methods can be found [here](../docs/Inter-Process-Communication.md).
+
+In terms of IPC, sockets provide good performance and flexibility for inter-process communication (IPC), especially when using binary data serialization. <br>
+🤔 But what socket type should we use? TCP/IP or Unix domain sockets? 
 - Unix domain sockets are used for communication between processes on the same machine by using the local file system as their address space. They are relatively efficient because they avoid the overhead of the network protocol.
 - TCP/IP sockets are generally used for communication between processes on different machines, but can also been used for the communication between processes on the same machine. 
 
-We made the decision to choose the TCP/IP socket because we want to be able to run the dashboard on a different machine than the PiRacer_py application. </a>
+🤯 We made the decision to choose the TCP/IP socket because we want to be able to run the dashboard on a different machine than the PiRacer_py application. </a>
 <br>
 
-!!! Need to be edited when code was tested !!! <br>
 
 📡 [data_transmission.py](../app/piracer_py/data_transmission.py) transmits data from a CAN bus to a socket server. The function utilizes the python-can module to access the CAN bus and the socket module to create a socket instance and send data to the socket server.
 This script is designed to handle continuous data transmission from a CAN bus to a socket server, providing speed information based on the wheel's RPM and circumference.
@@ -43,8 +44,9 @@ Depending on the sender ID on the CAN BUS(`message.arbitration_id`), the functio
 The script then calculates the speed in meters per minute (m/min) based on the wheel's RPM and circumference. The speed is then sent to the socket server.
 If no data is received from the CAN bus, the function sends a 0 to the socket server.
 
-Reference: [[1]](https://docs.python.org/3/library/socket.html), 
-[[2]](https://en.m.wikipedia.org/wiki/Inter-process_communication), 
-[[3]](https://python-can.readthedocs.io/en/stable/)
-
+# References
+[[1]](https://docs.python.org/3/library/multiprocessing.html), 
+[[2]](https://python-can.readthedocs.io/en/stable/), 
+[[3]](https://realpython.com/python-sockets/), 
+[[4]](https://docs.python.org/3/library/socket.html)
 
