@@ -8,39 +8,6 @@
 MCP_CAN CAN(10);
 
 /** values to calculate RPM */
-<<<<<<< HEAD
-// Pulses per revolution
-=======
-<<<<<<< Updated upstream
->>>>>>> origin/main
-#define PPR 20
-// Pi
-#define PI 3.1415926535897932384626433832795
-// Wheel diameter [mm]
-#define WheelDiameter 65.0
-// Speed sensor diameter [mm]
-#define SpeedSensorDiameter 20.0 
-// elapsed time between two pulses
-double elapsedTimeAvg = 0.0;
-// elaped time sum
-double elapsedTimeSum = 100000.0;
-// elapsed time
-double elapsedTime = 0;
-// previous time
-double prevTime = 0;
-// frequency
-unsigned long frqRaw = 0;
-// Sensor Rotations per minute
-unsigned long RPM_s = 0;
-// Wheel Rotations per minute
-unsigned long RPM_w = 0;
-// Speed [m/min]
-unsigned long speed = 0;
-// reading count
-int readingCnt = 1;
-// pulse count
-int purseCnt = 1;
-=======
 #define PPR 20 // Pulses per revolution
 #define PI 3.1415926535897932384626433832795
 #define ZERO_TIMEOUT    100000  // Timeout period(microsecond) for RPM reset
@@ -56,7 +23,6 @@ unsigned long RPM_w = 0; // Wheel Rotations per minute
 unsigned long speed = 0; // Speed [m/min]
 int readingCnt = 1; // reading count
 int purseCnt = 1; // pulse count
->>>>>>> Stashed changes
 
 
 void setup() {
@@ -77,24 +43,6 @@ void loop() {
   int can_id = 0x125;
   // CAN Data Length Code (DLC) 8 bytes
   int can_dlc = 8;
-<<<<<<< HEAD
-  // Wheel circumference [m]
-=======
-<<<<<<< Updated upstream
->>>>>>> origin/main
-  double C = WheelDiameter * PI / 1000;
-  // calculate RPM and speed from elapsed time
-  frqRaw = 1000000 * 1000 / elapsedTimeAvg;
-  // calculate RPM of sensor 
-  RPM_s = (frqRaw * 60 / PPR) / 1000;
-  // calculate RPM of wheel
-  RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
-  // calculate speed
-  speed = RPM_w * C / 1000;
-<<<<<<< HEAD
-  // print values to serial monitor
-=======
-=======
   double C = WheelDiameter * PI / 1000; // Wheel circumference [m]
 
   frqRaw = 1000000 * 1000 / elapsedTimeAvg; // calculate RPM and speed from elapsed time
@@ -106,27 +54,15 @@ void loop() {
   RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter); // calculate RPM of wheel
   speed = RPM_w * C; // calculate speed
 
->>>>>>> Stashed changes
-
->>>>>>> origin/main
   Serial.print("RPM: ");
   Serial.print(RPM_w);
   Serial.print(" Speed [m/min]: ");
   Serial.println(speed);
-<<<<<<< HEAD
   // Store RPM_w in data array
   memcpy(data, &RPM_w, 8);
   // send data via CAN bus
-=======
 
-<<<<<<< Updated upstream
   memcpy(data, &speed, 8);
-=======
-  // Store RPM_w in data array
-  memcpy(data, &RPM_w, 8);
-  // send data via CAN bus
->>>>>>> Stashed changes
->>>>>>> origin/main
   int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
   // check if data was sent successfully
   if (status == CAN_OK) {

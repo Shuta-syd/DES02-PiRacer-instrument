@@ -32,8 +32,8 @@ def data_transmission():
                     # recieve = int.from_bytes(message.data[:4], byteorder='little', signed=False)
 
                     # calculate speed [m/min] from RPM of the wheel and wheel circumference [mm]
-                    WheelDiameter = 65.0 #[mm]
-                    wheel_circumference =  (WheelDiameter * math.pi)/1000 #Wheel circumference [m]
+                    WheelDiameter = 65.0 # [mm]
+                    wheel_circumference =  (WheelDiameter * math.pi)/1000 # Wheel circumference [m]
                     RPM_wheel = recieve
                     speed = RPM_wheel * wheel_circumference / 1000 # [m/min]
 
