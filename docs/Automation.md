@@ -3,7 +3,10 @@
 - [:robot: Automation](#robot-automation)
   - [:crossed\_swords: Cross Compile Automation](#crossed_swords-cross-compile-automation)
   - [:gear: System Automation](#gear-system-automation)
+
 <hr>
+
 ## :crossed_swords: Cross Compile Automation
+> 💡 **What is the issue?**
 
 ## :gear: System Automation
