@@ -27,7 +27,6 @@ def data_transmission():
 
                 #choose depending on sender ID
                 if message.arbitration_id == speedsensor_can_id:
-
                     # Interpret the data payload as a 16-bit unsigned integer (uint8_t data[8];) that holds a usigned long value
                     recieve = int.from_bytes(message.data, byteorder='big', signed=False)
                     # recieve = int.from_bytes(message.data[:4], byteorder='little', signed=False)
@@ -47,8 +46,7 @@ def data_transmission():
                 send = 0
                 print("No data received from CAN bus")
 
-            # Send data to socket
-            #soc.senall(send)
+            soc.sendall(send)
             print(f"SEND TO SOCKET:{send}")
 
             #pause process for 0.5 seconds
