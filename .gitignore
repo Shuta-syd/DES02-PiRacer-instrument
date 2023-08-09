@@ -6,12 +6,13 @@ sample
 # QT temporary files
 build*/
 *.o
-*.qrc
 *.stash
 .qtc_clangd/
 qrc*.cpp
 app/dashboard/dashboard
+dashboard.app/
 Makefile
+*.pro.user
 
 # Python Virtual Environments
 .env
@@ -23,4 +24,4 @@ env.bak/
 venv.bak/
 
 # Python Temporary Files
-__pycache__
+__pycache__/

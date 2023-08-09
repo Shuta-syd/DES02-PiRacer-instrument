@@ -61,7 +61,7 @@ DashboardGaugeStyle {
         }
 
         Text {
-            text:                       ("x1000")
+            text:                       ("x100")
             color:                      ("white")
             font.pixelSize:             (tachometerStyle.toPixels(0.1))
             anchors.top:                (parent.top)
