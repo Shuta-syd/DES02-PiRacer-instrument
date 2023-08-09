@@ -93,7 +93,7 @@ int         main(
 
     int result = app.exec();
 
-    QFile file("log.txt");
+    QFile file("log/log.txt");
     if (file.open(QIODevice::WriteOnly))
     {
         QTextStream stream(&file);
