@@ -1,16 +1,9 @@
+# Project Setting
 .vscode/
 sample
 .DS_Store
 
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# QT temporary files
 build*/
 *.o
 *.qrc
@@ -19,3 +12,15 @@ build*/
 qrc*.cpp
 app/dashboard/dashboard
 Makefile
+
+# Python Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Python Temporary Files
+__pycache__
