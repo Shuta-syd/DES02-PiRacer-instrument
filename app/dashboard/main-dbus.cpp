@@ -12,9 +12,11 @@
 # include   <QPropertyAnimation>
 
 // library for QDbus
-# include <QDBusInterface>
-# include <QDBusConnection>
-# include <QDBusReply>
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QtDBus>
+
+#include <iostream>
 
 # define    FAILURE     -1
 # define    SUCCESS     0
@@ -22,16 +24,30 @@
 int main(int _arc, char* _arv[]) {
     QGuiApplication app(_arc, _arv);
 
-    QDBusInterface *iface = Q_NULLPTR;
-    iface = new QDBusInterface ("com.test.canDataReceiver", "com/test/canDataReceiver", "com.test.canDataReceiver", QDBusConnection::sessionBus());
-    QMetaObject::invokeMethod(iface, "reset");
-    QDBusReply<int> reply = iface->call("getRpm");
 
-    qDebug() << reply.value();
+    //connect to DBus session-bus
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    if (!bus.isConnected()){
+        std::cerr<<"Error connecting to D-Bus session-bus\n";
+        return EXIT_FAILURE;
+    }
 
-    app.exec();
+    QDBusInterface iface("com.test.canDataReceiver", "/com/test/canDataReceiver", "com.test.canDataReceiver", bus);
+    if (!iface.isValid()) {
+        std::cerr << "Failed to connect to the D-Bus interface" << std::endl;
+        return 1;
+    }
+    while (true) {
+        QDBusReply<int> reply = iface.call("getRpm");
+        if (reply.isValid()) {
+            int rpm = reply.value();
+            std::cout << "\rRPM: " << rpm;
+        } else {
+            std::cout << "\rNo value";
+        }
+    }
 
-    /**
+
     //  Set DejaVu Sans Font
     QFontDatabase::addApplicationFont(":/asset/fonts/DejaVuSans.ttf");
     app.setFont(QFont("DejaVu Sans"));
@@ -51,8 +67,6 @@ int main(int _arc, char* _arv[]) {
         qWarning() << "Cannot find object named 'valueSource'";
         return  (FAILURE);
     }
-    **/
 
-
-    return 0;
+    return (app.exec());
 }
