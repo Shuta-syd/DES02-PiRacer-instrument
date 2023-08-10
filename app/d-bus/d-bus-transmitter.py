@@ -30,6 +30,7 @@ class canDataReceiver(object):
     if message is not None and message.arbitration_id == rpm_canId:
       rpm = int.from_bytes(message.data[:4], byteorder='little', signed=False)
       return rpm
+    return 0
 
   def getSpeed(self, rpm) -> int:
     speed = rpm * wheel_circumference

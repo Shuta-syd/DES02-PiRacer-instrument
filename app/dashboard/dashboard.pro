@@ -1,10 +1,10 @@
 TEMPLATE    =   app
 TARGET      =   dashboard
 INCLUDEPATH +=  .
-QT          +=  quick
+QT          +=  quick dbus
 
 SOURCES     +=  \
-                main.cpp
+                main-dbus.cpp
 RESOURCES   +=  \
                 dashboard.qrc
 
@@ -19,4 +19,3 @@ OTHER_FILES += \
                 asset/qml/TachometerStyle.qml \
                 asset/qml/TurnIndicator.qml \
                 asset/qml/ValueSource.qml
-
