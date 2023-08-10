@@ -97,17 +97,17 @@ CircularGaugeStyle {
         Text {
             id:                         speedText
             font.pixelSize:             toPixels(0.3)
-            text:                       kphInt
+            text:                       spdInt
             color:                      "white"
             horizontalAlignment:        Text.AlignRight
             anchors.horizontalCenter:   parent.horizontalCenter
             anchors.top:                parent.verticalCenter
             anchors.topMargin:          toPixels(0.1)
 
-            readonly property int kphInt: control.value
+            readonly property int spdInt: control.value
         }
         Text {
-            text:                       "cm/s"
+            text:                       "m/min"
             color:                      "white"
             font.pixelSize:             toPixels(0.09)
             anchors.top:                speedText.bottom
