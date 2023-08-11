@@ -29,4 +29,4 @@
 [link to figma](https://www.figma.com/file/AbLx0dzamewmdk4J5WxrAq/DES02-PiRacer-Instrument-Dashboard?type=design&node-id=0%3A1&mode=design&t=hcxtPzIukX6i8xZH-1)
 
 
-<img src="./imgs/dashboard.png" alt="DASHBOARD_IMG" width="70%" height="70%">
+<img src="./imgs/dashboard.png" alt="DASHBOARD_IMG">
