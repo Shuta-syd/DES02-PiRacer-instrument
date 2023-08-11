@@ -11,11 +11,6 @@
 //  library for QT animation
 # include   <QPropertyAnimation>
 
-// library for QDbus
-#include <QDBusConnection>
-#include <QDBusInterface>
-#include <QtDBus>
-
 #include <iostream>
 
 # define    FAILURE     -1
@@ -24,38 +19,19 @@
 int main(int _arc, char* _arv[]) {
     QGuiApplication app(_arc, _arv);
 
-
-    //connect to DBus session-bus
-    QDBusConnection bus = QDBusConnection::sessionBus();
-    if (!bus.isConnected()){
-        std::cerr<<"Error connecting to D-Bus session-bus\n";
-        return EXIT_FAILURE;
-    }
-
-    QDBusInterface iface("com.test.canDataReceiver", "/com/test/canDataReceiver", "com.test.canDataReceiver", bus);
-    if (!iface.isValid()) {
-        std::cerr << "Failed to connect to the D-Bus interface" << std::endl;
-        return 1;
-    }
-    while (true) {
-        QDBusReply<int> reply = iface.call("getRpm");
-        if (reply.isValid()) {
-            int rpm = reply.value();
-            std::cout << "\rRPM: " << rpm;
-        } else {
-            std::cout << "\rNo value";
-        }
-    }
-
+    qmlRegisterType<DBusClient>("com.test.canDataReceiver", 1, 0, "DBusClient");
 
     //  Set DejaVu Sans Font
     QFontDatabase::addApplicationFont(":/asset/fonts/DejaVuSans.ttf");
     app.setFont(QFont("DejaVu Sans"));
 
     //  Create and initialize the engine
-    QQmlApplicationEngine engine(QUrl("qrc:/asset/qml/dashboard.qml"));
-    if (engine.rootObjects().isEmpty())
-        return  (FAILURE);
+    QUrl url("qrc:/asset/qml/main.qml");
+    QQmlApplicationEngine engine;
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl) {
+      if (!obj && url == objUrl)
+        QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection)
 
     //  Find the root object
     QObject* root = engine.rootObjects().first();
@@ -67,6 +43,7 @@ int main(int _arc, char* _arv[]) {
         qWarning() << "Cannot find object named 'valueSource'";
         return  (FAILURE);
     }
+    engine.load(url);
 
     return (app.exec());
 }
