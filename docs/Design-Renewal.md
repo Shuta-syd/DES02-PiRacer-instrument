@@ -30,3 +30,15 @@
 
 
 <img src="./imgs/dashboard.png" alt="DASHBOARD_IMG">
+
+- Components
+  - Top Navbar
+    - MacOS-like decorations (no functions yet)
+    - Time
+  - Left part
+    - RPM circular
+  - Center part
+    - Speed circular
+  - Right part
+    - Power consumption circular
+    - Battery Information box
