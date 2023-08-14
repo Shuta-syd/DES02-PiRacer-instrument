@@ -26,6 +26,8 @@ int main(int _arc, char* _arv[]) {
     QFontDatabase::addApplicationFont(":/asset/fonts/DejaVuSans.ttf");
     app.setFont(QFont("DejaVu Sans"));
 
+    QObject::connect(QQuickWindow::beforeRendering)
+
     //  Create and initialize the engine
     QUrl url("qrc:/asset/qml/main.qml");
     QQmlApplicationEngine engine;

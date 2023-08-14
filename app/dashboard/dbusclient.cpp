@@ -14,7 +14,6 @@ DBusClient::DBusClient(QObject *parent)
     exit(1);
   }
 
-  // connect SIGNAL(DBusServer::speedChanged)
   bool flag = this->_iface->connection().connect(_iface->service(),
                                                       _iface->path(),
                                                       _iface->interface(),
@@ -22,9 +21,7 @@ DBusClient::DBusClient(QObject *parent)
                                                       this,
                                                       SLOT(speedChanged(int)));
   if (!flag)
-  {
     qDebug() << "failed to connect DBus signal";
-  }
 
   // for debug
   connect(this, &DBusClient::speedChanged,
@@ -43,10 +40,12 @@ int DBusClient::getSpeed() const
 {
   QDBusReply<int> reply = _iface->call("getRpm");
   int value = reply.value();
+  std::cout << "good";
   return value;
 }
 
 void DBusClient::setSpeed(int newSpeed)
 {
+  std::cout "setSpeed";
   this->_iface->setProperty("speed", QVariant(newSpeed));
 }
