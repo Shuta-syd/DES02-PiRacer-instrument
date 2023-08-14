@@ -2,27 +2,30 @@
 #define DBUSCLIENT_H
 
 #include <QtCore/QObject>
+#include <QDBusInterface>
+#include <QDBusConnection>
+
 
 class DBusClient : public QObject
 {
-  Q_OBJECT
-  Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
+    Q_OBJECT
+    Q_PROPERTY(int speed READ getSpeed WRITE setSpeed NOTIFY speedChanged)
 public:
-  explicit DBusClient(QObject *parent = nullptr);
-  ~DBusClient();
+    explicit DBusClient(QObject *parent = nullptr);
+    ~DBusClient();
 
-    int getSpeed() const; // NOT export
-    Q_INVOKABLE void reset();  // export
+    int getSpeed() const;
 
 public Q_SLOTS:
-  void setSpeed(int);
+    void setSpeed(int);
 
 Q_SIGNALS:
-  void speedChanged(int);
+    void speedChanged(int);
 
 private:
-  class Private;
-  Private *dbus;
+    int _speed;
+    QDBusInterface *_iface;
+    QDBusConnection _dbus;
 };
 
 #endif // DBUSCLIENT_H

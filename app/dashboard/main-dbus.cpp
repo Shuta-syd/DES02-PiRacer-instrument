@@ -33,16 +33,6 @@ int main(int _arc, char* _arv[]) {
         QCoreApplication::exit(-1);
     }, Qt::QueuedConnection)
 
-    //  Find the root object
-    QObject* root = engine.rootObjects().first();
-
-    //  Find valueSource in the root object
-    QObject* valueSource = root->findChild<QObject*>("valueSource");
-    if (!valueSource)
-    {
-        qWarning() << "Cannot find object named 'valueSource'";
-        return  (FAILURE);
-    }
     engine.load(url);
 
     return (app.exec());

@@ -1,41 +1,23 @@
 #include "dbusclient.h"
-#include <QDBusInterface>
-#include <QDBusConnection>
 #include <QDBusReply>
 #include <QDebug>
 
-class DBusClient::Private
-{
-public:
-  Private();
-  ~Private();
-  QDBusConnection dbus = QDBusConnection::sessionBus();
-  QDBusInterface *iface = Q_NULLPTR;
-}
 
-DBusClient::Private::Private()
+DBusClient::DBusClient(QObject *parent)
+    : QObject{parent}, _iface(Q_NULLPTR), _dbus(QDBusConnection::sessionBus())
 {
-  QDBusInterface iface("com.test.canDataReceiver", "/com/test/canDataReceiver", "com.test.canDataReceiver", this->dbus);
-  if (!iface)
+
+  _iface = new QDBusInterface("com.test.canDataReceiver", "/com/test/canDataReceiver", "com.test.canDataReceiver", QDBusConnection::sessionBus());
+  if (!_iface)
   {
     qWarning() << "failed to make DBusInterface";
     exit(1);
   }
-}
 
-DBusClient::Private::~Private()
-{
-  if (iface)
-    delete iface;
-}
-
-DBusClient::DBusClient(QObject *parent)
-    : QObject{parent}, dbus{new Private}
-{
   // connect SIGNAL(DBusServer::speedChanged)
-  bool flag = this->dbus->iface->connection().connect(dbus->iface->service(),
-                                                      dbus->iface->path(),
-                                                      dbus->iface->interface(),
+  bool flag = this->_iface->connection().connect(_iface->service(),
+                                                      _iface->path(),
+                                                      _iface->interface(),
                                                       QStringLiteral("speedChanged"),
                                                       this,
                                                       SLOT(speedChanged(int)));
@@ -45,7 +27,7 @@ DBusClient::DBusClient(QObject *parent)
   }
 
   // for debug
-  connect(this, &DBusClient::countChanged,
+  connect(this, &DBusClient::speedChanged,
           [](int speed)
           {
             qDebug() << "speedChanged" << speed;
@@ -54,22 +36,17 @@ DBusClient::DBusClient(QObject *parent)
 
 DBusClient::~DBusClient()
 {
-  delete dbus;
+  delete _iface;
 }
 
 int DBusClient::getSpeed() const
 {
-  QDBusReply<int> reply = dbus->iface->call("getRpm");
+  QDBusReply<int> reply = _iface->call("getRpm");
   int value = reply.value();
   return value;
 }
 
-void DBusClient::reset()
+void DBusClient::setSpeed(int newSpeed)
 {
-    QMetaObject::invokeMethod(dbus->iface, "reset");
-}
-
-void DBusClient::setCount(int newSpeed)
-{
-  this->dbus->iface->setProperty("speed", QVariant(newSpeed));
+  this->_iface->setProperty("speed", QVariant(newSpeed));
 }

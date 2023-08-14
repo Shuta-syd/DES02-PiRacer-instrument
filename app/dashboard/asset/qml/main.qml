@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
-import local.myhost 1.0
+import com.test.canDataReceiver 1.0
 
 Window {
     id: root
@@ -15,13 +15,6 @@ Window {
     }
 
     Row {
-        Button {
-            id: button
-            width: 100
-            height: 50
-            text: "Reset"
-            onClicked: client.reset()
-        }
         SpinBox {
             id: spinbox
             width: 200
