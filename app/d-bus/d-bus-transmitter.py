@@ -22,15 +22,15 @@ class canDataReceiver(object):
           </interface>
       </node>
   """
-  #def __init__(self):
-    #self.can = can.interface.Bus(channel=can_interface, bustype='socketcan')
+  def __init__(self):
+    self.can = can.interface.Bus(channel=can_interface, bustype='socketcan')
 
   def getRpm(self) -> int:
-    #message = self.can.recv()
-    #if message is not None and message.arbitration_id == rpm_canId:
-     # rpm = int.from_bytes(message.data[:4], byteorder='little', signed=False)
-      #return rpm
-    return 42
+    message = self.can.recv()
+    if message is not None and message.arbitration_id == rpm_canId:
+     rpm = int.from_bytes(message.data[:4], byteorder='little', signed=False)
+      return rpm
+    return 0
 
   def getSpeed(self, rpm) -> int:
     speed = rpm * wheel_circumference
