@@ -1,40 +1,42 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Window 2.15
+import  QtQuick                 2.15
+import  QtQuick.Window          2.15
+import  QtQuick.Controls        2.15
+import  QtQuick.Controls.Styles 1.4
+import  QtQuick.Extras          1.4
 import com.test.canDataReceiver 1.0
 
 Window {
-    id: root
-    width: 640
-    height: 480
+    id:       root
+    title:    "QT5 based dashboard"
+    width: 1024
+    height: 600
     visible: true
-    title: qsTr("DBusClient")
 
     DBusClient {
-        id: client
+        id: dbus_client
     }
 
-    Row {
-        SpinBox {
-            id: spinbox
-            width: 200
-            height: 50
-            value: 0
-        }
-        Button {
-            id: send
-            width: 100
-            height: 50
-            text: "Send"
-            onClicked: client.setSpeed(spinbox.value)
-        }
-    }
+    Item {
+      id:               container
+      width:            root.width
+      height:           Math.min(root.width, root.height)
+      anchors.centerIn: parent
 
-    Text {
-        anchors.centerIn: parent
-        width: 100
-        height: 100
-        font.pixelSize: 24
-        text: "speed=%1".arg(client.speed)
+      Row {
+        id:               gaugeRow
+        spacing:          (container.width * 0.02)
+        anchors.centerIn: (parent)
+
+        CircularGauge {
+          id:                     speedometer
+          width:                  height
+          height:                 container.height * 0.5
+          anchors.verticalCenter: parent.verticalCenter
+
+          value:                  dbus_client.speed
+          maximumValue:           80
+          style: DashboardGaugeStyle {}
+      }
     }
+  }
 }
