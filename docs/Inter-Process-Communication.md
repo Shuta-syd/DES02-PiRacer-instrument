@@ -24,3 +24,4 @@ D-BUS signals are used to notify other components or applications about events o
 ## Reference
 [Get on the D-BUS](https://www.linuxjournal.com/article/7744)  
 [D-BUS Tutorial](https://dbus.freedesktop.org/doc/dbus-tutorial.html#meta)
+[QDBUS Example](https://github.com/tkhshmsy/qtdbus-demo/tree/main)
