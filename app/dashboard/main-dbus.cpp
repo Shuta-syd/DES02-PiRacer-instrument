@@ -12,6 +12,7 @@
 # include   <QPropertyAnimation>
 
 #include <iostream>
+#include "dbusclient.h"
 
 # define    FAILURE     -1
 # define    SUCCESS     0
@@ -31,7 +32,7 @@ int main(int _arc, char* _arv[]) {
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl) {
       if (!obj && url == objUrl)
         QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection)
+    }, Qt::QueuedConnection);
 
     engine.load(url);
 

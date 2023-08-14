@@ -14,3 +14,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 OTHER_FILES += \
                 asset/qml/main.qml
+
+HEADERS += \
+    dbusclient.h

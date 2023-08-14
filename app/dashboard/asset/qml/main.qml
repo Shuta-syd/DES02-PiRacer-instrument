@@ -35,6 +35,6 @@ Window {
         width: 100
         height: 100
         font.pixelSize: 24
-        text: "count=%1".arg(client.speed)
+        text: "speed=%1".arg(client.speed)
     }
 }
