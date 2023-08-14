@@ -30,76 +30,100 @@ int         main(
 ) {
     QGuiApplication app(_arc, _arv);
 
-    //  Set DejaVu Sans Font
-    QFontDatabase::addApplicationFont(":/asset/fonts/DejaVuSans.ttf");
-    app.setFont(QFont("DejaVu Sans"));
+    //  Set Futura Heavy Font
+    QStringList fonts;
+    QList<int> fontIds;
+    
+    fonts.append("Futura_Heavy.ttf");
+    fonts.append("Futura_Heavy_Italic.ttf");
+    fonts.append("Futura_Bold.otf");
+    for (int i=0; i<fonts.size(); i++)
+    {
+        fontIds.append(QFontDatabase::addApplicationFont(":/asset/fonts/" + fonts[i]));
+        if (fontIds[i] == -1)
+        {
+            qWarning() << fonts[i] << "file not found";
+            return  (FAILURE);
+        }
+        else
+            qDebug() << "font id:" << fontIds[i] << "/" << fonts[i] << "was appended. ";
+    }
+
+    QStringList fontFamilies = QFontDatabase::applicationFontFamilies(2);
+    if (!fontFamilies.isEmpty()) {
+        QString fontFamily = fontFamilies.at(0);
+        app.setFont(QFont(fontFamily));
+    } else {
+        qWarning() << "No font families found for Futura_Bold.otf";
+        return FAILURE;
+    }
 
     //  Create and initialize the engine
     QQmlApplicationEngine engine(QUrl("qrc:/asset/qml/dashboard.qml"));
     if (engine.rootObjects().isEmpty())
         return  (FAILURE);
 
-    //  Find the root object
-    QObject* root = engine.rootObjects().first();
+    // //  Find the root object
+    // QObject* root = engine.rootObjects().first();
 
-    //  Find valueSource in the root object
-    QObject* valueSource = root->findChild<QObject*>("valueSource");
-    if (!valueSource)
-    {
-        qWarning() << "Cannot find object named 'valueSource'";
-        return  (FAILURE);
-    }
+    // //  Find valueSource in the root object
+    // QObject* valueSource = root->findChild<QObject*>("valueSource");
+    // if (!valueSource)
+    // {
+    //     qWarning() << "Cannot find object named 'valueSource'";
+    //     return  (FAILURE);
+    // }
 
-    //  Create and initialize the socket
-    QTcpSocket* socket = new QTcpSocket();
-    QObject::connect(socket, &QTcpSocket::connected, []()
-    {
-        qDebug() << "Connected to the server";
-    });
+    // //  Create and initialize the socket
+    // QTcpSocket* socket = new QTcpSocket();
+    // QObject::connect(socket, &QTcpSocket::connected, []()
+    // {
+    //     qDebug() << "Connected to the server";
+    // });
 
-    //  Try to connect to the server
-    socket->connectToHost(HOST, PORT);
-    if (!socket->waitForConnected(3000))
-    {
-        qDebug() << "Error: " << socket->errorString();
-        return  (FAILURE);
-    }
+    // //  Try to connect to the server
+    // socket->connectToHost(HOST, PORT);
+    // if (!socket->waitForConnected(3000))
+    // {
+    //     qDebug() << "Error: " << socket->errorString();
+    //     return  (FAILURE);
+    // }
 
-    //  Create animations for smooth transitions
-    QPropertyAnimation* speedAnimation = new QPropertyAnimation(valueSource, "spd");
-    speedAnimation->setDuration(400); // You can adjust the duration for smoothness
-    QPropertyAnimation* rpmAnimation = new QPropertyAnimation(valueSource, "rpm");
-    rpmAnimation->setDuration(400); // You can adjust the duration for smoothness
+    // //  Create animations for smooth transitions
+    // QPropertyAnimation* speedAnimation = new QPropertyAnimation(valueSource, "spd");
+    // speedAnimation->setDuration(400); // You can adjust the duration for smoothness
+    // QPropertyAnimation* rpmAnimation = new QPropertyAnimation(valueSource, "rpm");
+    // rpmAnimation->setDuration(400); // You can adjust the duration for smoothness
 
-    //  Update the properties when data is ready
-    QStringList logList;
-    QObject::connect(socket, &QTcpSocket::readyRead, [socket, valueSource, speedAnimation, rpmAnimation]() {
-        QTextStream _T(socket);
-        QString _msg = _T.readAll();
-        QStringList _list = _msg.split(",");
-        if (_list.size() == 2) {
-            // Smooth transition for speed
-            speedAnimation->setEndValue(_list[0].toDouble());
-            if (speedAnimation->state() != QPropertyAnimation::Running)
-                speedAnimation->start();
-            // Smooth transition for rpm
-            rpmAnimation->setEndValue(_list[1].toDouble());
-            if (rpmAnimation->state() != QPropertyAnimation::Running)
-                rpmAnimation->start();
-        } else {
-            qWarning() << "Unexpected message format: " << _msg;
-        }
-    });
+    // //  Update the properties when data is ready
+    // QStringList logList;
+    // QObject::connect(socket, &QTcpSocket::readyRead, [socket, valueSource, speedAnimation, rpmAnimation]() {
+    //     QTextStream _T(socket);
+    //     QString _msg = _T.readAll();
+    //     QStringList _list = _msg.split(",");
+    //     if (_list.size() == 2) {
+    //         // Smooth transition for speed
+    //         speedAnimation->setEndValue(_list[0].toDouble());
+    //         if (speedAnimation->state() != QPropertyAnimation::Running)
+    //             speedAnimation->start();
+    //         // Smooth transition for rpm
+    //         rpmAnimation->setEndValue(_list[1].toDouble());
+    //         if (rpmAnimation->state() != QPropertyAnimation::Running)
+    //             rpmAnimation->start();
+    //     } else {
+    //         qWarning() << "Unexpected message format: " << _msg;
+    //     }
+    // });
 
     int result = app.exec();
 
-    QFile file("log/log.txt");
-    if (file.open(QIODevice::WriteOnly))
-    {
-        QTextStream stream(&file);
-        for (const QString &log : logList)
-            stream << log << "\n";
-    }
+    // QFile file("log/log.txt");
+    // if (file.open(QIODevice::WriteOnly))
+    // {
+    //     QTextStream stream(&file);
+    //     for (const QString &log : logList)
+    //         stream << log << "\n";
+    // }
 
     return result;
 }

@@ -1,10 +1,9 @@
 import  QtQuick 2.2
 
-//! [0]
 Item {
     id:             valueSource
     objectName:     "valueSource"
-    property real   spd:    (0)
+    property real   spd:    (42)
     property real   rpm:    (1)
     property real   fuel:   (1)
     property string gear: {

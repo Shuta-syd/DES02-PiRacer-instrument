@@ -20,3 +20,8 @@ OTHER_FILES += \
                 asset/qml/TurnIndicator.qml \
                 asset/qml/ValueSource.qml
 
+DISTFILES += \
+    asset/qml/new_GearButton.qml \
+    asset/qml/new_SpeedGauge.qml \
+    asset/qml/new_dashboard.qml
+

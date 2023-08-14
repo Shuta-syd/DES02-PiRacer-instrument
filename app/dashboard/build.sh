@@ -2,4 +2,5 @@
 ./clean.sh
 qmake dashboard.pro
 make
-./dashboard
+cd dashboard.app
+open .
