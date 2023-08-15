@@ -1,12 +1,16 @@
 import can
-from pydbus import SessionBus
+import  dbus
+import dbus.service
 from math import pi
 import asyncio
+from random import randint
 
 can_interface = 'can0'
 rpm_canId = 0x125 # 293 (decimal)
 WheelDiameter = 65.0 # [mm]
 wheel_circumference =  (WheelDiameter * pi) / 1000 # Wheel circumference [m]
+
+bus = dbus.SessionBus()
 
 class canDataReceiver(object):
   """
@@ -47,8 +51,6 @@ async def main(handler):
     await handler.update()
     await asyncio.sleep(0.01)
 
-
-bus = SessionBus()
 obj = canDataReceiver();
 bus.publish("com.test.canDataReceiver", obj);
 
