@@ -1,8 +1,7 @@
 import can
-import  dbus
-import dbus.service
+from pydubs import SessionBus
 from math import pi
-import asyncio
+from gi.repository import GLib
 from random import randint
 
 can_interface = 'can0'
@@ -12,10 +11,10 @@ wheel_circumference =  (WheelDiameter * pi) / 1000 # Wheel circumference [m]
 
 bus = dbus.SessionBus()
 
-class canDataReceiver(object):
+class DbusService(object):
   """
       <node>
-          <interface name='com.test.canDataReceiver'>
+          <interface name='com.test.d-bus.example'>
               <method name='getRpm'>
                   <arg type='i' name='response' direction='out'/>
               </method>
@@ -28,31 +27,22 @@ class canDataReceiver(object):
   """
   def __init__(self):
     self._can = can.interface.Bus(channel=can_interface, bustype='socketcan')
-    self._dbus = bus.get_object("com.test.canDataReceiver", "/com/test/canDataReceiver/data")
 
-  async def getRpm(self) -> int:
+  def getRpm(self) -> int:
     message = self.can.recv()
     if message is not None and message.arbitration_id == rpm_canId:
      rpm = int.from_bytes(message.data[:4], byteorder='little', signed=False)
+     print(rpm)
      return rpm
     return 0
 
-  async def getSpeed(self, rpm) -> int:
+  def getSpeed(self, rpm) -> int:
     speed = rpm * wheel_circumference
     return speed
 
-  async def update(self):
-    rpm = await self.getRpm()
-    speed = await self.getSpeed()
-    self._dbus.setData(speed, rpm)
-
-async def main(handler):
-  while 42:
-    await handler.update()
-    await asyncio.sleep(0.01)
-
-obj = canDataReceiver();
-bus.publish("com.test.canDataReceiver", obj);
 
 if __name__ == '__main__':
-  asyncio.run(main(obj))
+  loop = GLib.MainLoop()
+  bus = SessionBus()
+  bus.publish("com.test.d-bus.example", DbusService())
+  loop.run();

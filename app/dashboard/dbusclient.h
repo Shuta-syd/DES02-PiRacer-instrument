@@ -16,22 +16,22 @@ public:
     ~DBusClient();
 
     // getter
-    double speed() const { return _speed; }
-    double rpm() const { return _rpm; }
+    Q_INVOKABLE size_t speed() const { return _speed; }
+    Q_INVOKABLE size_t rpm() const { return _rpm; }
 
   public Q_SLOTS:
     void setData(int, int); // rpm, speed
 
 Q_SIGNALS:
-    void speedChanged();
-    void rpmChanged();
-    void batteryChanged();
+    void speedChanged(int);
+    void rpmChanged(int);
 
 private:
-    int _speed;
-    size_t _speed;
-    size_t _rpm;
-    size_t _battery;
+  QDBusConnection _dbus;
+  QDBusInterface* _iface;
+  size_t _speed;
+  size_t _rpm;
+  size_t _battery;
 };
 
 #endif // DBUSCLIENT_H

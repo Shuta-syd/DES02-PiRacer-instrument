@@ -4,22 +4,43 @@
 
 
 DBusClient::DBusClient(QObject *parent)
-    : QObject{parent}, _iface(Q_NULLPTR), _dbus(QDBusConnection::sessionBus())
+    : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR)
 {
-  QDBusConnection::sessionBus().registerService("com.test.canDataReceiver");
-  QDBusConnection::sessionBus().registerObject("/com/test/canDataReceiver/data", this, QDBusConnection::ExportAllSlots);
+  QTimer *timer = new QTimer(this);
+  connect(timer, &QTimer::timeout, this, &DBusClient::setData);
+  timer->start(100);
+
+  this->_iface = new QDBusInterface("com.test.d-bus.example", "/com/test/d-bus/example", "com.test.d-bus.example");
+  if (!m_interface->isValid()) {
+      qDebug() << "Interface not valid: " << qPrintable(m_interface->lastError().message());
+      exit(1);
+    }
 }
 
-DBusClient::~DBusClient() {}
+DBusClient::~DBusClient() {
+  if (_iface)
+    delete _iface;
+}
 
-void DBusClient::setData(int rpm, int speed)
-{
-    _speed = speed;
-    _rpm = rpm;
 
-    qDebug() << speed;
-    qDebug() << rpm;
+size_t DBusClient::speed() const {
+  QDBusReply<size_t> reply = _iface->call("getSpeed");
+  int value = reply.value();
 
-    emit speedChanged();
-    emit rpmChanged();
+  return value;
+}
+
+size_t DBusClient::rpm() const {
+  QDBusReply<size_t> reply = _iface->call("getRpm");
+  int value = reply.value();
+
+  return value;
+}
+
+void setData() {
+  this->_speed = speed();
+  this->_rpm = rpm();
+
+  emit speedChanged(_speed);
+  emit rpmChanged(_rpm);
 }

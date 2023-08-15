@@ -14,6 +14,14 @@ Window {
 
     DBusClient {
         id: dbus_client
+        property int speed: 0
+        property int rpm: 0
+        speedChanged: {
+          dbus_client.speed = dbus_client.speed();
+        }
+        rpmChanged: {
+          dbus_client.speed = dbus_client.speed();
+        }
     }
 
     Item {

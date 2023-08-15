@@ -19,7 +19,9 @@
 
 int main(int _arc, char* _arv[]) {
     QGuiApplication app(_arc, _arv);
+    DBusClient client();
 
+    DBusClient client;
     qmlRegisterType<DBusClient>("com.test.canDataReceiver", 1, 0, "DBusClient");
 
     //  Set DejaVu Sans Font
@@ -27,8 +29,8 @@ int main(int _arc, char* _arv[]) {
     app.setFont(QFont("DejaVu Sans"));
 
     //  Create and initialize the engine
-    QUrl url("qrc:/asset/qml/main.qml");
     QQmlApplicationEngine engine;
+    QUrl url("qrc:/asset/qml/main.qml");
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl) {
       if (!obj && url == objUrl)
         QCoreApplication::exit(-1);
