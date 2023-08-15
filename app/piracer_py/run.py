@@ -19,12 +19,11 @@ if __name__ == '__main__':
         display_carinfo_process = Process(target=display_carinfo, args=(piracer,))
         display_carinfo_process.start()
 
-
         # Run car_controll() in a seperate process 
         car_control_process = Process(target=car_control, args=(piracer, shanwan_gamepad))
         car_control_process.start()
 
-        # Create a queue for data exchange recieve_data and send_data between processes
+        # Create a queue for data exchange recieve_data and send_data between processes. 
         queue_size = 10
         queue = multiprocessing.Queue(queue_size)
 

@@ -1,11 +1,17 @@
+/*Final Version for Speed Sensor*/
+/*
+This code is used to calculate the RPM of the wheel and the speed of the vehicle. 
+The rpm in 1/min and speed in m/min will be sent via CAN BUS to the piracer_py Application. 
+*/
+
 // MCP2515 CAN controller(CAN bus) and SPI communication
 #include <SPI.h>
 #include <mcp_can.h>
 
 #define encoder_pin 2 //Encoder Signal Input = D2
-unsigned long rpm_sensor;
-unsigned long rpm_wheel;
-unsigned long speed; 
+unsigned short rpm_sensor; 
+unsigned short rpm_wheel; 
+unsigned short speed; 
 volatile byte pulses;
 unsigned long TIME;
 unsigned int pulse_per_turn = 20; //Encoder Disc Resolution = 20 slots
@@ -48,11 +54,12 @@ void setup() {
 
 void read_sensor_rpm() {
 if (millis() - TIME >= 100) {
-  detachInterrupt(digitalPinToInterrupt(encoder_pin));
+  //Interrupts are disabled to prevent the pulse counter from being changed during the calculation
+  detachInterrupt(digitalPinToInterrupt(encoder_pin)); 
   rpm_sensor = (60*1000/pulse_per_turn) / (millis() - TIME) * pulses;
   TIME = millis();
   pulses = 0;
-
+  // Interrupts are enabled again
   attachInterrupt(digitalPinToInterrupt(encoder_pin), count, FALLING);
   }
 }
@@ -63,16 +70,24 @@ void calc_for_wheel() {
 }
 
 void send_to_CAN() {
-  // CAN Bus
-  data[0] = (speed >> 8) & 0xFF;
-  data[1] = speed & 0xFF;
+  /*Car at full speed can reach up to rpm_sensor = 1500 1/min. 
+  rpm_sensor generates the highest value. 
+  Using usigned short (16 bits, value range: 0 - 65535) is enough to store all speed related values.
+  The CAN message can only send 8 bytes at a time.
+  Therefore, the 2x8 Bit long rpm_sensor and rpm_wheel values must be divided into two bytes each.
+  To get the first 8 Bits of the values, we shift the value 8 Bits to the right and mask with 0xFF (1111 1111 bin) to keep only the last 8 bits. 
+  To get the last 8 Bits of the values, we mask with 0xFF (1111 1111 bin) to keep only the last 8 bits.
+  Than the values are stored in the data array. 
+  The first two bytes of the data array are the speed value.
+  The second two bytes of the data array are the rpm_wheel value.
+  */ 
+
+  data[0] = (speed >> 8) & 0xFF; 
+  data[1] = speed & 0xFF; 
   data[2] = (rpm_wheel >> 8) & 0xFF;
-  data[3] = rpm_wheel & 0xFF;
+  data[3] = rpm_wheel & 0xFF; 
+  // send data:  ID = 0x125, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
   int can_status = CAN.sendMsgBuf(can_id, CAN_STDID ,can_dlc, data);
-  //memcpy(data, &RPM_w, 4);
-  //memcpy(data, &speed, 4);
-  //int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
-  // check if data was sent successfully
 }
 
 void loop() {
@@ -86,9 +101,9 @@ void loop() {
   Serial.print(rpm_wheel);
   Serial.print(" speed: ");
   Serial.print(speed);
-  
-    if (can_status == CAN_OK) {
-    Serial.println("Success");
-   } else
-    Serial.println("Error");
+  if (can_status == CAN_OK) {
+    Serial.println(" Status Bus: Send successfully");
+  } else{
+    Serial.println(" Status Bus: Send failed");
+  } 
 }
