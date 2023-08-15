@@ -14,25 +14,26 @@ if __name__ == '__main__':
     shanwan_gamepad = ShanWanGamepad()
 
     try:      
+        # Create a queues for data exchange between processes. 
+        queue_size = 10
+        can_queue           = multiprocessing.Queue(queue_size)
+        car_info_queue      = multiprocessing.Queue(queue_size)
+        car_control_queue   = multiprocessing.Queue(queue_size)
 
         # Run display_carinfo() in a seperate process 
-        display_carinfo_process = Process(target=display_carinfo, args=(piracer,))
+        display_carinfo_process = Process(target=display_carinfo, args=(piracer,car_info_queue))
         display_carinfo_process.start()
 
         # Run car_controll() in a seperate process 
-        car_control_process = Process(target=car_control, args=(piracer, shanwan_gamepad))
+        car_control_process = Process(target=car_control, args=(piracer, shanwan_gamepad, car_control_queue))
         car_control_process.start()
 
-        # Create a queue for data exchange recieve_data and send_data between processes. 
-        queue_size = 10
-        queue = multiprocessing.Queue(queue_size)
-
         # Run recieve_data() in a seperate process
-        recieve_data_process = Process(target=recieve_data, args=(queue,))
+        recieve_data_process = Process(target=recieve_data, args=(can_queue,))
         recieve_data_process.start()
 
         # Run send_data() in a seperate process 
-        send_data_process = Process(target=send_data, args=(queue,))
+        send_data_process = Process(target=send_data, args=(can_queue,car_info_queue,car_control_queue))
         send_data_process.start()
         
         # Wait for the processes to finish

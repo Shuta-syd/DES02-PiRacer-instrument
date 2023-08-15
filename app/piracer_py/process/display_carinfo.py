@@ -4,17 +4,18 @@ import socket
 import pathlib
 from datetime import datetime
 from   piracer.vehicles import PiRacerStandard
+import queue
 
 FILE_DIR = pathlib.Path(os.path.abspath(os.path.dirname(__file__)))
 
-def display_carinfo(vehicle: PiRacerStandard):
+def display_carinfo(vehicle: PiRacerStandard, q):
 
     def get_current_time():
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         return current_time
     
-    def get_battery_info(vehicle: PiRacerStandard):
+    def get_battery_txt_info(vehicle: PiRacerStandard):
         battery_voltage          = round(vehicle.get_battery_voltage(),1) # in V 
         battery_current          = round(vehicle.get_battery_current(),1) # in mA
         power_consumption        = round(vehicle.get_power_consumption(),1) # in W
@@ -43,9 +44,21 @@ def display_carinfo(vehicle: PiRacerStandard):
     try:
         while True:
             ipAddr  = get_ip_address()                                                              
-            batlvl  = get_battery_info(vehicle)
+            bat_txt  = get_battery_txt_info(vehicle)
             curtime = get_current_time()
-            display_carinfo(currenttime=curtime , ipAddress=ipAddr, batterylevel=batlvl, vehicle=vehicle)
+            # 
+            display_carinfo(currenttime=curtime , ipAddress=ipAddr, batterylevel=bat_txt, vehicle=vehicle)
+            # get battery info
+            battery_voltage          = vehicle.get_battery_voltage()    # in V
+            battery_current          = vehicle.get_battery_current()    # in mA
+            power_consumption        = vehicle.get_power_consumption()  # in W
+            battery_capacity         = 3*2600                           # in mAh 
+            # put in queue
+            try:
+                q.put_nowait((ipAddr, battery_voltage, battery_current, power_consumption, curtime))
+            except queue.Full:
+                q.get()
+                q.put((ipAddr, battery_voltage, battery_current, power_consumption, curtime))
             time.sleep(1)                                                                                 
     except KeyboardInterrupt:
         print(" - Display carinfo process has been stopped. -")
