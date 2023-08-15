@@ -1,4 +1,4 @@
-  // MCP2515 CAN controller(CAN bus) and SPI communication
+// MCP2515 CAN controller(CAN bus) and SPI communication
 #include <SPI.h>
 #include <mcp_can.h>
 
@@ -69,8 +69,8 @@ void send_to_CAN() {
   data[2] = (rpm_wheel >> 8) & 0xFF;
   data[3] = rpm_wheel & 0xFF;
   int can_status = CAN.sendMsgBuf(can_id, CAN_STDID ,can_dlc, data);
-  //memcpy(data, &RPM_w, 8);
-  //memcpy(data, &speed, 8);
+  //memcpy(data, &RPM_w, 4);
+  //memcpy(data, &speed, 4);
   //int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
   // check if data was sent successfully
 }

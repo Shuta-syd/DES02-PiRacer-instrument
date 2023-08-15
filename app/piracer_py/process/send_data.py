@@ -35,6 +35,7 @@ def send_data(q):
                     except (BrokenPipeError, ConnectionResetError):
                         print("Client disconnected, waiting for another connection")
                         break
+                    # send next message in 0.5s
                     time.sleep(0.5)
             conn.close()
         except BlockingIOError:
