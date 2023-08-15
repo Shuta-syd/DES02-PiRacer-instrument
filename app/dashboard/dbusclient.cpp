@@ -6,46 +6,20 @@
 DBusClient::DBusClient(QObject *parent)
     : QObject{parent}, _iface(Q_NULLPTR), _dbus(QDBusConnection::sessionBus())
 {
-
-  _iface = new QDBusInterface("com.test.canDataReceiver", "/com/test/canDataReceiver", "com.test.canDataReceiver", QDBusConnection::sessionBus());
-  if (!_iface)
-  {
-    qWarning() << "failed to make DBusInterface";
-    exit(1);
-  }
-
-  bool flag = this->_iface->connection().connect(_iface->service(),
-                                                      _iface->path(),
-                                                      _iface->interface(),
-                                                      QStringLiteral("speedChanged"),
-                                                      this,
-                                                      SLOT(speedChanged(int)));
-  if (!flag)
-    qDebug() << "failed to connect DBus signal";
-
-  // for debug
-  connect(this, &DBusClient::speedChanged,
-          [](int speed)
-          {
-            qDebug() << "speedChanged" << speed;
-          });
+  QDBusConnection::sessionBus().registerService("com.test.canDataReceiver");
+  QDBusConnection::sessionBus().registerObject("/com/test/canDataReceiver/data", this, QDBusConnection::ExportAllSlots);
 }
 
-DBusClient::~DBusClient()
-{
-  delete _iface;
-}
+DBusClient::~DBusClient() {}
 
-int DBusClient::getSpeed() const
+void DBusClient::setData(int rpm, int speed)
 {
-  QDBusReply<int> reply = _iface->call("getRpm");
-  int value = reply.value();
-  std::cout << "good";
-  return value;
-}
+    _speed = speed;
+    _rpm = rpm;
 
-void DBusClient::setSpeed(int newSpeed)
-{
-  std::cout "setSpeed";
-  this->_iface->setProperty("speed", QVariant(newSpeed));
+    qDebug() << speed;
+    qDebug() << rpm;
+
+    emit speedChanged();
+    emit rpmChanged();
 }

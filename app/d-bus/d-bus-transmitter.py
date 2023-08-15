@@ -1,7 +1,7 @@
 import can
 from pydbus import SessionBus
-from gi.repository import GLib
 from math import pi
+import asyncio
 
 can_interface = 'can0'
 rpm_canId = 0x125 # 293 (decimal)
@@ -23,21 +23,34 @@ class canDataReceiver(object):
       </node>
   """
   def __init__(self):
-    self.can = can.interface.Bus(channel=can_interface, bustype='socketcan')
+    self._can = can.interface.Bus(channel=can_interface, bustype='socketcan')
+    self._dbus = bus.get_object("com.test.canDataReceiver", "/com/test/canDataReceiver/data")
 
-  def getRpm(self) -> int:
+  async def getRpm(self) -> int:
     message = self.can.recv()
     if message is not None and message.arbitration_id == rpm_canId:
      rpm = int.from_bytes(message.data[:4], byteorder='little', signed=False)
-      return rpm
+     return rpm
     return 0
 
-  def getSpeed(self, rpm) -> int:
+  async def getSpeed(self, rpm) -> int:
     speed = rpm * wheel_circumference
     return speed
 
+  async def update(self):
+    rpm = await self.getRpm()
+    speed = await self.getSpeed()
+    self._dbus.setData(speed, rpm)
+
+async def main(handler):
+  while 42:
+    await handler.update()
+    await asyncio.sleep(0.01)
+
+
+bus = SessionBus()
+obj = canDataReceiver();
+bus.publish("com.test.canDataReceiver", obj);
 
 if __name__ == '__main__':
-  bus = SessionBus()
-  bus.publish("com.test.canDataReceiver", canDataReceiver())
-  GLib.MainLoop().run()
+  asyncio.run(main(obj))

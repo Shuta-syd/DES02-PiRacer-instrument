@@ -9,23 +9,29 @@
 class DBusClient : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int speed READ getSpeed WRITE setSpeed NOTIFY speedChanged)
+    Q_PROPERTY(float speed READ speed NOTIFY speedChanged)   // Property for speed.
+    Q_PROPERTY(float rpm READ rpm NOTIFY rpmChanged)         // Property for rpm.
 public:
     explicit DBusClient(QObject *parent = nullptr);
     ~DBusClient();
 
-    int getSpeed() const;
+    // getter
+    double speed() const { return _speed; }
+    double rpm() const { return _rpm; }
 
-public Q_SLOTS:
-    void setSpeed(int);
+  public Q_SLOTS:
+    void setData(int, int); // rpm, speed
 
 Q_SIGNALS:
-    void speedChanged(int);
+    void speedChanged();
+    void rpmChanged();
+    void batteryChanged();
 
 private:
     int _speed;
-    QDBusInterface *_iface;
-    QDBusConnection _dbus;
+    size_t _speed;
+    size_t _rpm;
+    size_t _battery;
 };
 
 #endif // DBUSCLIENT_H
