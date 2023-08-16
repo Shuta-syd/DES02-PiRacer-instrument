@@ -24,15 +24,15 @@ public:
     void setData();
 
 Q_SIGNALS:
-    void speedChanged(int);
-    void rpmChanged(int);
+    void speedChanged(qreal);
+    void rpmChanged(qreal);
 
 private:
   QDBusConnection _dbus;
   QDBusInterface* _iface;
-  double _speed;
-  double _rpm;
-  double _battery;
+  qreal _speed;
+  qreal _rpm;
+  qreal _battery;
 };
 
 #endif // DBUSCLIENT_H

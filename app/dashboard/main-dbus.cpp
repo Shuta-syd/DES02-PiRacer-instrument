@@ -21,7 +21,7 @@ int main(int _arc, char* _arv[]) {
     QGuiApplication app(_arc, _arv);
     DBusClient client();
 
-    qmlRegisterType<DBusClient>("com.test.canDataReceiver", 1, 0, "DBusClient");
+    qmlRegisterType<DBusClient>("com.test.dbusService", 1, 0, "DBusClient");
 
     //  Set DejaVu Sans Font
     QFontDatabase::addApplicationFont(":/asset/fonts/DejaVuSans.ttf");
