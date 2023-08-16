@@ -4,7 +4,7 @@ from math import pi
 from gi.repository import GLib
 from random import randint
 
-can_interface = 'can0'
+can_interface = 'can1'
 rpm_canId = 0x125 # 293 (decimal)
 WheelDiameter = 65.0 # [mm]
 wheel_circumference =  (WheelDiameter * pi) / 1000 # Wheel circumference [m]
