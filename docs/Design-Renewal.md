@@ -12,6 +12,7 @@
 
 ## After
 ### What data is transmitted?
+```
 - **About direction 🔽**
   - steering
     - float
@@ -53,6 +54,7 @@
   - time
     - string
     - hh:mm
+```
 
 ### First, let's make the design!
 
