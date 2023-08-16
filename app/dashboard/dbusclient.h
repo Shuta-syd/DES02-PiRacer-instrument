@@ -24,8 +24,8 @@ public:
     void setData();
 
 Q_SIGNALS:
-    void onSpeedChanged(int);
-    void onRpmChanged(int);
+    void speedChanged(int);
+    void rpmChanged(int);
 
 private:
   QDBusConnection _dbus;

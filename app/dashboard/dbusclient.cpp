@@ -42,6 +42,6 @@ void DBusClient::setData() {
   this->_rpm = rpm();
   qDebug() << "setData called";
 
-  emit onSpeedChanged(_speed);
-  emit onRpmChanged(_rpm);
+  emit speedChanged(_speed);
+  emit rpmChanged(_rpm);
 }
