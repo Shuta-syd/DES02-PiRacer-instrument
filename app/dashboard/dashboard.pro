@@ -13,7 +13,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 OTHER_FILES += \
-                asset/qml/main.qml
+                asset/qml/main.qml \
+                asset/qml/DashboardGaugeStyle.qml \
+                asset/qml/ValueSource.qml \
 
 HEADERS += \
     dbusclient.h
