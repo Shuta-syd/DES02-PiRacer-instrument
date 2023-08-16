@@ -2,13 +2,12 @@
 #include <QDBusReply>
 #include <QDebug>
 
-
 DBusClient::DBusClient(QObject *parent)
-    : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR)
+    : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR), i(0)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, &QTimer::timeout, this, &DBusClient::setData);
-  timer->start(100);
+  timer->start(10);
 
   this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
   if (!_iface->isValid()) {
@@ -40,7 +39,7 @@ size_t DBusClient::rpm() const {
 void DBusClient::setData() {
   this->_speed = speed();
   this->_rpm = rpm();
-  qDebug() << "setData called";
+  qDebug() << "setData called" << i++;
 
   emit speedChanged(_speed);
   emit rpmChanged(_rpm);

@@ -33,6 +33,7 @@ private:
   size_t _speed;
   size_t _rpm;
   size_t _battery;
+  int i;
 };
 
 #endif // DBUSCLIENT_H
