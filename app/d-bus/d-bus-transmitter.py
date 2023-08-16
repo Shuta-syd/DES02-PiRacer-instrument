@@ -27,7 +27,7 @@ class DbusService(object):
     self._can = can.interface.Bus(channel=can_interface, bustype='socketcan')
 
   def getRpm(self) -> int:
-    message = self.can.recv()
+    message = self._can.recv()
     if message is not None and message.arbitration_id == rpm_canId:
      rpm = int.from_bytes(message.data[:4], byteorder='little', signed=False)
      print(rpm)

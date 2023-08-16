@@ -11,16 +11,16 @@ Window {
     width: 1024
     height: 600
     visible: true
-    property real speed: 0
-    property real rpm: 0
 
     DBusClient {
         id: dbus_client
+        property real speed_v: 0
+        property real rpm_v: 0
         onSpeedChanged: {
-          root.speed = dbus_client.speed();
+          dbus_client.speed_v = dbus_client.speed();
         }
         onRpmChanged: {
-          root.rpm = dbus_client.rpm();
+          dbus_client.rpm_v = dbus_client.rpm();
         }
     }
 
@@ -41,7 +41,7 @@ Window {
           height:                 container.height * 0.5
           anchors.verticalCenter: parent.verticalCenter
 
-          value:                  root.rpm
+          value:                  dbus_client.rpm_v
           maximumValue:           80
           style: DashboardGaugeStyle {}
       }

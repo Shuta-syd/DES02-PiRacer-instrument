@@ -26,7 +26,6 @@ int DBusClient::speed() const {
   QDBusReply<int> reply = _iface->call("getSpeed");
   int value = reply.value();
 
-  qDebug() << value;
 
   return value;
 }
@@ -34,6 +33,8 @@ int DBusClient::speed() const {
 int DBusClient::rpm() const {
   QDBusReply<int> reply = _iface->call("getRpm");
   int value = reply.value();
+
+  qDebug() << value;
 
   return value;
 }
