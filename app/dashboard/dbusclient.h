@@ -21,11 +21,11 @@ public:
     Q_INVOKABLE size_t rpm() const;
 
   public Q_SLOTS:
-    void setData(); 
+    void setData();
 
 Q_SIGNALS:
-    void speedChanged(int);
-    void rpmChanged(int);
+    void onSpeedChanged(int);
+    void onRpmChanged(int);
 
 private:
   QDBusConnection _dbus;

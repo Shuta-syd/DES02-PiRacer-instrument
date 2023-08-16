@@ -20,7 +20,7 @@ Window {
           dbus_client.speed = dbus_client.speed();
         }
         onRpmChanged: {
-          dbus_client.speed = dbus_client.speed();
+          dbus_client.speed = dbus_client.rpm();
         }
     }
 

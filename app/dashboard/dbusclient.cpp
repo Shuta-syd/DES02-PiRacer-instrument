@@ -40,7 +40,8 @@ size_t DBusClient::rpm() const {
 void DBusClient::setData() {
   this->_speed = speed();
   this->_rpm = rpm();
+  qDebug() << "setData called";
 
-  emit speedChanged(_speed);
-  emit rpmChanged(_rpm);
+  emit onSpeedChanged(_speed);
+  emit onRpmChanged(_rpm);
 }
