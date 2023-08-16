@@ -15,8 +15,8 @@ public:
     ~DBusClient();
 
     // getter
-    Q_INVOKABLE qreal speed() const;
-    Q_INVOKABLE qreal rpm() const;
+    Q_INVOKABLE qreal speed();
+    Q_INVOKABLE qreal rpm();
 
 public Q_SLOTS:
     void setData();

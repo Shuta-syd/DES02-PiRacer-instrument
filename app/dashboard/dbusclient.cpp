@@ -22,7 +22,7 @@ DBusClient::~DBusClient() {
 }
 
 
-qreal DBusClient::speed() const {
+qreal DBusClient::speed() {
   QDBusReply<QVariant> reply = _iface->call("getSpeed");
   qreal value = reply.value().toReal();
 
@@ -30,7 +30,8 @@ qreal DBusClient::speed() const {
   return value;
 }
 
-qreal DBusClient::rpm() const {
+qreal DBusClient::rpm() {
+  qDebug() << "rpm";
   auto reply = _iface->call("getRpm");
   qDebug() << reply;
 
@@ -41,7 +42,7 @@ qreal DBusClient::rpm() const {
 void DBusClient::setData() {
   qDebug() << "setData";
   // this->_speed = speed();
-  this->_rpm = rpm();
+  this->_rpm = this->rpm();
 
   // emit speedChanged(_speed);
   emit rpmChanged(_rpm);
