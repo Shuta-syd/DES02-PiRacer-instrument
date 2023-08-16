@@ -7,7 +7,7 @@ MCP_CAN CAN(10);
 /** values to calculate RPM */
 #define PPR 20
 #define PI 3.1415926535897932384626433832795
-#define ZERO_TIMEOUT    100000  // Timeout period(microsecond) for RPM reset
+#define ZERO_TIMEOUT    100  // Timeout period(microsecond) for RPM reset
 #define WheelDiameter 65.0 // [mm]
 #define SpeedSensorDiameter 20.0 // [mm]
 
@@ -51,14 +51,10 @@ void loop() {
   RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
   speed = RPM_w * C;
 
-  Serial.print("RPM: ");
-  Serial.print(RPM_w);
-  Serial.print(" Speed [m/min]: ");
-  Serial.println(speed);
+  Serial.print("RPM: "); Serial.print(RPM_w); Serial.print(" Speed [m/min]: "); Serial.println(speed);
 
   data[0] = (RPM_w >> 0) & 0xFF;
   data[1] = (RPM_w >> 8) & 0xFF;
-
 
   int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
   if (status == CAN_OK) {
