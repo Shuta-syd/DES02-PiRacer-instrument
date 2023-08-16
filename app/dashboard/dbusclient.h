@@ -17,8 +17,8 @@ public:
     ~DBusClient();
 
     // getter
-    Q_INVOKABLE size_t speed() const;
-    Q_INVOKABLE size_t rpm() const;
+    Q_INVOKABLE int speed() const;
+    Q_INVOKABLE int rpm() const;
 
   public Q_SLOTS:
     void setData();
@@ -30,10 +30,9 @@ Q_SIGNALS:
 private:
   QDBusConnection _dbus;
   QDBusInterface* _iface;
-  size_t _speed;
-  size_t _rpm;
-  size_t _battery;
-  int i;
+  int _speed;
+  int _rpm;
+  int _battery;
 };
 
 #endif // DBUSCLIENT_H
