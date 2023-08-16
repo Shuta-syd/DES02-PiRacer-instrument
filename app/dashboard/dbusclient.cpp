@@ -7,7 +7,7 @@ DBusClient::DBusClient(QObject *parent)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, &QTimer::timeout, this, &DBusClient::setData);
-  timer->start(10);
+  timer->start(100);
 
   this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
   if (!_iface->isValid()) {
