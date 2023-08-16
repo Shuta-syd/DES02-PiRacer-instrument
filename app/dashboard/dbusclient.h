@@ -27,6 +27,7 @@ Q_SIGNALS:
     void speedChanged(qreal);
     void rpmChanged(qreal);
 
+public:
   QDBusConnection _dbus;
   QDBusInterface* _iface;
   qreal _speed;
