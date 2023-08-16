@@ -3,7 +3,6 @@ import  QtQuick.Window          2.15
 import  QtQuick.Controls        2.15
 import  QtQuick.Controls.Styles 1.4
 import  QtQuick.Extras          1.4
-import com.test.dbusService 1.0
 
 Window {
     id:       root
@@ -11,17 +10,10 @@ Window {
     width: 1024
     height: 600
     visible: true
-    property real speed: 0
-    property real rpm: 0
+    color:    "#161616"
 
-    DBusClient {
-        id: dbus_client
-        onRpmChanged: {
-          root.rpm = dbus_client.getRpm();
-        }
-        onSpeedChanged: {
-          root.speed = dbus_client.getSpeed();
-        }
+    ValueSource {
+        id:  valueSource
     }
 
     Item {
@@ -36,13 +28,24 @@ Window {
         anchors.centerIn: (parent)
 
         CircularGauge {
-          id:                     speedometer
+          id:                     speed_meter
           width:                  height
           height:                 container.height * 0.5
           anchors.verticalCenter: parent.verticalCenter
 
-          value:                  root.speed
+          value:                  valueSource.speed
           maximumValue:           80
+          style: DashboardGaugeStyle {}
+      }
+
+        CircularGauge {
+          id:                     rpm_meter
+          width:                  height
+          height:                 container.height * 0.5
+          anchors.verticalCenter: parent.verticalCenter
+
+          value:                  valueSource.rpm
+          maximumValue:           500
           style: DashboardGaugeStyle {}
       }
     }

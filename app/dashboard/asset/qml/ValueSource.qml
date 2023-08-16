@@ -1,12 +1,11 @@
 import  QtQuick 2.2
+import com.test.dbusService 1.0
 
-//! [0]
 Item {
     id:             valueSource
     objectName:     "valueSource"
-    property real   spd:    (0)
-    property real   rpm:    (1)
-    property real   fuel:   (1)
+    property real   speed:  0
+    property real   rpm:    0
     property string gear: {
         if (spd == 0)
             return "P";
@@ -20,5 +19,15 @@ Item {
             return "4";
         if (spd < 50)
             return "5";
+    }
+
+    DBusClient {
+        id: dbus_client
+        onRpmChanged: {
+          valueSource.rpm = dbus_client.getRpm();
+        }
+        onSpeedChanged: {
+          valueSource.speed = dbus_client.getSpeed();
+        }
     }
 }

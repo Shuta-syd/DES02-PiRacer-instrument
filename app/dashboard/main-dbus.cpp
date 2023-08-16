@@ -8,14 +8,9 @@
 # include   <QTextStream>
 # include   <QDebug>
 
-//  library for QT animation
-# include   <QPropertyAnimation>
-
 #include <iostream>
 #include "dbusclient.h"
 
-# define    FAILURE     -1
-# define    SUCCESS     0
 
 int main(int _arc, char* _arv[]) {
     QGuiApplication app(_arc, _arv);
