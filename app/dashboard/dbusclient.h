@@ -10,8 +10,6 @@
 class DBusClient : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(float speed READ speed NOTIFY speedChanged)   // Property for speed.
-    Q_PROPERTY(float rpm READ rpm NOTIFY rpmChanged)         // Property for rpm.
 public:
     explicit DBusClient(QObject *parent = nullptr);
     ~DBusClient();
