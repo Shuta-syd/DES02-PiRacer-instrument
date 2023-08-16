@@ -17,7 +17,7 @@ Window {
     DBusClient {
         id: dbus_client
         onRpmChanged: {
-          root.rpm = dbus_client._rpm;
+          root.rpm = dbus_client.getRpm();
         }
     }
 

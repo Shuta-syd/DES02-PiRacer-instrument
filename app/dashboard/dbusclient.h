@@ -15,10 +15,11 @@ public:
     ~DBusClient();
 
     // getter
-    Q_INVOKABLE qreal speed();
-    Q_INVOKABLE qreal rpm();
+    qreal speed();
+    qreal rpm();
+    Q_INVOKABLE qreal getRpm() { return _rpm; }
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void setData();
 
 Q_SIGNALS:
