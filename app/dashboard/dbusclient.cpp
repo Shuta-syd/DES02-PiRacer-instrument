@@ -11,7 +11,7 @@ DBusClient::DBusClient(QObject *parent)
   timer->start(100);
 
   this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
-  if (!m_interface->isValid()) {
+  if (!_iface->isValid()) {
       qDebug() << "Interface not valid: " << qPrintable(m_interface->lastError().message());
       exit(1);
     }
@@ -37,7 +37,7 @@ size_t DBusClient::rpm() const {
   return value;
 }
 
-void setData() {
+void DBusClient::setData() {
   this->_speed = speed();
   this->_rpm = rpm();
 

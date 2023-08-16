@@ -4,6 +4,7 @@
 #include <QtCore/QObject>
 #include <QDBusInterface>
 #include <QDBusConnection>
+#include <QTimer>
 
 
 class DBusClient : public QObject
@@ -16,8 +17,8 @@ public:
     ~DBusClient();
 
     // getter
-    Q_INVOKABLE size_t speed() const { return _speed; }
-    Q_INVOKABLE size_t rpm() const { return _rpm; }
+    Q_INVOKABLE size_t speed() const;
+    Q_INVOKABLE size_t rpm() const;
 
   public Q_SLOTS:
     void setData(int, int); // rpm, speed
