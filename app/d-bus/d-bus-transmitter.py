@@ -9,7 +9,7 @@ rpm_canId = 0x125 # 293 (decimal)
 WheelDiameter = 65.0 # [mm]
 wheel_circumference =  (WheelDiameter * pi) / 1000 # Wheel circumference [m]
 
-bus = dbus.SessionBus()
+bus = SessionBus()
 
 class DbusService(object):
   """
