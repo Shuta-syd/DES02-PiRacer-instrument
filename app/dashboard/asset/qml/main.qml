@@ -16,10 +16,10 @@ Window {
         id: dbus_client
         property int speed: 0
         property int rpm: 0
-        speedChanged: {
+        onSpeedChanged: {
           dbus_client.speed = dbus_client.speed();
         }
-        rpmChanged: {
+        onRpmChanged: {
           dbus_client.speed = dbus_client.speed();
         }
     }
