@@ -3,7 +3,7 @@
 #include <QDebug>
 
 DBusClient::DBusClient(QObject *parent)
-    : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR)
+    : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR), _speed(0), _rpm(0)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, &QTimer::timeout, this, &DBusClient::setData);
@@ -23,15 +23,15 @@ DBusClient::~DBusClient() {
 
 
 qreal DBusClient::speed() const {
-  QDBusReply<qreal> reply = _iface->call("getSpeed");
-  qreal value = reply.value();
+  QDBusReply<int> reply = _iface->call("getSpeed");
+  qreal value = reply.value().toReal();
 
   return value;
 }
 
 qreal DBusClient::rpm() const {
-  QDBusReply<qreal> reply = _iface->call("getRpm");
-  qreal value = reply.value();
+  QDBusReply<int> reply = _iface->call("getRpm");
+  qreal value = reply.value().toReal();
 
   qDebug() << value;
 
