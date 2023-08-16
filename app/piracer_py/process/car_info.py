@@ -8,7 +8,7 @@ import queue
 
 FILE_DIR = pathlib.Path(os.path.abspath(os.path.dirname(__file__)))
 
-def display_carinfo(vehicle: PiRacerStandard, q):
+def car_info(vehicle: PiRacerStandard, q):
 
     def get_current_time():
         now = datetime.now()
@@ -53,12 +53,15 @@ def display_carinfo(vehicle: PiRacerStandard, q):
             battery_current          = vehicle.get_battery_current()    # in mA
             power_consumption        = vehicle.get_power_consumption()  # in W
             battery_capacity         = 3*2600                           # in mAh 
+            battery_level            = round((battery_current/battery_capacity)*100,1) # in %
+            battery_hour             = round((battery_capacity/battery_current),1) # in hour
+            
             # put in queue
             try:
-                q.put_nowait((ipAddr, battery_voltage, battery_current, power_consumption, curtime))
+                q.put_nowait((ipAddr, battery_voltage, power_consumption, battery_current, battery_level, battery_hour, curtime))
             except queue.Full:
                 q.get()
-                q.put((ipAddr, battery_voltage, battery_current, power_consumption, curtime))
+                q.put((ipAddr, battery_voltage, power_consumption, battery_current, battery_level, battery_hour, curtime))
             time.sleep(1)                                                                                 
     except KeyboardInterrupt:
         print(" - Display carinfo process has been stopped. -")

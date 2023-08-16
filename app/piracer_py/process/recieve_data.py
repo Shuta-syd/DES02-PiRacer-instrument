@@ -26,7 +26,7 @@ def recieve_data(q):
                     rpm_wheel = message.data[2] << 8 | message.data[3] 
                     speed     = message.data[0] << 8 | message.data[1] 
                     #print rpm_wheel and speed as integer
-                    print("RPM =   ",rpm_wheel," 1/min ", "Speed = ",speed," m/min ")
+                    #print("RPM =   ",rpm_wheel," 1/min ", "Speed = ",speed," m/min ")
                     #load data in queue. If queue is full, than empty oldest data and load new data
                     try:
                         q.put_nowait((speed, rpm_wheel))

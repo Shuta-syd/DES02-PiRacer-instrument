@@ -1,6 +1,7 @@
 import socket
 import time
 import queue
+import json
 
 server_address = 'localhost'
 server_port = 23513
@@ -19,54 +20,96 @@ def send_data(can_queue,car_info_queue,car_control_queue):
             conn, addr = soc.accept() 
             print(f"Connection from {addr}")
             while True:
-                    # while process runs, unload queue and save speed and rpm in variables
                     try:
-                        can_bus = can_queue.get_nowait()
-                        car_info = car_info_queue.get_nowait()
-                        car_control = car_control_queue.get_nowait()
+                        # get last message from queues 
+                        can_bus         = can_queue.get_nowait()
+                        car_info        = car_info_queue.get_nowait()
+                        car_control     = car_control_queue.get_nowait()
+                        # unpack queues to create a message to send to client
+                        throttle        = car_control[0]
+                        steering        = car_control[1]
+                        indicator       = car_control[2]        # int, 0=nothing,1=left,2=right,3=warning light, not availible yet
+                        battery_voltage     = car_info[1]       # float, in V
+                        power_consumption   = car_info[2]       # float, in W
+                        battery_current     = car_info[3]       # float, in mA
+                        battery_level       = car_info[5]       # float, in %
+                        battery_hour        = car_info[6]       # float, in hour
+                        speed           = can_bus[0]
+                        rpm             = can_bus[1]
+                        ip_address          = car_info[0]       # string, "1.1.1.1"        
+                        curtime             = car_info[4]       # string, "00:00:00"
+                        # create a dict to store all data
+                        data = {
+                            "throttle": throttle,
+                            "steering": steering,
+                            "indicator": indicator,
+                            "battery_voltage": battery_voltage,
+                            "power_consumption": power_consumption,
+                            "battery_current": battery_current,
+                            "battery_level": battery_level,
+                            "battery_hour": battery_hour,
+                            "speed": speed,
+                            "rpm": rpm,
+                            "ip_address": ip_address,
+                            "curtime": curtime
+                        }
 
-                        speed = can_bus[0]
-                        rpm =  can_bus[1]
-                        ip_address = car_info[0]
-                        battery_voltage = car_info[1]
-                        battery_current =  car_info[2]
-                        power_consumption = car_info[3]
-                        curtime = car_info[4]
-                        throttle = car_control[0]
-                        steering = car_control[1]
                     except queue.Empty:
-                        speed = 0
-                        rpm = 0  
-                        ip_address = ""
-                        battery_voltage = 0
-                        battery_current = 0
-                        power_consumption = 0
-                        curtime = 0
-                        throttle = 0
-                        steering = 0
-                    # create message with speed and rpm and send it to client
-                    message = f"{speed:.2f},{rpm:.2f},{ip_address},{battery_voltage:.2f},{battery_current:.2f},{power_consumption:.2f},{curtime},{throttle:.2f},{steering:.2f}\n"
+                        # if queue is empty, send empty message
+                        # message = f",,,,,,,\n"
+                        # if queue is empty, create a dict with empty data
+                        data = {
+                            "throttle": "",
+                            "steering": "",
+                            "indicator": "",
+                            "battery_voltage": "",
+                            "power_consumption": "",
+                            "battery_current": "",
+                            "battery_level": "",
+                            "battery_hour": "",
+                            "speed": "",
+                            "rpm": "",
+                            "ip_address": "",
+                            "curtime": ""
+                        }
+
+                    # create a string message 
+                    # message = f"{throttle},{steering},{indicator},{battery_voltage},{power_consumption},{battery_current},{battery_level},{battery_hour},{speed},{rpm},{ip_address},{curtime}\n"
+                    
+                    # create a json message 
+                    message = json.dumps(data)
+
+                    # send message to client
                     try:
+                        #send message to client (should work for json and string)
                         conn.sendall(message.encode('utf-8'))
-                        print(f"Timestamp: {int(time.time())}, tcp sent {message.strip()}")
+                        # print message to console
+                        #print(f"Timestamp: {int(time.time())}, tcp sent {message}")
+
                     except (BrokenPipeError, ConnectionResetError):
                         print("Client disconnected, waiting for another connection")
                         break
+
                     # send next message in 0.5s
                     time.sleep(0.5)
+
             conn.close()
+
         except BlockingIOError:
             # No connection yet, wait for a bit
             print("Waiting for connection")
             pass    
+
         except KeyboardInterrupt:
             # Exit with cmd+c
             print(" - Send_data process has been stopped. - ")
             # shut down the socket server
             soc.close()
             break
+
         except Exception as e:
             print(e)
             break
+
     soc.close()
 
