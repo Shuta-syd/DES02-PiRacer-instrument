@@ -22,16 +22,18 @@ DBusClient::~DBusClient() {
 }
 
 
-qreal DBusClient::speed() const {
-  QDBusReply<qreal> reply = _iface->call("getSpeed");
-  qreal value = reply.value();
+int DBusClient::speed() const {
+  QDBusReply<int> reply = _iface->call("getSpeed");
+  int value = reply.value();
+
+  qDebug() << value;
 
   return value;
 }
 
-qreal DBusClient::rpm() const {
-  QDBusReply<qreal> reply = _iface->call("getRpm");
-  qreal value = reply.value();
+int DBusClient::rpm() const {
+  QDBusReply<int> reply = _iface->call("getRpm");
+  int value = reply.value();
 
   return value;
 }
