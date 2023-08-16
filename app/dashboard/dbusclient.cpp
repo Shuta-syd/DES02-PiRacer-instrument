@@ -2,7 +2,7 @@
 #include <QDBusReply>
 #include <QDebug>
 
-#define CLOCK_TIME 0.1
+#define CLOCK_TIME 0.05
 
 DBusClient::DBusClient(QObject *parent)
     : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR), _speed(0), _rpm(0)

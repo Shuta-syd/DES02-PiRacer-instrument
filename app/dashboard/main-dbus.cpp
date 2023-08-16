@@ -13,8 +13,8 @@
 
 
 int main(int _arc, char* _arv[]) {
-    QGuiApplication app(_arc, _arv);
     DBusClient client();
+    QGuiApplication app(_arc, _arv);
 
     qmlRegisterType<DBusClient>("com.test.dbusService", 1, 0, "DBusClient");
 

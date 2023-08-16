@@ -46,7 +46,7 @@ Window {
 
           value:                  valueSource.rpm
           maximumValue:           500
-          style: DashboardGaugeStyle {}
+          style: TachometerStyle {}
       }
     }
   }

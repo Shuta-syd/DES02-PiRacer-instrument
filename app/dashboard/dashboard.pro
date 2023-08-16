@@ -16,6 +16,7 @@ OTHER_FILES += \
                 asset/qml/main.qml \
                 asset/qml/DashboardGaugeStyle.qml \
                 asset/qml/ValueSource.qml \
+                asset/qml/TechometerStyle.qml \
 
 HEADERS += \
     dbusclient.h
