@@ -16,11 +16,8 @@ Window {
 
     DBusClient {
         id: dbus_client
-        onSpeedChanged: {
-          root.speed = dbus_client.speed();
-        }
         onRpmChanged: {
-          root.rpm = dbus_client.rpm();
+          root.rpm = dbus_client._rpm;
         }
     }
 

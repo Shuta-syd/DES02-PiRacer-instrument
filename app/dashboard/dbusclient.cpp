@@ -40,9 +40,9 @@ qreal DBusClient::rpm() const {
 }
 
 void DBusClient::setData() {
-  this->_speed = speed();
+  // this->_speed = speed();
   this->_rpm = rpm();
 
-  emit speedChanged(_speed);
+  // emit speedChanged(_speed);
   emit rpmChanged(_rpm);
 }
