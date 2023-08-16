@@ -13,7 +13,7 @@
 ## After
 ### What data is transmitted?
 ```
-- **About direction 🔽**
+- About direction 🔽
   - steering
     - float
       - -1 ~ 1
@@ -26,7 +26,8 @@
       - 1: left
       - 2: right
       - 3: warning light
-- **About battery 🔋**
+
+- About battery 🔋
   - battery_voltage
     - float
     - V
@@ -42,13 +43,15 @@
   - battery_hour
     - float
     - hour
-- **About speed 🚤**
+
+- About speed 🚤
   - speed
     - unsigned short
     - m/min
   - rpm
     - unsigned short
-- **etc**
+
+- etc
   - ip_address
     - string
   - time
