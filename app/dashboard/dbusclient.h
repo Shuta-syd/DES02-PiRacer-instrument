@@ -17,15 +17,15 @@ public:
     ~DBusClient();
 
     // getter
-    Q_INVOKABLE int speed() const;
-    Q_INVOKABLE int rpm() const;
+    Q_INVOKABLE qreal speed() const;
+    Q_INVOKABLE qreal rpm() const;
 
   public Q_SLOTS:
     void setData();
 
 Q_SIGNALS:
-    void speedChanged(int);
-    void rpmChanged(int);
+    void speedChanged(qreal);
+    void rpmChanged(qreal);
 
 private:
   QDBusConnection _dbus;

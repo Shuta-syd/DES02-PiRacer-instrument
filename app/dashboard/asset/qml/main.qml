@@ -11,8 +11,8 @@ Window {
     width: 1024
     height: 600
     visible: true
-    property int speed: 0
-    property int rpm: 0
+    property real speed: 0
+    property real rpm: 0
 
     DBusClient {
         id: dbus_client
