@@ -56,10 +56,10 @@ void loop() {
   Serial.print(" Speed [m/min]: ");
   Serial.println(speed);
 
-  data[0] = (RPM_w >> 24) & 0xFF;
-  data[1] = (RPM_w >> 16) & 0xFF;
-  data[2] = (RPM_w >> 8) & 0xFF;
-  data[3] = RPM_w & 0xFF;
+  data[0] = (RPM_w >> 0) & 0xFF;
+  data[1] = (RPM_w >> 8) & 0xFF;
+  data[2] = (RPM_w >> 16) & 0xFF;
+  data[3] = (RPM_w >> 24) & 0xFF;
 
   int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
   if (status == CAN_OK) {
