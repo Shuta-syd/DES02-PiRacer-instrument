@@ -48,7 +48,7 @@ qreal DBusClient::rpm() {
 
 void DBusClient::setData() {
   this->_rpm = this->rpm();
-  this->_speed = this->speed();
+  // this->_speed = this->speed();
 
   qDebug() << "rpm: " << this->_rpm << " speed: " << this->_speed;
 
