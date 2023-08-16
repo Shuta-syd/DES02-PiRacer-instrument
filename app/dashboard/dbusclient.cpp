@@ -7,7 +7,7 @@ DBusClient::DBusClient(QObject *parent)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, &QTimer::timeout, this, &DBusClient::setData);
-  timer->start(100);
+  timer->start(1);
 
   this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
   if (!_iface->isValid()) {
@@ -23,7 +23,7 @@ DBusClient::~DBusClient() {
 
 
 qreal DBusClient::speed() {
-  QDBusReply<QVariant> reply = _iface->call("getSpeed");
+  QDBusReply<QVariant> reply = _iface->call("getSpeed", this->_rpm);
   qreal value = reply.value().toReal();
 
   return value;
@@ -32,23 +32,18 @@ qreal DBusClient::speed() {
 qreal DBusClient::rpm() {
     QDBusMessage response = _iface->call("getRpm");
 
-    // check if the call was successful
     if(response.type() == QDBusMessage::ErrorMessage) {
         qDebug() << "Error: " << qPrintable(response.errorMessage());
         exit(1);
     }
     qreal value = response.arguments().at(0).toInt();
-
-    qDebug() << "value: " <<  value;
-
     return value;
 }
 
 void DBusClient::setData() {
-  // this->_speed = speed();
   this->_rpm = this->rpm();
-  qDebug() << "_rpm: " <<  _rpm;
+  this->_speed = speed();
 
-  // emit speedChanged(_speed);
   emit rpmChanged(_rpm);
+  emit speedChanged(_speed);
 }

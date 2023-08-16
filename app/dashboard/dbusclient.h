@@ -18,6 +18,7 @@ public:
     qreal speed();
     qreal rpm();
     Q_INVOKABLE qreal getRpm() { return _rpm; }
+    Q_INVOKABLE qreal getSpeed() { return _rpm; }
 
   public Q_SLOTS:
     void setData();

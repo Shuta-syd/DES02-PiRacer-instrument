@@ -16,9 +16,9 @@ double elapsedTimeSum = 100000.0;
 double elapsedTime = 0;
 double prevTime = 0;
 unsigned long frqRaw = 0;
-int RPM_s = 0;
-int RPM_w = 0;
-int speed = 0;
+unsigned short RPM_s = 0;
+unsigned short RPM_w = 0;
+unsigned short speed = 0;
 int readingCnt = 1;
 int purseCnt = 1;
 
@@ -57,9 +57,9 @@ void loop() {
   Serial.println(speed);
 
   data[0] = (RPM_w >> 0) & 0xFF;
-  data[1] = (RPM_w >> 8) & 0xFF;
-  data[2] = (RPM_w >> 16) & 0xFF;
-  data[3] = (RPM_w >> 24) & 0xFF;
+  data[1] = (RPM_w >> 4) & 0xFF;
+  data[2] = (RPM_w >> 8) & 0xFF;
+  data[3] = (RPM_w >> 12) & 0xFF;
 
   int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
   if (status == CAN_OK) {

@@ -19,6 +19,9 @@ Window {
         onRpmChanged: {
           root.rpm = dbus_client.getRpm();
         }
+        onSpeedChanged: {
+          root.speed = dbus_client.getSpeed();
+        }
     }
 
     Item {
@@ -38,7 +41,7 @@ Window {
           height:                 container.height * 0.5
           anchors.verticalCenter: parent.verticalCenter
 
-          value:                  root.rpm
+          value:                  root.speed
           maximumValue:           80
           style: DashboardGaugeStyle {}
       }
