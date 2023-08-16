@@ -2,12 +2,14 @@
 #include <QDBusReply>
 #include <QDebug>
 
+#define CLOCK_TIME 0.1
+
 DBusClient::DBusClient(QObject *parent)
     : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR), _speed(0), _rpm(0)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, &QTimer::timeout, this, &DBusClient::setData);
-  timer->start(1);
+  timer->start(CLOCK_TIME);
 
   this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
   if (!_iface->isValid()) {
@@ -42,7 +44,9 @@ qreal DBusClient::rpm() {
 
 void DBusClient::setData() {
   this->_rpm = this->rpm();
-  this->_speed = speed();
+  this->_speed = this->speed();
+
+  qDebu() << this->_speed;
 
   emit rpmChanged(_rpm);
   emit speedChanged(_speed);

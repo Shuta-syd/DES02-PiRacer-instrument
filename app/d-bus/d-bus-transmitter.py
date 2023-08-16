@@ -30,11 +30,11 @@ class DbusService(object):
     message = self._can.recv()
     if message is not None and message.arbitration_id == rpm_canId:
       rpm = int.from_bytes(message.data[:2], byteorder='little', signed=False)
-      print(rpm)
       return rpm
     return 0
 
   def getSpeed(self, rpm) -> int:
+    print("rpm: ", rpm);
     speed = rpm * wheel_circumference
     return speed
 
