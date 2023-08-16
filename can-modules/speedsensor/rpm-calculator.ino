@@ -7,7 +7,7 @@ MCP_CAN CAN(10);
 /** values to calculate RPM */
 #define PPR 20
 #define PI 3.1415926535897932384626433832795
-#define ZERO_TIMEOUT    100  // Timeout period(microsecond) for RPM reset
+#define ZERO_TIMEOUT    100000  // Timeout period(microsecond) for RPM reset
 #define WheelDiameter 65.0 // [mm]
 #define SpeedSensorDiameter 20.0 // [mm]
 
@@ -15,6 +15,7 @@ double elapsedTimeAvg = 0.0;
 double elapsedTimeSum = 100000.0;
 double elapsedTime = 0;
 double prevTime = 0;
+unsigned int zeroDebounce = 0;
 unsigned long frqRaw = 0;
 unsigned short RPM_s = 0;
 unsigned short RPM_w = 0;
@@ -43,9 +44,10 @@ void loop() {
   double current_time = micros();
   frqRaw = 1000000 * 1000 / elapsedTimeAvg;
 
-  if (elapsedTime > ZERO_TIMEOUT || (current_time - prev_cycle_time) > ZERO_TIMEOUT) {
+  if (elapsedTime > (ZERO_TIMEOUT - zeroDebounce) || (current_time - prev_cycle_time) > (ZERO_TIMEOUT - zeroDebounce)) {
     frqRaw = 0;
-  }
+     zeroDebounce = 2000;
+  } else  zeroDebounce = 0;
 
   RPM_s = (frqRaw * 60 / PPR) / 1000;
   RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
