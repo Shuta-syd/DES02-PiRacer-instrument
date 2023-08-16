@@ -17,7 +17,6 @@ class DbusService(object):
                   <arg type='i' name='response' direction='out'/>
               </method>
               <method name='getSpeed'>
-                  <arg type='i' name='input' direction='in'/>
                   <arg type='i' name='response' direction='out'/>
               </method>
           </interface>
