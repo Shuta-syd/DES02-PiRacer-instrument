@@ -33,10 +33,9 @@ qreal DBusClient::speed() const {
 qreal DBusClient::rpm() const {
   auto reply = _iface->call("getRpm");
   qDebug() << reply;
-  qreal value = reply.value().toReal();
-  qDebug() << value;
 
-  return value;
+  // return value;
+  return 42;
 }
 
 void DBusClient::setData() {
