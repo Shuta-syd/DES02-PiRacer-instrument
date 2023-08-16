@@ -11,6 +11,9 @@
 ## Software Architecture
 <img src="./docs/imgs/software-architecture.png" width="75%" height="75%">
 
+## Installation
+/here is description how to setup/
+
 ## Basic knowledge of the Architecture
 ### What is CAN?
 A Controller Area Network (CAN bus) is a vehicle bus standard designed to allow microcontrollers and devices to communicate with each other's applications without a host computer. It is a message-based protocol, designed originally for multiplex electrical wiring within automobiles to save on copper, but it can also be used in many other contexts.
