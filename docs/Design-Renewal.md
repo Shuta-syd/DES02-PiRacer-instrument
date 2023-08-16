@@ -13,21 +13,46 @@
 ## After
 ### What data is transmitted?
 - **About direction 🔽**
-  - steering (float)
-  - throttle (float)
-  - ~indicator~ (int)
+  - steering
+    - float
+      - -1 ~ 1
+  - throttle
+    - float
+      - -100 ~ 100
+  - indicator
+    - int
+      - 0: nothign
+      - 1: left
+      - 2: right
+      - 3: warning light
 - **About battery 🔋**
-  - battery_voltage (float, V)
-  - battery_consumption (float, W)
-  - battery_current (float, mA)
-  - battery_level (float, %)
-  - battery_hour (float, hour)
+  - battery_voltage
+    - float
+    - V
+  - battery_consumption
+    - float
+    - W
+  - battery_current
+    - float
+    - mA
+  - battery_level
+    - float
+    - %
+  - battery_hour
+    - float
+    - hour
 - **About speed 🚤**
-  - speed (unsigned int, m/min)
-  - rpm (unsigned int)
+  - speed
+    - unsigned short
+    - m/min
+  - rpm
+    - unsigned short
 - **etc**
-  - ip_address (string)
-  - time (string, hh:mm)
+  - ip_address
+    - string
+  - time
+    - string
+    - hh:mm
 
 ### First, let's make the design!
 
