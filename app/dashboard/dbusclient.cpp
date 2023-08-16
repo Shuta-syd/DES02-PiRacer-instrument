@@ -25,7 +25,7 @@ DBusClient::~DBusClient() {
 
 
 qreal DBusClient::speed() {
-    QDBusMessage response = _iface->call("getSpeed", _rpm);
+    QDBusMessage response = _iface->call("getSpeed");
 
     if(response.type() == QDBusMessage::ErrorMessage) {
         qDebug() << "Error: " << qPrintable(response.errorMessage());
