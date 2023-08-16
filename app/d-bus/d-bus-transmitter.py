@@ -9,12 +9,10 @@ rpm_canId = 0x125 # 293 (decimal)
 WheelDiameter = 65.0 # [mm]
 wheel_circumference =  (WheelDiameter * pi) / 1000 # Wheel circumference [m]
 
-bus = SessionBus()
-
 class DbusService(object):
   """
       <node>
-          <interface name='com.test.d-bus'>
+          <interface name='com.test.dbusService'>
               <method name='getRpm'>
                   <arg type='i' name='response' direction='out'/>
               </method>
@@ -44,5 +42,5 @@ class DbusService(object):
 if __name__ == '__main__':
   loop = GLib.MainLoop()
   bus = SessionBus()
-  bus.publish("com.test.d-bus", DbusService())
+  bus.publish("com.test.dbusService", DbusService())
   loop.run();
