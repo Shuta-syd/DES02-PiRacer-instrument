@@ -32,14 +32,12 @@ qreal DBusClient::speed() {
 
 qreal DBusClient::rpm() {
   qDebug() << "rpm";
-  QDBusMessage reply = _iface->call("getRpm");
-  if(reply.type() == QDBusMessage::ErrorMessage) {
-      qDebug() << "Error: " << qPrintable(response.errorMessage());
-      exit(1);
-    }
-  qDebug() << reply;
+  QDBusReply<QVariant> reply = _iface->call("getRpm");
+  qreal value = reply.value().toReal();
 
-  // return value;
+  qDebug() << value;
+
+  return value;
   return 42;
 }
 
