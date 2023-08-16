@@ -21,7 +21,7 @@ public:
     Q_INVOKABLE size_t rpm() const;
 
   public Q_SLOTS:
-    void setData(int, int); // rpm, speed
+    void setData(); 
 
 Q_SIGNALS:
     void speedChanged(int);

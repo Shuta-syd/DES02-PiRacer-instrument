@@ -12,7 +12,7 @@ DBusClient::DBusClient(QObject *parent)
 
   this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
   if (!_iface->isValid()) {
-      qDebug() << "Interface not valid: " << qPrintable(m_interface->lastError().message());
+      qDebug() << "Interface not valid: " << qPrintable(_iface->lastError().message());
       exit(1);
     }
 }
