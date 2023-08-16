@@ -30,7 +30,7 @@ class DbusService(object):
     message = self._can.recv()
     if message is not None and message.arbitration_id == rpm_canId:
       print(message)
-      rpm = int.from_bytes(message.data, byteorder='little', signed=False)
+      rpm = int.from_bytes(message.data[:4], byteorder='little', signed=False)
       print(rpm)
       return rpm
     return 0
