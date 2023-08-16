@@ -10,7 +10,7 @@ DBusClient::DBusClient(QObject *parent)
   connect(timer, &QTimer::timeout, this, &DBusClient::setData);
   timer->start(100);
 
-  this->_iface = new QDBusInterface("com.test.d-bus.example", "/com/test/d-bus/example", "com.test.d-bus.example");
+  this->_iface = new QDBusInterface("com.test.d-bus", "/com/test/d-bus", "com.test.d-bus");
   if (!m_interface->isValid()) {
       qDebug() << "Interface not valid: " << qPrintable(m_interface->lastError().message());
       exit(1);

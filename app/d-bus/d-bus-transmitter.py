@@ -1,5 +1,5 @@
 import can
-from pydubs import SessionBus
+from pydbus import SessionBus
 from math import pi
 from gi.repository import GLib
 from random import randint
@@ -14,7 +14,7 @@ bus = dbus.SessionBus()
 class DbusService(object):
   """
       <node>
-          <interface name='com.test.d-bus.example'>
+          <interface name='com.test.d-bus'>
               <method name='getRpm'>
                   <arg type='i' name='response' direction='out'/>
               </method>
@@ -44,5 +44,5 @@ class DbusService(object):
 if __name__ == '__main__':
   loop = GLib.MainLoop()
   bus = SessionBus()
-  bus.publish("com.test.d-bus.example", DbusService())
+  bus.publish("com.test.d-bus", DbusService())
   loop.run();
