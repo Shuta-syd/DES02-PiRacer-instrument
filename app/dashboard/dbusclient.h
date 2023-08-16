@@ -18,7 +18,7 @@ public:
     Q_INVOKABLE qreal speed() const;
     Q_INVOKABLE qreal rpm() const;
 
-  public Q_SLOTS:
+public Q_SLOTS:
     void setData();
 
 Q_SIGNALS:
