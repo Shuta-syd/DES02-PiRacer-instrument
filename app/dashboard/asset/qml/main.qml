@@ -3,7 +3,7 @@ import  QtQuick.Window          2.15
 import  QtQuick.Controls        2.15
 import  QtQuick.Controls.Styles 1.4
 import  QtQuick.Extras          1.4
-import com.test.canDataReceiver 1.0
+import com.test.dbusService 1.0
 
 Window {
     id:       root
