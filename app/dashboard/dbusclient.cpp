@@ -56,11 +56,11 @@ qreal DBusClient::rpm() {
         exit(1);
   }
   qreal value = response.arguments().at(0).toInt();
-  rpm += value;
+  rpm_sum += value;
   if (rpm_i == MAX_SIZE) {
       rpm_i = 1;
-      rpm = 0;
-      value = rpm / MAX_SIZE;
+      rpm_sum = 0;
+      value = rpm_sum / MAX_SIZE;
       return value;
   }
   return this->_rpm;
