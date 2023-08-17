@@ -1,4 +1,7 @@
 # DES02-PiRacer-instrument
+## Demonstration
+/* GIF demonstrating instrument cluster here*/
+
 ## Contents Index
 [1. Software Architecture](#software-architecture)  
 [2. Basic knowledge of Architecture](./docs/basic-knowledge-of-the-architecture.md)  
