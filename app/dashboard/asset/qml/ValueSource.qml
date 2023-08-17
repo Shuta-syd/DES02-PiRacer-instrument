@@ -38,4 +38,13 @@ Item {
         }
     }
     property string time:       (Qt.formatTime(new Date(), "hh:mm"))
+    property int animationDuration: 400 // Set animation duration for properties
+
+    NumberAnimation on speed {
+        duration: animationDuration
+    }
+
+    NumberAnimation on rpm {
+      duration: animationDuration
+    }
 }
