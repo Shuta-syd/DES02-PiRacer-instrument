@@ -236,14 +236,23 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/shuta/workspace/seame-project/Embeded_System/DES02-PiRacer-instrument/app/dashboard/dashboard.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/shuta/workspace/seame-project/Embeded_System/DES02-PiRacer-instrument/app/dashboard/dashboard.pro</value>
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/kimkwanho/Documents/Programming/seame/01_DES/02-Piracer-instrument/app/dashboard/dashboard.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/kimkwanho/Documents/Programming/seame/01_DES/02-Piracer-instrument/app/dashboard/dashboard.pro</value>
+>>>>>>> origin/dashboard-design-update
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+<<<<<<< HEAD
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Users/shuta/workspace/seame-project/Embeded_System/DES02-PiRacer-instrument/app/build-dashboard-Desktop_Qt_5_15_2_clang_64bit-Debug/dashboard.app/Contents/MacOS</value>
+=======
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Users/kimkwanho/Documents/Programming/seame/01_DES/02-Piracer-instrument/app/build-dashboard-Desktop_x86_darwin_generic_mach_o_64bit-Debug/dashboard.app/Contents/MacOS</value>
+>>>>>>> origin/dashboard-design-update
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
