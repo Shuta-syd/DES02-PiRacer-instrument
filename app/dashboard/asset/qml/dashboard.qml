@@ -92,7 +92,7 @@ Window {
             anchors.leftMargin:     (9)
 
             Text {
-                text:               (Math.min(valueSource.level, 100) + "%  " + valueSource.left_hour + " hours")
+                text:               (Math.min(valueSource.level, 100) + "%  " + valueSource.left_hour + " hours  /  " + valueSource.voltage + "V  " + valueSource.current + "mA")
                 font.pixelSize:     (18)
                 color:              ("white")
             }
@@ -147,7 +147,7 @@ Window {
 
                 CircularGauge {
                     id:                     consumption
-                    width:                  (parent.width - 20)
+                    width:                  (parent.width - 10)
                     height:                 (parent.height - 10)
                     z:                      (1)
 
@@ -159,9 +159,7 @@ Window {
                         top:                (parent.top)
                         left:               (parent.left)
                         margins:            (consumptionContainer.padding)
-                        topMargin:          (consumptionContainer.padding + 20)
-                        rightMargin:        (consumptionContainer.padding + 20)
-                        bottomMargin:       (0)
+                        topMargin:          (consumptionContainer.padding + 80)
                     }
 
                     style: DashboardGaugeStyle {
@@ -174,75 +172,75 @@ Window {
                     }
                 }
 
-                //  ========================================================================
-                //  Battery Information Rectangle
-                Rectangle {
-                    id:                         batteryInfoRect
-                    width:                      (consumptionContainer.width * 0.9)
-                    height:                     (80)
-                    color:                      ("#000")
-                    border.color:               ("#1EF0FD")
-                    border.width:               (1)
-                    radius:                     (10)
-                    anchors.top:                (consumption.bottom)
-                    anchors.topMargin:          (-40)
-                    anchors.horizontalCenter:   (consumption.horizontalCenter)
-                    z: 10
+                // //  ========================================================================
+                // //  Battery Information Rectangle
+                // Rectangle {
+                //     id:                         batteryInfoRect
+                //     width:                      (consumptionContainer.width * 0.9)
+                //     height:                     (80)
+                //     color:                      ("#000")
+                //     border.color:               ("#1EF0FD")
+                //     border.width:               (1)
+                //     radius:                     (10)
+                //     anchors.top:                (consumption.bottom)
+                //     anchors.topMargin:          (-40)
+                //     anchors.horizontalCenter:   (consumption.horizontalCenter)
+                //     z: 10
 
-                    layer.enabled:  (true)
-                    layer.effect:   Glow {
-                        radius:     (10)
-                        color:      Qt.rgba(30, 240, 253, 0.6)
-                        spread:     (0.01)
-                    }
+                //     layer.enabled:  (true)
+                //     layer.effect:   Glow {
+                //         radius:     (10)
+                //         color:      Qt.rgba(30, 240, 253, 0.6)
+                //         spread:     (0.01)
+                //     }
 
-                    Row {
-                        width:                  batteryInfoRect.width * 0.9  // Row의 너비를 Rectangle의 90%로 설정
-                        anchors.centerIn:       parent
-                        spacing:                10
+                //     Row {
+                //         width:                  batteryInfoRect.width * 0.9  // Row의 너비를 Rectangle의 90%로 설정
+                //         anchors.centerIn:       parent
+                //         spacing:                10
 
-                        // Label Texts
-                        Column {
-                            width:                  (parent.width * 0.4)
-                            anchors.verticalCenter: (parent.verticalCenter)
-                            Text {
-                                font.pixelSize:     (16)
-                                color:              ("#888888")
-                                text:               ("Battery Voltage:")
-                                anchors.left:       (parent.left)
-                            }
-                            Text {
-                                font.pixelSize:     (16)
-                                color:              ("#888888")
-                                text:               ("Current:")
-                                anchors.left:       (parent.left)
-                            }
-                        }
+                //         // Label Texts
+                //         Column {
+                //             width:                  (parent.width * 0.4)
+                //             anchors.verticalCenter: (parent.verticalCenter)
+                //             Text {
+                //                 font.pixelSize:     (16)
+                //                 color:              ("#888888")
+                //                 text:               ("Battery Voltage:")
+                //                 anchors.left:       (parent.left)
+                //             }
+                //             Text {
+                //                 font.pixelSize:     (16)
+                //                 color:              ("#888888")
+                //                 text:               ("Current:")
+                //                 anchors.left:       (parent.left)
+                //             }
+                //         }
 
-                        // Value Texts
-                        Column {
-                            width:                  (parent.width * 0.6 - 10)
-                            anchors.verticalCenter: (parent.verticalCenter)
-                            anchors.rightMargin:    (10)
+                //         // Value Texts
+                //         Column {
+                //             width:                  (parent.width * 0.6 - 10)
+                //             anchors.verticalCenter: (parent.verticalCenter)
+                //             anchors.rightMargin:    (10)
                              
-                            Text {
-                                font.pixelSize:     (18)
-                                color:              ("#FFF")
-                                text:               (valueSource.voltage + "V")
-                                horizontalAlignment:(Text.AlignRight)
-                                anchors.right:      (parent.right)
-                            }
-                            Text {
-                                font.pixelSize:     (18)
-                                color:              ("#FFF")
-                                text:               (valueSource.current + "mA")
-                                horizontalAlignment:(Text.AlignRight)
-                                anchors.right:      (parent.right)
-                            }
-                        }
-                    }
-                }
-                //  ========================================================================
+                //             Text {
+                //                 font.pixelSize:     (18)
+                //                 color:              ("#FFF")
+                //                 text:               (valueSource.voltage + "V")
+                //                 horizontalAlignment:(Text.AlignRight)
+                //                 anchors.right:      (parent.right)
+                //             }
+                //             Text {
+                //                 font.pixelSize:     (18)
+                //                 color:              ("#FFF")
+                //                 text:               (valueSource.current + "mA")
+                //                 horizontalAlignment:(Text.AlignRight)
+                //                 anchors.right:      (parent.right)
+                //             }
+                //         }
+                //     }
+                // }
+                // //  ========================================================================
             }
             //  Consumption End
             //  ================================================================
@@ -291,15 +289,15 @@ Window {
             //  RPMGauge
             Item {
                 id:                     rpmGaugeContainer
-                width:                  (height * 0.8)
-                height:                 (container.height * 0.8)
+                width:                  (height * 0.75)
+                height:                 (container.height * 0.75)
                 anchors.verticalCenter: (root.verticalCenter)
                 property int padding:   (20)
 
                 CircularGauge {
                     id:                     rpmGauge
-                    width:                  (parent.width - 20)
-                    height:                 (parent.height - 20)
+                    width:                  (parent.width - 10)
+                    height:                 (parent.height - 10)
                     z:                      (1)
 
                     value:                  (valueSource.rpm)
@@ -307,19 +305,19 @@ Window {
                     tickmarksVisible:       (false)
 
                     anchors {
-                        top:                (parent.top)
-                        left:               (parent.left)
-                        margins:            (rpmGaugeContainer.padding)
-                        topMargin:          (rpmGaugeContainer.padding + 80)
+                        top:                    (parent.top)
+                        left:                   (parent.left)
+                        margins:                (rpmGaugeContainer.padding)
+                        topMargin:              (rpmGaugeContainer.padding + 80)
                     }
 
                     style: DashboardGaugeStyle {
-                        isIndicatorOn:      (false)
-                        isGearOn:           (false)
-                        tailX:              (120)
-                        tailY:              (624)
-                        mainLabel:          ("rpm (x10)")
-                        mainFontSize:       (toPixels(0.45))
+                        isIndicatorOn:          (false)
+                        isGearOn:               (false)
+                        tailX:                  (120)
+                        tailY:                  (624)
+                        mainLabel:              ("rpm (x10)")
+                        mainFontSize:           (toPixels(0.45))
                     }
                 }
             }
