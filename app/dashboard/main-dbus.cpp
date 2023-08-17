@@ -11,6 +11,9 @@
 #include <iostream>
 #include "dbusclient.h"
 
+# define    FAILURE     -1
+# define    SUCCESS     0
+
 
 int main(int _arc, char* _arv[]) {
     DBusClient client();
