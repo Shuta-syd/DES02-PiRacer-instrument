@@ -20,6 +20,7 @@ int main(int _arc, char* _arv[]) {
 
     //  font setting
     QStringList fonts;
+    QList<int> fontIds;
     fonts.append("Futura_Heavy.ttf");
     fonts.append("Futura_Heavy_Italic.ttf");
     fonts.append("Futura_Bold.otf");
@@ -33,6 +34,15 @@ int main(int _arc, char* _arv[]) {
         }
         else
             qDebug() << "font id:" << fontIds[i] << "/" << fonts[i] << "was appended. ";
+    }
+
+    QStringList fontFamilies = QFontDatabase::applicationFontFamilies(2);
+    if (!fontFamilies.isEmpty()) {
+        QString fontFamily = fontFamilies.at(0);
+        app.setFont(QFont(fontFamily));
+    } else {
+        qWarning() << "No font families found for Futura_Bold.otf";
+        return FAILURE;
     }
 
     //  Create and initialize the engine
