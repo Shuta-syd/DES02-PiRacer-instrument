@@ -39,7 +39,7 @@ qreal DBusClient::speed() {
   }
   qreal value = response.arguments().at(0).toInt();
   speed_sum += value;
-  if (speed_i == MAX_SIZE) {
+  if (speed_i++ == MAX_SIZE) {
       speed_i = 1;
       speed_sum = 0;
       value = speed_sum / MAX_SIZE;
@@ -57,7 +57,7 @@ qreal DBusClient::rpm() {
   }
   qreal value = response.arguments().at(0).toInt();
   rpm_sum += value;
-  if (rpm_i == MAX_SIZE) {
+  if (rpm_i++ == MAX_SIZE) {
       rpm_i = 1;
       rpm_sum = 0;
       value = rpm_sum / MAX_SIZE;

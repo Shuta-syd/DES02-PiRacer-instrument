@@ -162,14 +162,14 @@ Window {
                         topMargin:          (consumptionContainer.padding + 80)
                     }
 
-                    // style: DashboardGaugeStyle {
-                    //     isIndicatorOn:      (false)
-                    //     isGearOn:           (false)
-                    //     tailX:              (145)
-                    //     tailY:              (624)
-                    //     mainLabel:          ("battery consumption (W)")
-                    //     mainFontSize:       (toPixels(0.45))
-                    // }
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:      (false)
+                        isGearOn:           (false)
+                        tailX:              (145)
+                        tailY:              (624)
+                        mainLabel:          ("battery consumption (W)")
+                        mainFontSize:       (toPixels(0.45))
+                    }
                 }
 
                 // //  ========================================================================
@@ -271,14 +271,14 @@ Window {
                         margins:            (speedometerContainer.padding)
                     }
 
-                    // style: DashboardGaugeStyle {
-                    //     isIndicatorOn:      (true)
-                    //     isGearOn:           (true)
-                    //     tailX:              (160)
-                    //     tailY:              (624)
-                    //     mainLabel:          ("m/min")
-                    //     mainFontSize:       (toPixels(0.55))
-                    // }
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:      (true)
+                        isGearOn:           (true)
+                        tailX:              (160)
+                        tailY:              (624)
+                        mainLabel:          ("m/min")
+                        mainFontSize:       (toPixels(0.55))
+                    }
                 }
             }
             //  Speedometer End
@@ -311,14 +311,14 @@ Window {
                         topMargin:              (rpmGaugeContainer.padding + 80)
                     }
 
-                    // style: DashboardGaugeStyle {
-                    //     isIndicatorOn:          (false)
-                    //     isGearOn:               (false)
-                    //     tailX:                  (120)
-                    //     tailY:                  (624)
-                    //     mainLabel:              ("rpm (x10)")
-                    //     mainFontSize:           (toPixels(0.45))
-                    // }
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:          (false)
+                        isGearOn:               (false)
+                        tailX:                  (120)
+                        tailY:                  (624)
+                        mainLabel:              ("rpm (x10)")
+                        mainFontSize:           (toPixels(0.45))
+                    }
                 }
             }
             //  RPMGauge End
