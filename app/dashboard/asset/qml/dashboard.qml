@@ -20,24 +20,81 @@ Window {
         id:     valueSource
     }
 
-    // =========================================================================
-    // Top Navbar
+    //  ========================================================================
+    //  Top Navbar
     Item {
         id:     navbarContainer
         width:  (root.width)
         height: (30)
 
         Item { // buttons
-            anchors.top:        parent.top
-            anchors.left:       parent.left
-            anchors.leftMargin: 10
-            anchors.topMargin:  12
+            id:                 buttons
+            anchors.top:        (parent.top)
+            anchors.left:       (parent.left)
+            anchors.leftMargin: (10)
+            anchors.topMargin:  (12)
 
             Row {
                 spacing: 8
-                Rectangle { width: 12; height: 12; color: "red"; radius: 7 }
-                Rectangle { width: 12; height: 12; color: "yellow"; radius: 7 }
-                Rectangle { width: 12; height: 12; color: "green"; radius: 7 }
+                Rectangle { width: 12; height: 12; color: "#FF4D00"; radius: 7 }
+                Rectangle { width: 12; height: 12; color: "#FFE500"; radius: 7 }
+                Rectangle { width: 12; height: 12; color: "#08EA1E"; radius: 7 }
+            }
+        }
+
+        Item { // battery icon
+            id:                 batteryIcon
+            width:              (35)
+            height:             (13)
+            anchors.top:        (parent.top)
+            anchors.left:       (buttons.right)
+            anchors.leftMargin: (65)
+            anchors.topMargin:  (12)
+
+            layer.enabled:      (true)
+            layer.effect:       Glow {
+                radius:             (2)
+                color:              Qt.rgba(30, 240, 253, 0.6)
+                spread:             (0.1)
+            }
+
+            // Outer Rectangle (Battery Outline)
+            Rectangle {
+                id:                 batteryOutline
+                width:              (parent.width)
+                height:             (parent.height)
+                border.color:       ("#1EF0FD")
+                border.width:       (1)
+                color:              ("transparent")
+                radius:             (2)
+            }
+
+            // Inner Rectangle (Battery Level)
+            Rectangle {
+                id:                 batteryLevel
+                width:              (batteryOutline.width * (((valueSource.level > 100) ? 100 : valueSource.level) / 100))
+                height:             (batteryOutline.height - 2)
+                anchors {
+                    verticalCenter: (batteryOutline.verticalCenter)
+                    left:           (batteryOutline.left)
+                }
+                color:              ("#1EF0FD")
+            }
+        }
+
+        // Battery percentage and estimated time
+        Item {
+            id:                     batteryInfo
+            anchors.left:           (batteryIcon.right)
+            anchors.top:            (parent.top)
+            anchors.verticalCenter: (batteryIcon.verticalCenter)
+            anchors.topMargin:      (7)
+            anchors.leftMargin:     (9)
+
+            Text {
+                text:               (Math.min(valueSource.level, 100) + "%  " + valueSource.left_hour + " hours")
+                font.pixelSize:     (18)
+                color:              ("white")
             }
         }
 
@@ -51,7 +108,7 @@ Window {
                 id:                 timeText
                 font.pixelSize:     18
                 color:              (Qt.rgba(1,1,1,1))
-                text:               (Qt.formatTime(timeSource.currentTime, "hh:mm"))
+                text:               (valueSource.time)
 
                 layer.effect: Glow { // shading effect
                     radius:             10
@@ -60,145 +117,216 @@ Window {
                     source:             timeText
                 }
             }
-
-            Timer {
-                id: timeSource
-                interval: 60000 // every 60 second
-                running: true
-                repeat: true
-                property date currentTime: new Date()
-
-                onTriggered: {
-                    currentTime = new Date()
-                }
-            }
         }
     }
-    // Top Navbar Finish
-    // =========================================================================
+    //  Top Navbar End
+    //  ========================================================================
 
-    // =========================================================================
-    // Content Container
+
+    //  ========================================================================
+    //  Content Container
     Item {
         id:               container
         width:            (root.width)
-        height:           (Math.min(root.width, root.height) - navbarContainer.height)
+        height:           (Math.min(root.width, root.height))
 
         Row {
             id:               gaugeRow
             spacing:          (container.width * 0.02)
             anchors.centerIn: (parent)
 
-            TurnIndicator {
-                id:                     leftIndicator
-                anchors.verticalCenter: (parent.verticalCenter)
-                width:                  (height)
-                height:                 (container.height * 0.1) - (gaugeRow.spacing)
-                direction:              (Qt.LeftArrow)
-                on:                     (valueSource.turnSignal == Qt.LeftArrow)
+            //  ================================================================
+            //  Consumption
+            Item {
+                id:                     consumptionContainer
+                width:                  (height * 0.75)
+                height:                 (container.height * 0.75)
+                anchors.verticalCenter: (root.verticalCenter)
+                property int padding:   (20)
+                visible:                (true)
+
+                CircularGauge {
+                    id:                     consumption
+                    width:                  (parent.width - 20)
+                    height:                 (parent.height - 10)
+                    z:                      (1)
+
+                    value:                  (valueSource.consumption)
+                    maximumValue:           (100)
+                    tickmarksVisible:       (false)
+
+                    anchors {
+                        top:                (parent.top)
+                        left:               (parent.left)
+                        margins:            (consumptionContainer.padding)
+                        topMargin:          (consumptionContainer.padding + 20)
+                        rightMargin:        (consumptionContainer.padding + 20)
+                        bottomMargin:       (0)
+                    }
+
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:      (false)
+                        isGearOn:           (false)
+                        tailX:              (145)
+                        tailY:              (624)
+                        mainLabel:          ("battery consumption (W)")
+                        mainFontSize:       (toPixels(0.45))
+                    }
+                }
+
+                //  ========================================================================
+                //  Battery Information Rectangle
+                Rectangle {
+                    id:                         batteryInfoRect
+                    width:                      (consumptionContainer.width * 0.9)
+                    height:                     (80)
+                    color:                      ("#000")
+                    border.color:               ("#1EF0FD")
+                    border.width:               (1)
+                    radius:                     (10)
+                    anchors.top:                (consumption.bottom)
+                    anchors.topMargin:          (-40)
+                    anchors.horizontalCenter:   (consumption.horizontalCenter)
+                    z: 10
+
+                    layer.enabled:  (true)
+                    layer.effect:   Glow {
+                        radius:     (10)
+                        color:      Qt.rgba(30, 240, 253, 0.6)
+                        spread:     (0.01)
+                    }
+
+                    Row {
+                        width:                  batteryInfoRect.width * 0.9  // Row의 너비를 Rectangle의 90%로 설정
+                        anchors.centerIn:       parent
+                        spacing:                10
+
+                        // Label Texts
+                        Column {
+                            width:                  (parent.width * 0.4)
+                            anchors.verticalCenter: (parent.verticalCenter)
+                            Text {
+                                font.pixelSize:     (16)
+                                color:              ("#888888")
+                                text:               ("Battery Voltage:")
+                                anchors.left:       (parent.left)
+                            }
+                            Text {
+                                font.pixelSize:     (16)
+                                color:              ("#888888")
+                                text:               ("Current:")
+                                anchors.left:       (parent.left)
+                            }
+                        }
+
+                        // Value Texts
+                        Column {
+                            width:                  (parent.width * 0.6 - 10)
+                            anchors.verticalCenter: (parent.verticalCenter)
+                            anchors.rightMargin:    (10)
+                             
+                            Text {
+                                font.pixelSize:     (18)
+                                color:              ("#FFF")
+                                text:               (valueSource.voltage + "V")
+                                horizontalAlignment:(Text.AlignRight)
+                                anchors.right:      (parent.right)
+                            }
+                            Text {
+                                font.pixelSize:     (18)
+                                color:              ("#FFF")
+                                text:               (valueSource.current + "mA")
+                                horizontalAlignment:(Text.AlignRight)
+                                anchors.right:      (parent.right)
+                            }
+                        }
+                    }
+                }
+                //  ========================================================================
             }
+            //  Consumption End
+            //  ================================================================
 
-            // Item {
-            //     width:                  height
-            //     height:                 container.height * 0.25
-            //                             - gaugeRow.spacing
-            //     anchors.verticalCenter: parent.verticalCenter
 
-            //     CircularGauge {
-            //         id:                   fuelGauge
-            //         value:                valueSource.fuel
-            //         maximumValue:         1
-            //         y:                    parent.height / 2
-            //                                 - height / 2
-            //                                 - container.height * 0.01
-            //         width:                parent.width
-            //         height:               parent.height * 0.7
-
-            //         style: IconGaugeStyle {
-            //             id:                 fuelGaugeStyle
-
-            //             icon:               "qrc:/asset/images/fuel.icon.png"
-            //             minWarningColor:    Qt.rgba(0.5, 0, 0, 1)
-
-            //             tickmarkLabel: Text {
-            //                 color:            "white"
-            //                 visible:          (styleData.value === 0) ||
-            //                                     (styleData.value === 1)
-            //                 font.pixelSize:   fuelGaugeStyle.toPixels(0.225)
-            //                 text:             (styleData.value === 0) ?
-            //                                     "E" :
-            //                                     ((styleData.value === 1) ?
-            //                                         "F" :
-            //                                         "")
-            //             }
-            //         }
-            //     }
-
-            //     CircularGauge {
-            //         value:                valueSource.temperature
-            //         maximumValue:         1
-            //         width:                parent.width
-            //         height:               parent.height * 0.7
-            //         y:                    parent.height / 2 +
-            //                                 container.height * 0.01
-
-            //         style: IconGaugeStyle {
-            //             id:                 tempGaugeStyle
-            //             icon:               "qrc:/asset/images/temperature.icon.png"
-            //             maxWarningColor:    Qt.rgba(0.5, 0, 0, 1)
-
-            //             tickmarkLabel: Text {
-            //                 color:            "white"
-            //                 visible:          (styleData.value === 0) ||
-            //                                     (styleData.value === 1)
-            //                 font.pixelSize:   tempGaugeStyle.toPixels(0.225)
-            //                 text:             (styleData.value === 0) ?
-            //                                     "C" :
-            //                                     ((styleData.value === 1) ?
-            //                                         "H" :
-            //                                         "")
-            //             }
-            //         }
-            //     }
-            // }
-
-            CircularGauge {
-                id:                     speedometer
+            //  ================================================================
+            //  Speedometer
+            Item {
+                id:                     speedometerContainer
                 width:                  (height)
                 height:                 (container.height)
-                // anchors.verticalCenter: (root.verticalCenter)
-                anchors.topMargin:      (25)
+                anchors.verticalCenter: (root.verticalCenter)
+                property int padding:   (20)
 
-                value:                  valueSource.spd
-                maximumValue:           (60)
+                CircularGauge {
+                    id:                     speedometer
+                    width:                  (parent.width - 40)
+                    height:                 (parent.height - 40)
+                    z:                      (1)
 
-                style: DashboardGaugeStyle {
+                    value:                  (valueSource.speed)
+                    maximumValue:           (60)
+                    tickmarksVisible:       (false)
+
+                    anchors {
+                        top:                (parent.top)
+                        left:               (parent.left)
+                        margins:            (speedometerContainer.padding)
+                    }
+
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:      (true)
+                        isGearOn:           (true)
+                        tailX:              (160)
+                        tailY:              (624)
+                        mainLabel:          ("m/min")
+                        mainFontSize:       (toPixels(0.55))
+                    }
                 }
             }
+            //  Speedometer End
+            //  ================================================================
 
-            // CircularGauge {
-            //     id:                     tachometer
-            //     width:                  (height)
-            //     height:                 (container.height * 0.25) - (gaugeRow.spacing)
-            //     anchors.verticalCenter: (parent.verticalCenter)
 
-            //     value:                  (valueSource.rpm)
-            //     maximumValue:           (8)
+            //  ================================================================
+            //  RPMGauge
+            Item {
+                id:                     rpmGaugeContainer
+                width:                  (height * 0.8)
+                height:                 (container.height * 0.8)
+                anchors.verticalCenter: (root.verticalCenter)
+                property int padding:   (20)
 
-            //     style: TachometerStyle {
-            //     }
-            // }
+                CircularGauge {
+                    id:                     rpmGauge
+                    width:                  (parent.width - 20)
+                    height:                 (parent.height - 20)
+                    z:                      (1)
 
-            TurnIndicator {
-                id:                     rightIndicator
-                width:                  (height)
-                height:                 (container.height * 0.1) - (gaugeRow.spacing)
-                anchors.verticalCenter: (parent.verticalCenter)
+                    value:                  (valueSource.rpm)
+                    maximumValue:           (600)
+                    tickmarksVisible:       (false)
 
-                direction:              (Qt.RightArrow)
-                on:                     (valueSource.turnSignal == Qt.RightArrow)
+                    anchors {
+                        top:                (parent.top)
+                        left:               (parent.left)
+                        margins:            (rpmGaugeContainer.padding)
+                        topMargin:          (rpmGaugeContainer.padding + 80)
+                    }
+
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:      (false)
+                        isGearOn:           (false)
+                        tailX:              (120)
+                        tailY:              (624)
+                        mainLabel:          ("rpm (x10)")
+                        mainFontSize:       (toPixels(0.45))
+                    }
+                }
             }
-
+            //  RPMGauge End
+            //  ================================================================
         }
     }
-    }
+    //  Content Container End
+    //  ========================================================================
+}
