@@ -41,8 +41,8 @@ qreal DBusClient::speed() {
   speed_sum += value;
   if (speed_i++ == MAX_SIZE) {
       speed_i = 1;
-      speed_sum = 0;
       value = speed_sum / MAX_SIZE;
+      speed_sum = 0;
       return value;
   }
   return this->_speed;
@@ -59,8 +59,8 @@ qreal DBusClient::rpm() {
   rpm_sum += value;
   if (rpm_i++ == MAX_SIZE) {
       rpm_i = 1;
-      rpm_sum = 0;
       value = rpm_sum / MAX_SIZE;
+      rpm_sum = 0;
       return value;
   }
   return this->_rpm;
