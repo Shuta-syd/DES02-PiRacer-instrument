@@ -19,6 +19,9 @@ class DbusService(object):
               <method name='getSpeed'>
                   <arg type='i' name='response' direction='out'/>
               </method>
+              <method name='getBattery'>
+                  <arg type='i' name='response' direction='out'/>
+              </method>
           </interface>
       </node>
   """
@@ -39,6 +42,8 @@ class DbusService(object):
     speed = self._rpm * wheel_circumference
     return speed
 
+  def getBattery(self) -> int:
+    return 42
 
 if __name__ == '__main__':
   loop = GLib.MainLoop()

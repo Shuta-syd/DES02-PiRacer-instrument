@@ -25,14 +25,14 @@ DBusClient::~DBusClient() {
 
 
 qreal DBusClient::speed() {
-    QDBusMessage response = _iface->call("getSpeed");
+  QDBusMessage response = _iface->call("getSpeed");
 
-    if(response.type() == QDBusMessage::ErrorMessage) {
-        qDebug() << "Error: " << qPrintable(response.errorMessage());
-        exit(1);
-    }
-    qreal value = response.arguments().at(0).toInt();
-    return value;
+  if (response.type() == QDBusMessage::ErrorMessage) {
+      qDebug() << "Error: " << qPrintable(response.errorMessage());
+      exit(1);
+  }
+  qreal value = response.arguments().at(0).toInt();
+  return value;
 }
 
 qreal DBusClient::rpm() {

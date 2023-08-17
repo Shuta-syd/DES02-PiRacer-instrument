@@ -44,7 +44,11 @@ void loop() {
   double current_time = micros();
   frqRaw = 1000000 * 1000 / elapsedTimeAvg;
 
-  if (elapsedTime > (ZERO_TIMEOUT - zeroDebounce) || (current_time - prev_cycle_time) > (ZERO_TIMEOUT - zeroDebounce)) {
+  if (
+    elapsedTime > (ZERO_TIMEOUT - zeroDebounce) ||
+    (current_time - prev_cycle_time) > (ZERO_TIMEOUT - zeroDebounce)||
+    elapsedTimeAvg < 1
+    ) {
     frqRaw = 0;
      zeroDebounce = 2000;
   } else  zeroDebounce = 0;
