@@ -18,13 +18,26 @@ int main(int _arc, char* _arv[]) {
 
     qmlRegisterType<DBusClient>("com.test.dbusService", 1, 0, "DBusClient");
 
-    //  Set DejaVu Sans Font
-    QFontDatabase::addApplicationFont(":/asset/fonts/DejaVuSans.ttf");
-    app.setFont(QFont("DejaVu Sans"));
+    //  font setting
+    QStringList fonts;
+    fonts.append("Futura_Heavy.ttf");
+    fonts.append("Futura_Heavy_Italic.ttf");
+    fonts.append("Futura_Bold.otf");
+    for (int i=0; i<fonts.size(); i++)
+    {
+        fontIds.append(QFontDatabase::addApplicationFont(":/asset/fonts/" + fonts[i]));
+        if (fontIds[i] == -1)
+        {
+            qWarning() << fonts[i] << "file not found";
+            return  (FAILURE);
+        }
+        else
+            qDebug() << "font id:" << fontIds[i] << "/" << fonts[i] << "was appended. ";
+    }
 
     //  Create and initialize the engine
     QQmlApplicationEngine engine;
-    QUrl url("qrc:/asset/qml/main.qml");
+    QUrl url("qrc:/asset/qml/dashboard.qml");
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl) {
       if (!obj && url == objUrl)
         QCoreApplication::exit(-1);
