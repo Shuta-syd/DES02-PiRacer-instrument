@@ -20,8 +20,6 @@ Item {
     //  about speed
     property real   speed:      (0)    // (unsigned short) // m/min
     property real   rpm:        (0)    // (unsigned short)
-    property real   prev_speed: (0)
-    property real   prev_rpm:   (0)
 
     property string gear: {
         if (throttle === 0)     return ("P");
@@ -33,11 +31,9 @@ Item {
     DBusClient {
         id: dbus_client
         onRpmChanged: {
-          valueSource.prev_rpm = valueSource.rpm
           valueSource.rpm = dbus_client.getRpm();
         }
         onSpeedChanged: {
-          valueSource.prev_speed = valueSource.speed
           valueSource.speed = dbus_client.getSpeed();
         }
     }
@@ -45,32 +41,14 @@ Item {
     property int animationDuration: 400 // Set animation duration for properties
 
     NumberAnimation on speed {
-      duration: animationDuration
-      easing.type: Easing.InOutQuad
-
-      from: valueSource.prev_speed
-
-      to: valueSource.speed
-
-      onRunningChanged: {
-          if (!running) {
-              start();
-          }
-      }
+        duration: animationDuration
+        easing.type: Easing.InOutQuad
+        to: valueSource.speed
     }
 
     NumberAnimation on rpm {
-      duration: animationDuration
-      easing.type: Easing.InOutQuad
-
-      from: valueSource.prev_rpm
-
-      to: valueSource.rpm
-
-      onRunningChanged: {
-          if (!running) {
-              start();
-          }
-      }
+        duration: animationDuration
+        easing.type: Easing.InOutQuad
+        to: valueSource.rpm
     }
 }
