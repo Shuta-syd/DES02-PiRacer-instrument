@@ -38,32 +38,32 @@ qreal DBusClient::speed() {
       exit(1);
   }
   qreal value = response.arguments().at(0).toInt();
-  speed_sum += value;
-  if (speed_i++ == MAX_SIZE) {
-      speed_i = 1;
-      value = speed_sum / MAX_SIZE;
-      speed_sum = 0;
-      return value;
-  }
-  return this->_speed;
+  // speed_sum += value;
+  // if (speed_i++ == MAX_SIZE) {
+  //     speed_i = 1;
+  //     value = speed_sum / MAX_SIZE;
+  //     speed_sum = 0;
+  //     return value;
+  // }
+  return value;
 }
 
 qreal DBusClient::rpm() {
   QDBusMessage response = _iface->call("getRpm");
 
   if (response.type() == QDBusMessage::ErrorMessage) {
-        qDebug() << "Error: " << qPrintable(response.errorMessage());
-        exit(1);
+      qDebug() << "Error: " << qPrintable(response.errorMessage());
+      exit(1);
   }
   qreal value = response.arguments().at(0).toInt();
-  rpm_sum += value;
-  if (rpm_i++ == MAX_SIZE) {
-      rpm_i = 1;
-      value = rpm_sum / MAX_SIZE;
-      rpm_sum = 0;
-      return value;
-  }
-  return this->_rpm;
+  // rpm_sum += value;
+  // if (rpm_i++ == MAX_SIZE) {
+  //     rpm_i = 1;
+  //     value = rpm_sum / MAX_SIZE;
+  //     rpm_sum = 0;
+  //     return value;
+  // }
+  return value;
 }
 
 void DBusClient::setData() {
