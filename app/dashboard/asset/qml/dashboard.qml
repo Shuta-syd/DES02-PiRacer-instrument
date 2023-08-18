@@ -262,7 +262,7 @@ Window {
                     z:                      (1)
 
                     value:                  (valueSource.speed)
-                    maximumValue:           (60)
+                    maximumValue:           (120)
                     tickmarksVisible:       (false)
 
                     anchors {
