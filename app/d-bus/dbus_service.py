@@ -19,10 +19,10 @@ class DbusService(object):
                   <arg type='i' name='response' direction='out'/>
               </method>
               <method name='getBatteryInfo'>
-                <arg type='i' name='batteryLevel' direction='out'/>
-                <arg type='i' name='consumption' direction='out'/>
-                <arg type='i' name='voltage' direction='out'/>
-                <arg type='i' name='current' direction='out'/>
+                <arg type='f' name='batteryLevel' direction='out'/>
+                <arg type='f' name='consumption' direction='out'/>
+                <arg type='f' name='voltage' direction='out'/>
+                <arg type='f' name='current' direction='out'/>
               </method>
           </interface>
       </node>
@@ -50,7 +50,8 @@ class DbusService(object):
     voltage = _dbus_battery.getVoltage() # [V]
     consumption = _dbus_battery.getConsumption() # [""]
     current = _dbus_battery.getCurrent() # [mA]
-    return level, consumption, voltage, current;
+    print(level, consumption, voltage, current)
+    return level, consumption, voltage, current
 
 def dbus_service_process():
   loop = GLib.MainLoop()
