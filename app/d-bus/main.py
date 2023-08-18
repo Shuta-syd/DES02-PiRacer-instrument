@@ -2,8 +2,8 @@ import time
 from multiprocessing  import Process
 from vehicles import PiRacerStandard
 from  battery_service import battery_service_process
-from dbus_service import dbus_service_process
 from car_control import car_control
+from dbus_service import dbus_service_process
 from gamepads import ShanWanGamepad
 
 if __name__ == '__main__':
