@@ -1,6 +1,6 @@
 import time
 from multiprocessing  import Process
-from piracer.vehicles import PiRacerStandard
+from vehicles import PiRacerStandard
 from  battery_service import battery_service_process
 from dbus_service import dbus_service_process
 from car_control import car_control
