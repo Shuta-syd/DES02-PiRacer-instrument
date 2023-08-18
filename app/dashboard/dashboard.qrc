@@ -3,6 +3,7 @@
         <file>asset/fonts/DejaVuSans.ttf</file>
         <file>asset/images/fuel.icon.png</file>
         <file>asset/images/temperature.icon.png</file>
+        <file>asset/qml/main.qml</file>
         <file>asset/qml/dashboard.qml</file>
         <file>asset/qml/DashboardGaugeStyle.qml</file>
         <file>asset/qml/IconGaugeStyle.qml</file>

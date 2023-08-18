@@ -21,3 +21,6 @@ pyusb==1.2.1
 RPi.GPIO==0.7.1
 typing_extensions==4.7.1
 wrapt==1.15.0
+pydbus==0.6.0
+pycairo==1.24.0
+PyGobject==3.44.1
