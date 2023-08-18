@@ -20,6 +20,8 @@ Item {
     //  about speed
     property real   speed:      (0)    // (unsigned short) // m/min
     property real   rpm:        (0)   // (unsigned short)
+    property real   prev_speed: (0)
+    property real   prev_rpm:   (0)
 
     property string gear: {
         if (throttle === 0)     return ("P");
@@ -44,7 +46,7 @@ Item {
       duration: animationDuration
       easing.type: Easing.InOutQuad
 
-      from: valueSource.speed
+      from: valueSource.prev_speed
 
       to: valueSource.speed
 
@@ -59,13 +61,14 @@ Item {
       duration: animationDuration
       easing.type: Easing.InOutQuad
 
-      from: valueSource.rpm
+      from: valueSource.prev_rpm
 
       to: valueSource.rpm
 
       onRunningChanged: {
           if (running) {
               start();
+              valueSource.prev_rpm = valueSource.rpm
           }
       }
     }
