@@ -20,3 +20,7 @@ OTHER_FILES += \
 
 HEADERS += \
     dbusclient.h
+DISTFILES += \
+    asset/qml/new_GearButton.qml \
+    asset/qml/new_SpeedGauge.qml \
+    asset/qml/new_dashboard.qml

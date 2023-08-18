@@ -7,7 +7,7 @@ MCP_CAN CAN(10);
 /** values to calculate RPM */
 #define PPR 20
 #define PI 3.1415926535897932384626433832795
-#define ZERO_TIMEOUT    60000  // Timeout period(microsecond) for RPM reset
+#define ZERO_TIMEOUT    22000  // Timeout period(microsecond) for RPM reset
 #define WheelDiameter 65.0 // [mm]
 #define SpeedSensorDiameter 20.0 // [mm]
 
@@ -67,6 +67,7 @@ void loop() {
     Serial.println("Success");
    } else
     Serial.println("Error");
+   delay(10);
 }
 
 void purseCounter() {

@@ -2,7 +2,7 @@
 #include <QDBusReply>
 #include <QDebug>
 
-#define CLOCK_TIME 0.05
+#define CLOCK_TIME 0.1
 
 DBusClient::DBusClient(QObject *parent)
     : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR), _speed(0), _rpm(0)
@@ -25,6 +25,7 @@ DBusClient::~DBusClient() {
 
 
 qreal DBusClient::speed() {
+  /* arbitration */
   QDBusMessage response = _iface->call("getSpeed");
 
   if (response.type() == QDBusMessage::ErrorMessage) {
@@ -36,6 +37,7 @@ qreal DBusClient::speed() {
 }
 
 qreal DBusClient::rpm() {
+  /* arbitration */
     QDBusMessage response = _iface->call("getRpm");
 
     if(response.type() == QDBusMessage::ErrorMessage) {

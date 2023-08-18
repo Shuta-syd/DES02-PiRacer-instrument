@@ -70,15 +70,5 @@ DashboardGaugeStyle {
                 }
             }
         }
-
-        Image {
-            source:                     (icon)
-            anchors.bottom:             (parent.verticalCenter)
-            anchors.bottomMargin:       (toPixels(0.3))
-            anchors.horizontalCenter:   (parent.horizontalCenter)
-            width:                      (toPixels(0.3))
-            height:                     (width)
-            fillMode:                   (Image.PreserveAspectFit)
-        }
     }
 }
