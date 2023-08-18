@@ -67,12 +67,33 @@ qreal DBusClient::rpm() {
   return this->_rpm;
 }
 
+qreal DBusClient::batteryInfo() {
+  QDBusMessage response = _iface->call("getBatteryInfo");
+
+  if (response.type() == QDBusMessage::ErrorMessage) {
+      qDebug() << "Error: " << qPrintable(response.errorMessage());
+      exit(1);
+  }
+
+  QVariant variant = response.arguments().at(0);
+
+  QDBusArgument dbusArg = variant.value<QDBusArgument>();
+
+  dbusArg >> _level >> _consumption >> _voltage >> _current;
+}
+
 void DBusClient::setData() {
   this->_rpm = this->rpm();
   this->_speed = this->speed();
+  this->batteryInfo();
 
   qDebug() << "rpm: " << this->_rpm << " speed: " << this->_speed;
+  qDebug() << "level: " this->_level << " consumption: " << this._consumption << " voltage: " << this->_voltage;
 
   emit rpmChanged(_rpm);
   emit speedChanged(_speed);
+  emit voltageChanged(_voltage);
+  emit currentChanged(_current);
+  emit consumptionChanged(_consumption);
+  emit levelChanged(_level);
 }
