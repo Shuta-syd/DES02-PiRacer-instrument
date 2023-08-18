@@ -1,68 +1,80 @@
 import os
-import time
 import socket
 import pathlib
 from datetime import datetime
 from   piracer.vehicles import PiRacerStandard
 import queue
+import time
+import math 
 
 FILE_DIR = pathlib.Path(os.path.abspath(os.path.dirname(__file__)))
 
-def car_info(vehicle: PiRacerStandard, q):
+#def car_info(vehicle: PiRacerStandard, q):
+def car_info(q):
 
-    def get_current_time():
-        now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-        return current_time
-    
-    def get_battery_txt_info(vehicle: PiRacerStandard):
-        battery_voltage          = round(vehicle.get_battery_voltage(),1) # in V 
-        battery_current          = round(vehicle.get_battery_current(),1) # in mA
-        power_consumption        = round(vehicle.get_power_consumption(),1) # in W
-        batterylevel_info = f'{battery_voltage}V,{battery_current}mA,{power_consumption}W'
-        return batterylevel_info
-
-    def get_ip_address():
-        try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)    # Create a socket object
-            s.connect(("1.1.1.1", 1))                               # Connect to a non-existent external server
-            local_ip_address = s.getsockname()[0]                   # Get the local IP address from the socket
-            s.close()                                               # Close the socket
-            return local_ip_address
-        except Exception as e:
-            print("Error while getting local IP address:", e)
-            return None
-    
-    def display_carinfo(currenttime, ipAddress, batterylevel, vehicle: PiRacerStandard):
-        ipAddress    = f'IP:{ipAddress}' 
-        display      = vehicle.get_display()                                                       # Get SSD1306_I2C object 
-        display.fill(0)                                                                            # Clear display
-        display.text(batterylevel   , 0, 0,   'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # Print first row 
-        display.text(ipAddress      , 0, 10,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # Print second row
-        display.text(currenttime    , 0, 20,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # 
-        display.show()                                                                             # Show the updated display with both texts
+    piracer         = PiRacerStandard()             
+ 
     try:
         while True:
-            ipAddr  = get_ip_address()                                                              
-            bat_txt  = get_battery_txt_info(vehicle)
-            curtime = get_current_time()
-            # 
-            display_carinfo(currenttime=curtime , ipAddress=ipAddr, batterylevel=bat_txt, vehicle=vehicle)
-            # get battery info
-            battery_voltage          = vehicle.get_battery_voltage()    # in V
-            battery_current          = vehicle.get_battery_current()    # in mA
-            power_consumption        = vehicle.get_power_consumption()  # in W
-            battery_capacity         = 3*2600                           # in mAh 
-            battery_level            = round((battery_current/battery_capacity)*100,1) # in %
-            battery_hour             = round((battery_capacity/battery_current),1) # in hour
-            
+            # get time information
+            now = datetime.now()
+            curtime = now.strftime("%H:%M:%S")
+        
+            # get ip address
+            try:
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)    # Create a socket object
+                s.connect(("1.1.1.1", 1))                               # Connect to a non-existent external server
+                local_ip_address = s.getsockname()[0]                   # Get the local IP address from the socket
+                s.close()                                               # Close the socket
+            except Exception as e:
+                print("Error while getting local IP address:", e)
+
+            # get & calc battery info
+            num_cells               = 3                                 # number of cells
+            battery_capacity         = num_cells*2600                   # in mAh
+            battery_voltage          = round(piracer.get_battery_voltage(), 3)   # in V
+            battery_current          = round(piracer.get_battery_current(), 3)   # in mA
+            if battery_current < 0:                        
+                battery_current = battery_current * (-1)                         #sometime the battery current is negative
+            power_consumption        = round(piracer.get_power_consumption(), 3) # in W
+        
+            # estimated battery level in % with exponential decay (see calc_bat.py for more information)
+            x = battery_voltage / 3
+            y = 0.098 * math.exp(+1.738 * x) -35.425 #approximation is good enough
+            battery_level = int(y)
+            if battery_level > 100:
+                battery_level = 100
+
+            # calculate battery hour in h, assuming that a fully charged battery can run for 4 hours
+            battery_hour = round(4 * (battery_level/100), 3) # in h
+
+            # display car info on onload oled screen (SSD1306_I2C)
+            display      = piracer.get_display()                                                    
+            # Clear display
+            #display.fill(0)                                                                            
+            # Print first row - IP address
+            display.text(f"{local_ip_address}" , 0, 0,   'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
+            # Print second row
+            display.text(f"{power_consumption}", 0, 10,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
+            # Print third row
+            display.text(f"{curtime}", 0, 20,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
+            # Show the updated display with both texts
+            display.show()                                                                             
+
+            print(f"IP address: {local_ip_address} | Battery voltage: {battery_voltage} V | Power consumption: {power_consumption} W | Battery current: {battery_current} mA | Battery level: {battery_level} % | Battery hour: {battery_hour} h | Time: {curtime}")
+
             # put in queue
             try:
-                q.put_nowait((ipAddr, battery_voltage, power_consumption, battery_current, battery_level, battery_hour, curtime))
+                q.put_nowait((local_ip_address, battery_voltage, power_consumption, battery_current, battery_level, battery_hour, curtime))
             except queue.Full:
                 q.get()
-                q.put((ipAddr, battery_voltage, power_consumption, battery_current, battery_level, battery_hour, curtime))
-            time.sleep(1)                                                                                 
+                q.put((local_ip_address, battery_voltage, power_consumption, battery_current, battery_level, battery_hour, curtime))  
+
+            # wait 1/4 second
+            #time.sleep(1/4)
+
     except KeyboardInterrupt:
         print(" - Display carinfo process has been stopped. -")
         pass
+                                                                                          
+

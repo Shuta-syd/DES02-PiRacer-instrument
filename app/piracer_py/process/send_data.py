@@ -12,86 +12,101 @@ def send_data(can_queue,car_info_queue,car_control_queue):
     soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     soc.bind((server_address, server_port))
     soc.listen(1)
-    #print(f"Listening on {server_address}:{server_port}")
+    print(f"Listening on {server_address}:{server_port}")
 
     while True:
         try:
             # wait for connection from client, will block until connection arrives
             conn, addr = soc.accept() 
             print(f"Connection from {addr}")
+            
             while True:
-                    try:
-                        # get last message from queues 
+                    
+                    # create default dict with names but no data
+                    data = {
+                        "throttle": "",
+                        "steering": "",
+                        "indicator": "",
+                        "battery_voltage": "",
+                        "power_consumption": "",
+                        "battery_current": "",
+                        "battery_level": "",
+                        "battery_hour": "",
+                        "speed": "",
+                        "rpm": "",
+                        "ip_address": "",
+                        "curtime": ""
+                    }
+
+                    # get last message from can_queue. 
+                    # If not empty get can info and save in data dict.
+                    # If queue is empty, print message and use default dict
+                    try: 
                         can_bus         = can_queue.get_nowait()
-                        car_info        = car_info_queue.get_nowait()
-                        car_control     = car_control_queue.get_nowait()
-                        # unpack queues to create a message to send to client
-                        throttle        = car_control[0]
-                        steering        = car_control[1]
-                        indicator       = car_control[2]        # int, 0=nothing,1=left,2=right,3=warning light, not availible yet
-                        battery_voltage     = car_info[1]       # float, in V
-                        power_consumption   = car_info[2]       # float, in W
-                        battery_current     = car_info[3]       # float, in mA
-                        battery_level       = car_info[5]       # float, in %
-                        battery_hour        = car_info[6]       # float, in hour
                         speed           = can_bus[0]
                         rpm             = can_bus[1]
-                        ip_address          = car_info[0]       # string, "1.1.1.1"        
-                        curtime             = car_info[4]       # string, "00:00:00"
-                        # create a dict to store all data
-                        data = {
-                            "throttle": throttle,
-                            "steering": steering,
-                            "indicator": indicator,
-                            "battery_voltage": battery_voltage,
-                            "power_consumption": power_consumption,
-                            "battery_current": battery_current,
-                            "battery_level": battery_level,
-                            "battery_hour": battery_hour,
-                            "speed": speed,
-                            "rpm": rpm,
-                            "ip_address": ip_address,
-                            "curtime": curtime
-                        }
-
+                        data["speed"]   = speed
+                        data["rpm"]     = rpm
                     except queue.Empty:
-                        # if queue is empty, send empty message
-                        # message = f",,,,,,,\n"
-                        # if queue is empty, create a dict with empty data
-                        data = {
-                            "throttle": "",
-                            "steering": "",
-                            "indicator": "",
-                            "battery_voltage": "",
-                            "power_consumption": "",
-                            "battery_current": "",
-                            "battery_level": "",
-                            "battery_hour": "",
-                            "speed": "",
-                            "rpm": "",
-                            "ip_address": "",
-                            "curtime": ""
-                        }
+                        print("can_queue is empty")
 
-                    # create a string message 
-                    # message = f"{throttle},{steering},{indicator},{battery_voltage},{power_consumption},{battery_current},{battery_level},{battery_hour},{speed},{rpm},{ip_address},{curtime}\n"
-                    
-                    # create a json message 
+                    # get last message from car_info_queue.
+                    # If not empty get car info and save in data dict.
+                    # If queue is empty, print message and use default dict
+                    try:
+                        car_info        = car_info_queue.get_nowait() 
+                        ip_address          = car_info[0]
+                        battery_voltage     = car_info[1]
+                        power_consumption   = car_info[2]
+                        battery_current     = car_info[3]
+                        battery_level       = car_info[4]
+                        battery_hour        = car_info[5]
+                        curtime             = car_info[6]
+                        data["ip_address"]          = ip_address
+                        data["battery_voltage"]     = battery_voltage
+                        data["power_consumption"]   = power_consumption
+                        data["battery_current"]     = battery_current
+                        data["battery_level"]       = battery_level
+                        data["battery_hour"]        = battery_hour
+                        data["curtime"]             = curtime
+                    except queue.Empty:
+                        print("car_info_queue is empty")
+
+                    # get last message from car_control_queue.
+                    # If not empty get car control info and save in data dict.
+                    # If queue is empty, print message and use default dict
+                    try:
+                        car_control     = car_control_queue.get_nowait()
+                        throttle        = car_control[0]
+                        steering        = car_control[1]
+                        indicator       = car_control[2]
+                        data["throttle"]    = throttle
+                        data["steering"]    = steering
+                        data["indicator"]   = indicator
+                    except queue.Empty:
+                        print("car_control_queue is empty")
+
+                    # convert all values in data to string
+                    data = {key: str(value) for key, value in data.items()}
+
+                    # create a json message from data dict
                     message = json.dumps(data)
 
                     # send message to client
                     try:
-                        #send message to client (should work for json and string)
+                        #send message to client as utf-8 encoded string
                         conn.sendall(message.encode('utf-8'))
-                        # print message to console
-                        #print(f"Timestamp: {int(time.time())}, tcp sent {message}")
+
+                        # print message with timestamp to console
+                        print(f"{int(time.time())} - {message}")
 
                     except (BrokenPipeError, ConnectionResetError):
+
                         print("Client disconnected, waiting for another connection")
                         break
 
-                    # send next message in 0.5s
-                    time.sleep(0.5)
+                    # send next message in 1 second
+                    time.sleep(1)
 
             conn.close()
 
@@ -108,7 +123,8 @@ def send_data(can_queue,car_info_queue,car_control_queue):
             break
 
         except Exception as e:
-            print(e)
+            print(" - Send_data process has been stopped. - ")
+            print("An error occurred:", e)  
             break
 
     soc.close()

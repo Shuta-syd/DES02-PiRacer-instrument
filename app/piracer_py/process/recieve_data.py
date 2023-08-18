@@ -4,7 +4,7 @@ import queue
 # CAN ID for sensors
 speedsensor_can_id  = 0x125     
 # CAN bus interface (socketcan)
-bus_interface       = 'can0'    
+bus_interface       = 'can1'    
 
 def recieve_data(q):
     try:
