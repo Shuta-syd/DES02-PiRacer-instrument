@@ -19,7 +19,7 @@ Item {
 
     //  about speed
     property real   speed:      (0)    // (unsigned short) // m/min
-    property real   rpm:        (0)   // (unsigned short)
+    property real   rpm:        (0)    // (unsigned short)
     property real   prev_speed: (0)
     property real   prev_rpm:   (0)
 
@@ -53,7 +53,7 @@ Item {
       to: valueSource.speed
 
       onRunningChanged: {
-          if (running) {
+          if (!running) {
               start();
           }
       }
@@ -68,7 +68,7 @@ Item {
       to: valueSource.rpm
 
       onRunningChanged: {
-          if (running) {
+          if (!running) {
               start();
           }
       }
