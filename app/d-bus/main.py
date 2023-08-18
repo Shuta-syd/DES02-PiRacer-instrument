@@ -3,6 +3,7 @@ from multiprocessing  import Process
 from piracer.vehicles import PiRacerStandard
 from  battery_service import battery_service_process
 from dbus_service import dbus_service_process
+from ..piracer_py.piracer.gamepads import ShanWanGamepad
 
 if __name__ == '__main__':
   piracer         = PiRacerStandard()
