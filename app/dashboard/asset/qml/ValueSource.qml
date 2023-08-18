@@ -38,33 +38,23 @@ Item {
         }
     }
     property string time:       (Qt.formatTime(new Date(), "hh:mm"))
-    property int animationDuration: 500 // Set animation duration for properties
+    property int animationDuration: 700 // Set animation duration for properties
 
-    NumberAnimation on speed {
-        id: speedAnimation
-        duration: animationDuration
-        easing.type: Easing.InOutQuad
-        to: valueSource.speed
-    }
-
-    NumberAnimation on rpm {
-        id: rpmAnimation
-        duration: animationDuration
-        easing.type: Easing.InOutQuad
-        to: valueSource.rpm
-    }
-
-        Connections {
-        target: valueSource
-        onSpeedChanged: {
-            if (!speedAnimation.running) {
-                speedAnimation.start();
-            }
+    Behavior on speed {
+        NumberAnimation {
+            target: valueSource
+            property: "speed"
+            easing.type: Easing.InOutSine
+            duration: 1000
         }
-        onRpmChanged: {
-            if (!rpmAnimation.running) {
-                rpmAnimation.start();
-            }
+    }
+
+    Behavior on rpm {
+        NumberAnimation {
+            target: valueSource
+            property: "rpm"
+            easing.type: Easing.InOutSine
+            duration: 1000
         }
     }
 }
