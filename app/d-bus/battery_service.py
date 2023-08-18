@@ -1,8 +1,6 @@
 from pydbus import SessionBus
 from math import pi
 from gi.repository import GLib
-from   piracer.vehicles import PiRacerStandard
-
 
 class BatteryService(object):
   """
