@@ -38,7 +38,7 @@ Item {
         }
     }
     property string time:       (Qt.formatTime(new Date(), "hh:mm"))
-    property int animationDuration: 400 // Set animation duration for properties
+    property int animationDuration: 500 // Set animation duration for properties
 
     NumberAnimation on speed {
         duration: animationDuration
@@ -50,5 +50,19 @@ Item {
         duration: animationDuration
         easing.type: Easing.InOutQuad
         to: valueSource.rpm
+    }
+
+        Connections {
+        target: valueSource
+        onSpeedChanged: {
+            if (!speedAnimation.running) {
+                speedAnimation.start();
+            }
+        }
+        onRpmChanged: {
+            if (!rpmAnimation.running) {
+                rpmAnimation.start();
+            }
+        }
     }
 }
