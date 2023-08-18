@@ -19,7 +19,7 @@ Item {
 
     //  about speed
     property real   speed:      (0)    // (unsigned short) // m/min
-    property real   rpm:        (0)   // (unsigned short)
+    property real   rpm:        (0)    // (unsigned short)
 
     property string gear: {
         if (throttle === 0)     return ("P");
@@ -38,13 +38,23 @@ Item {
         }
     }
     property string time:       (Qt.formatTime(new Date(), "hh:mm"))
-    property int animationDuration: 400 // Set animation duration for properties
+    property int animationDuration: 700 // Set animation duration for properties
 
-    NumberAnimation on speed {
-        duration: animationDuration
+    Behavior on speed {
+        NumberAnimation {
+            target: valueSource
+            property: "speed"
+            easing.type: Easing.InOutSine
+            duration: 600
+        }
     }
 
-    NumberAnimation on rpm {
-      duration: animationDuration
+    Behavior on rpm {
+        NumberAnimation {
+            target: valueSource
+            property: "rpm"
+            easing.type: Easing.InOutSine
+            duration: 400
+        }
     }
 }

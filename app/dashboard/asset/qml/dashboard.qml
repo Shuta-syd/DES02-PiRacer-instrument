@@ -222,7 +222,7 @@ Window {
                 //             width:                  (parent.width * 0.6 - 10)
                 //             anchors.verticalCenter: (parent.verticalCenter)
                 //             anchors.rightMargin:    (10)
-                             
+
                 //             Text {
                 //                 font.pixelSize:     (18)
                 //                 color:              ("#FFF")
@@ -262,7 +262,7 @@ Window {
                     z:                      (1)
 
                     value:                  (valueSource.speed)
-                    maximumValue:           (60)
+                    maximumValue:           (180)
                     tickmarksVisible:       (false)
 
                     anchors {
