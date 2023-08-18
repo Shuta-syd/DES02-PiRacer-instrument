@@ -37,7 +37,7 @@ class BatteryService(object):
     _current = round(_vehicle.get_battery_current(),1) # in mA
     return _current
 
-def battery_service_process(vehicle: PiRacerStandard):
+def battery_service_process(vehicle):
   loop = GLib.MainLoop()
   bus = SessionBus()
   bus.publish("com.dbus.batteryService", BatteryService(vehicle))
