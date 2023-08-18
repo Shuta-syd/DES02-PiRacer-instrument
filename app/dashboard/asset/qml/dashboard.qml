@@ -4,6 +4,7 @@ import  QtQuick.Controls        1.4
 import  QtQuick.Controls.Styles 1.4
 import  QtQuick.Extras          1.4
 import  QtGraphicalEffects      1.0
+import  "."
 
 
 Window {
@@ -124,6 +125,42 @@ Window {
 
 
     //  ========================================================================
+//    Item {
+//        id: alarmContainer
+//        anchors.fill: parent
+//        z: 100 // Ensure it overlays other elements
+//        width: (parent.width * 0.9)
+//        anchors.centerIn: parent
+
+//        // Use a ListView to display the alarms
+//        ListView {
+//            id: listView
+//            anchors.fill: parent
+//            spacing: 5
+//            model: valueSource.alarmQueue
+
+//            delegate: AlarmBox {
+//                width: alarmContainer.width
+//                alarm: modelData
+//            }
+            
+//            // Position the ListView at the top by default
+//            // But when items overflow, the most recent alarm will be shown at the bottom.
+//            onCountChanged: positionViewAtEnd()
+//        }
+
+//        Connections {
+//            target: valueSource
+//            function alarmQueueChanged() {
+//                listView.model = valueSource.alarmQueue
+//            }
+//        }
+//    }
+
+    //  ========================================================================
+
+
+    //  ========================================================================
     //  Content Container
     Item {
         id:               container
@@ -143,12 +180,11 @@ Window {
                 height:                 (container.height * 0.75)
                 anchors.verticalCenter: (root.verticalCenter)
                 property int padding:   (20)
-                visible:                (true)
 
                 CircularGauge {
                     id:                     consumption
-                    width:                  (parent.width - 10)
-                    height:                 (parent.height - 10)
+                    width:                  (parent.width)
+                    height:                 (parent.height)
                     z:                      (1)
 
                     value:                  (valueSource.consumption)
@@ -160,6 +196,8 @@ Window {
                         left:               (parent.left)
                         margins:            (consumptionContainer.padding)
                         topMargin:          (consumptionContainer.padding + 80)
+                        leftMargin:         (0)
+                        rightMargin:        (0)
                     }
 
                     style: DashboardGaugeStyle {
@@ -171,76 +209,6 @@ Window {
                         mainFontSize:       (toPixels(0.45))
                     }
                 }
-
-                // //  ========================================================================
-                // //  Battery Information Rectangle
-                // Rectangle {
-                //     id:                         batteryInfoRect
-                //     width:                      (consumptionContainer.width * 0.9)
-                //     height:                     (80)
-                //     color:                      ("#000")
-                //     border.color:               ("#1EF0FD")
-                //     border.width:               (1)
-                //     radius:                     (10)
-                //     anchors.top:                (consumption.bottom)
-                //     anchors.topMargin:          (-40)
-                //     anchors.horizontalCenter:   (consumption.horizontalCenter)
-                //     z: 10
-
-                //     layer.enabled:  (true)
-                //     layer.effect:   Glow {
-                //         radius:     (10)
-                //         color:      Qt.rgba(30, 240, 253, 0.6)
-                //         spread:     (0.01)
-                //     }
-
-                //     Row {
-                //         width:                  batteryInfoRect.width * 0.9  // Row의 너비를 Rectangle의 90%로 설정
-                //         anchors.centerIn:       parent
-                //         spacing:                10
-
-                //         // Label Texts
-                //         Column {
-                //             width:                  (parent.width * 0.4)
-                //             anchors.verticalCenter: (parent.verticalCenter)
-                //             Text {
-                //                 font.pixelSize:     (16)
-                //                 color:              ("#888888")
-                //                 text:               ("Battery Voltage:")
-                //                 anchors.left:       (parent.left)
-                //             }
-                //             Text {
-                //                 font.pixelSize:     (16)
-                //                 color:              ("#888888")
-                //                 text:               ("Current:")
-                //                 anchors.left:       (parent.left)
-                //             }
-                //         }
-
-                //         // Value Texts
-                //         Column {
-                //             width:                  (parent.width * 0.6 - 10)
-                //             anchors.verticalCenter: (parent.verticalCenter)
-                //             anchors.rightMargin:    (10)
-                             
-                //             Text {
-                //                 font.pixelSize:     (18)
-                //                 color:              ("#FFF")
-                //                 text:               (valueSource.voltage + "V")
-                //                 horizontalAlignment:(Text.AlignRight)
-                //                 anchors.right:      (parent.right)
-                //             }
-                //             Text {
-                //                 font.pixelSize:     (18)
-                //                 color:              ("#FFF")
-                //                 text:               (valueSource.current + "mA")
-                //                 horizontalAlignment:(Text.AlignRight)
-                //                 anchors.right:      (parent.right)
-                //             }
-                //         }
-                //     }
-                // }
-                // //  ========================================================================
             }
             //  Consumption End
             //  ================================================================
@@ -253,22 +221,25 @@ Window {
                 width:                  (height)
                 height:                 (container.height)
                 anchors.verticalCenter: (root.verticalCenter)
+                anchors.rightMargin:    (0)
                 property int padding:   (20)
 
                 CircularGauge {
                     id:                     speedometer
-                    width:                  (parent.width - 40)
-                    height:                 (parent.height - 40)
+                    width:                  (parent.width)
+                    height:                 (parent.height)
                     z:                      (1)
 
                     value:                  (valueSource.speed)
-                    maximumValue:           (60)
+                    maximumValue:           (200)
                     tickmarksVisible:       (false)
 
                     anchors {
                         top:                (parent.top)
                         left:               (parent.left)
                         margins:            (speedometerContainer.padding)
+                        leftMargin:         (0)
+                        rightMargin:        (0)
                     }
 
                     style: DashboardGaugeStyle {
@@ -278,6 +249,7 @@ Window {
                         tailY:              (624)
                         mainLabel:          ("m/min")
                         mainFontSize:       (toPixels(0.55))
+                        labelSteps:         (10)
                     }
                 }
             }
@@ -296,8 +268,8 @@ Window {
 
                 CircularGauge {
                     id:                     rpmGauge
-                    width:                  (parent.width - 10)
-                    height:                 (parent.height - 10)
+                    width:                  (parent.width)
+                    height:                 (parent.height)
                     z:                      (1)
 
                     value:                  (valueSource.rpm)
@@ -309,6 +281,8 @@ Window {
                         left:                   (parent.left)
                         margins:                (rpmGaugeContainer.padding)
                         topMargin:              (rpmGaugeContainer.padding + 80)
+                        leftMargin:             (0)
+                        rightMargin:            (0)
                     }
 
                     style: DashboardGaugeStyle {
@@ -316,8 +290,9 @@ Window {
                         isGearOn:               (false)
                         tailX:                  (120)
                         tailY:                  (624)
-                        mainLabel:              ("rpm (x10)")
+                        mainLabel:              ("rpm")
                         mainFontSize:           (toPixels(0.45))
+                        labelSteps:             (50)
                     }
                 }
             }

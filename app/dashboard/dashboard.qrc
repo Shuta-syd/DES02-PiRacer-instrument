@@ -4,10 +4,8 @@
         <file>asset/images/temperature.icon.png</file>
         <file>asset/qml/dashboard.qml</file>
         <file>asset/qml/DashboardGaugeStyle.qml</file>
-        <file>asset/qml/IconGaugeStyle.qml</file>
-        <file>asset/qml/TachometerStyle.qml</file>
-        <file>asset/qml/TurnIndicator.qml</file>
         <file>asset/qml/ValueSource.qml</file>
+        <file>asset/qml/AlarmBox.qml</file>
         <file>asset/fonts/Futura_Heavy.ttf</file>
         <file>asset/fonts/Futura_Bold.otf</file>
         <file>asset/fonts/Futura_Heavy_Italic.ttf</file>

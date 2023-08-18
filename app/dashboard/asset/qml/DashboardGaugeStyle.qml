@@ -10,7 +10,6 @@ CircularGaugeStyle {
     //  - For calculations
     tickmarkInset:      (toPixels(0.02))
     minorTickmarkInset: (tickmarkInset)
-    labelStepSize:      (40)
     labelInset:         (toPixels(0.23))
 
     property real   outerRadius:        ((parent.width - tickmarkInset) / 2 - 1)
@@ -25,7 +24,8 @@ CircularGaugeStyle {
     //  - For Main Text/Labels
     property string mainLabel:          ("")
     property real   mainFontSize:       (0)
-
+    property real   labelSteps:         (5)
+    property real   maximumValue:       (60)
 
     //  - For indicators
     property real   indicator:          (valueSource.indicator)
@@ -137,7 +137,7 @@ CircularGaugeStyle {
                 id:                         labelText
                 text:                       (mainLabel)
                 color:                      ("#696969")
-                font.pixelSize:             (toPixels(0.06))
+                font.pixelSize:             (12)
                 anchors.top:                (mainText.bottom)
                 anchors.topMargin:          (-toPixels(0.1))
                 anchors.horizontalCenter:   (parent.horizontalCenter)
@@ -151,7 +151,7 @@ CircularGaugeStyle {
         //  ====================================================================
         //  Gauge Number Label
         Repeater {
-            model: 13
+            model: Math.ceil(control.maximumValue / labelSteps) + 1  // Calculate how many labels will be needed
 
             Text {
                 font.pixelSize: labelSize
@@ -159,11 +159,11 @@ CircularGaugeStyle {
                 text: labelText
                 font.italic: true
 
-                property int value: index * 5
-                property real angle: map(value, 0, 60, -235, 55)
+                property int value: index * labelSteps
+                property real angle: map(value, 0, control.maximumValue, -235, 55)  // Use control.maximumValue instead of 60
                 property string labelText: String(value)
-                property real labelSize: value % 10 === 0 ? toPixels(0.08) : toPixels(0.07)
-                property color labelColor: value % 10 === 0 ? "#E0E0E0" : "#696969"
+                property real labelSize: value % (2 * labelSteps) === 0 ? toPixels(0.08) : toPixels(0.07)  // Change the condition to be dynamic based on labelSteps
+                property color labelColor: value % (2 * labelSteps) === 0 ? "#E0E0E0" : "#696969"  // Change the condition to be dynamic based on labelSteps
                 property real labelDistance: outerRadius - toPixels(0.1)
 
                 x: parent.width / 2 + Math.cos(degToRad(angle)) * labelDistance - width / 2

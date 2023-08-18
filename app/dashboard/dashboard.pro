@@ -13,11 +13,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 OTHER_FILES += \
+                asset/qml/AlarmBox.qml \
                 asset/qml/dashboard.qml \
                 asset/qml/DashboardGaugeStyle.qml \
-                asset/qml/IconGaugeStyle.qml \
-                asset/qml/TachometerStyle.qml \
-                asset/qml/TurnIndicator.qml \
                 asset/qml/ValueSource.qml
 
 DISTFILES += \
