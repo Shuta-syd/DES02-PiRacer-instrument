@@ -45,7 +45,7 @@ Item {
             target: valueSource
             property: "speed"
             easing.type: Easing.InOutSine
-            duration: 1000
+            duration: 600
         }
     }
 
@@ -54,7 +54,7 @@ Item {
             target: valueSource
             property: "rpm"
             easing.type: Easing.InOutSine
-            duration: 1000
+            duration: 600
         }
     }
 }
