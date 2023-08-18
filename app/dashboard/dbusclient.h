@@ -17,7 +17,7 @@ public:
     // getter
     qreal speed();
     qreal rpm();
-    qreal batteryInfo();
+    void batteryInfo();
     Q_INVOKABLE qreal getRpm() { return _rpm; }
     Q_INVOKABLE qreal getSpeed() { return _speed; }
     Q_INVOKABLE qreal getVoltage() { return _voltage; }
