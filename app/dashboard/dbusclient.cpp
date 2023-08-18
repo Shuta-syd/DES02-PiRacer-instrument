@@ -76,8 +76,8 @@ void DBusClient::batteryInfo() {
       exit(1);
   }
 
-  QVariant variant = response.arguments().at(0).toInt();
-  // qDebug() << arg;
+  qreal value = response.arguments().at(0).toInt();
+  qDebug() << value;
 
   // arg >> _level >> _consumption >> _voltage >> _current;
 }
