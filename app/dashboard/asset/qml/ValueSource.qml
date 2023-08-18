@@ -40,21 +40,33 @@ Item {
     property string time:       (Qt.formatTime(new Date(), "hh:mm"))
     property int animationDuration: 400 // Set animation duration for properties
 
-    id: speedAnimation
-    duration: animationDuration
-    easing.type: Easing.InOutQuad
+    NumberAnimation on speed {
+      duration: animationDuration
+      easing.type: Easing.InOutQuad
 
-    from: valueSource.speed
+      from: valueSource.speed
 
-    to: valueSource.speed
+      to: valueSource.speed
 
-    onRunningChanged: {
-        if (running) {
-            start();
-        }
+      onRunningChanged: {
+          if (running) {
+              start();
+          }
+      }
     }
 
     NumberAnimation on rpm {
       duration: animationDuration
+      easing.type: Easing.InOutQuad
+
+      from: valueSource.rpm
+
+      to: valueSource.rpm
+
+      onRunningChanged: {
+          if (running) {
+              start();
+          }
+      }
     }
 }
