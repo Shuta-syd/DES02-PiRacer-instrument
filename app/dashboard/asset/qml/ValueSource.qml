@@ -54,7 +54,7 @@ Item {
             target: valueSource
             property: "rpm"
             easing.type: Easing.InOutSine
-            duration: 600
+            duration: 400
         }
     }
 }
