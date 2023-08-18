@@ -21,3 +21,4 @@ if __name__ == '__main__':
 
   battery_process.join()
   dbus_process.join()
+  car_control_process.join()
