@@ -4,7 +4,7 @@
 #include <vector>
 
 #define CLOCK_TIME 0.05
-#define MAX_SIZE 5
+#define MAX_SIZE 10
 static int speed_i = 1;
 static qreal speed_sum = -1;
 static int rpm_i = 1;
