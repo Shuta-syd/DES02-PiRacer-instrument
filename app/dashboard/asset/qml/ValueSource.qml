@@ -33,9 +33,11 @@ Item {
     DBusClient {
         id: dbus_client
         onRpmChanged: {
+          valueSource.prev_rpm = valueSource.rpm
           valueSource.rpm = dbus_client.getRpm();
         }
         onSpeedChanged: {
+          valueSource.prev_speed = valueSource.speed
           valueSource.speed = dbus_client.getSpeed();
         }
     }
@@ -68,7 +70,6 @@ Item {
       onRunningChanged: {
           if (running) {
               start();
-              valueSource.prev_rpm = valueSource.rpm
           }
       }
     }
