@@ -13,7 +13,7 @@ if __name__ == '__main__':
   car_control_process = Process(target=car_control, args=(piracer, shanwan_gamepad))
   car_control_process.start()
 
-  battery_process = Process(target=battery_service_process, args=piracer)
+  battery_process = Process(target=battery_service_process, args=(piracer))
   battery_process.start()
 
   dbus_process = Process(target=dbus_process)
