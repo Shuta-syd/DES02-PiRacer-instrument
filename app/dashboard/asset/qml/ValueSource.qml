@@ -41,12 +41,14 @@ Item {
     property int animationDuration: 500 // Set animation duration for properties
 
     NumberAnimation on speed {
+        id: speedAnimation
         duration: animationDuration
         easing.type: Easing.InOutQuad
         to: valueSource.speed
     }
 
     NumberAnimation on rpm {
+        id: rpmAnimation
         duration: animationDuration
         easing.type: Easing.InOutQuad
         to: valueSource.rpm
