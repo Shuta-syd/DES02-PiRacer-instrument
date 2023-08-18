@@ -18,14 +18,18 @@ class DbusService(object):
               <method name='getSpeed'>
                   <arg type='i' name='response' direction='out'/>
               </method>
-              <method name='getBattery'>
-                  <arg type='i' name='response' direction='out'/>
+              <method name='getBatteryInfo'>
+                <arg type='i' name='batteryLevel' direction='out'/>
+                <arg type='i' name='consumption' direction='out'/>
+                <arg type='i' name='voltage' direction='out'/>
+                <arg type='i' name='current' direction='out'/>
               </method>
           </interface>
       </node>
   """
   def __init__(self):
     self._can = can.interface.Bus(channel=can_interface, bustype='socketcan')
+    self._dbus_battery = SessionBus().get('com.dbus.batteryService')
     self._rpm = 0
 
   def getRpm(self) -> int:
@@ -41,10 +45,14 @@ class DbusService(object):
     speed = self._rpm * wheel_circumference
     return speed
 
-  def getBattery(self) -> int:
-    return 42
+  def getBatteryInfo() -> tuple: # battery level, consumption,voltage, current
+    level = 42
+    voltage = _dbus_battery.getVoltage() # [V]
+    consumption = _dbus_battery.getConsumption() # [""]
+    current = _dbus_battery.getCurrent() # [mA]
+    return level, consumption, voltage, current;
 
-if __name__ == '__main__':
+def dbus_service_process():
   loop = GLib.MainLoop()
   bus = SessionBus()
   bus.publish("com.test.dbusService", DbusService())
