@@ -25,9 +25,10 @@ class BatteryService(object):
     self._voltage = 0
     self._consumption = 0
     self._level = 0
+    self._vehicle = vehicle
 
   def getVoltage(self) -> int:
-    battery_voltage          = round(vehicle.get_battery_voltage(),1) # in V
+    battery_voltage          = round(_vehicle.get_battery_voltage(),1) # in V
     return self._voltage
 
   def getSpeed(self) -> int:
