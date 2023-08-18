@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <vector>
 
-#define CLOCK_TIME 0.1
+#define CLOCK_TIME 0.05
 #define MAX_SIZE 10
 static int speed_i = 1;
 static qreal speed_sum = -1;
@@ -56,7 +56,6 @@ qreal DBusClient::rpm() {
       exit(1);
   }
 
-  qDebug() << "3";
   qreal value = response.arguments().at(0).toInt();
   rpm_sum += value;
   if (rpm_i++ == MAX_SIZE) {
