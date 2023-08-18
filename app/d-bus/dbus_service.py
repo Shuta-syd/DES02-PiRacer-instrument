@@ -45,13 +45,13 @@ class DbusService(object):
     speed = self._rpm * wheel_circumference
     return speed
 
-  def getBatteryInfo() -> tuple: # battery level, consumption,voltage, current
+  def getBatteryInfo() -> tuple:
     level = 42
     voltage = _dbus_battery.getVoltage() # [V]
     consumption = _dbus_battery.getConsumption() # [""]
     current = _dbus_battery.getCurrent() # [mA]
     print(level, consumption, voltage, current)
-    return level, consumption, voltage, current
+    return level, consumption, voltage, current  # battery level, consumption,voltage, current
 
 def dbus_service_process():
   loop = GLib.MainLoop()
