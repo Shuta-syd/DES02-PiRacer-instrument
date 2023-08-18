@@ -28,24 +28,19 @@ class BatteryService(object):
     self._vehicle = vehicle
 
   def getVoltage(self) -> int:
-    battery_voltage          = round(_vehicle.get_battery_voltage(),1) # in V
-    return self._voltage
+    _voltage          = round(_vehicle.get_battery_voltage(),1) # in V
+    return _voltage
 
-  def getSpeed(self) -> int:
-    print("rpm: ", self._rpm);
-    speed = self._rpm * wheel_circumference
-    return speed
+  def getConsumption(self) -> int:
+    _consumption      = round(_vehicle.get_power_consumption(),1) # in W
+    return _consumption
 
-  def getBatteryInfo() -> tuple: # battery level, consumption,voltage, current
-    level = 42
-    voltage = _dbus_battery.getVoltage() # [V]
-    consumption = _dbus_battery.getConsumption() # [""]
-    current = _dbus_battery.getCurrent() # [mA]
-    print(level, consumption, voltage, current)
-    return level, consumption, voltage, current;
+  def getCurrent(self) -> int:
+    _current = round(_vehicle.get_battery_current(),1) # in mA
+    return _current
 
 def battery_service_process(vehicle: PiRacerStandard):
   loop = GLib.MainLoop()
   bus = SessionBus()
-  bus.publish("com.dbus.batteryService", DbusService(vehicle))
+  bus.publish("com.dbus.batteryService", BatteryService(vehicle))
   loop.run();
