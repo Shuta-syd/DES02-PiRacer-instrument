@@ -51,17 +51,17 @@ def car_info(q):
             # display car info on onload oled screen (SSD1306_I2C)
             display      = piracer.get_display()                                                    
             # Clear display
-            #display.fill(0)                                                                            
+            display.fill(0)                                                                            
             # Print first row - IP address
-            display.text(f"{local_ip_address}" , 0, 0,   'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
+            display.text(f"IP: {local_ip_address}" , 0, 0,   'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
             # Print second row
-            display.text(f"{power_consumption}", 0, 10,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
+            display.text(f"Battery: {battery_level} % ", 0, 10,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
             # Print third row
             display.text(f"{curtime}", 0, 20,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
             # Show the updated display with both texts
             display.show()                                                                             
 
-            print(f"IP address: {local_ip_address} | Battery voltage: {battery_voltage} V | Power consumption: {power_consumption} W | Battery current: {battery_current} mA | Battery level: {battery_level} % | Battery hour: {battery_hour} h | Time: {curtime}")
+            #print(f"IP address: {local_ip_address} | Battery voltage: {battery_voltage} V | Power consumption: {power_consumption} W | Battery current: {battery_current} mA | Battery level: {battery_level} % | Battery hour: {battery_hour} h | Time: {curtime}")
 
             # put in queue
             try:

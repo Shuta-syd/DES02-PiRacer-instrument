@@ -1,6 +1,5 @@
 from piracer.vehicles import PiRacerStandard
 from piracer.gamepads import ShanWanGamepad
-import piracer.gamepads
 import queue
 import traceback
 
@@ -17,25 +16,19 @@ def car_control(q):
             throttle = gamepad_input.analog_stick_left.y 
             steering = gamepad_input.analog_stick_left.x
 
-            #print(f'throttle={throttle}, steering={steering}')
-
             vehicle.set_steering_percent(-steering)
             vehicle.set_throttle_percent(throttle)
 
-            #get left and right shoulder button input for indicator
-            # button_l1_state  = gamepad_input.button_l1
-            # button_r1_state = gamepad_input.button_r1
-            # warning_lights        = gamepad_input.button_home
-            # print("button_r1 state:", button_r1_state)
+            # Indicator, depending on steering. 0 = off, 1 = left, 2 = right. 
+            # Maybe we can use button_l1 and button_r1 for indicator
+            if steering < 0:
+                indicator = 1
+            elif steering > 0:
+                indicator = 2
+            else:
+                indicator = 0   
 
-            # # 0 = off, 1 = left, 2 = right
-            indicator = 0 
-            # if button_l1_state:
-            #     indicator = 1
-            # elif button_r1_state:
-            #     indicator = 2
-            # elif warning_lights:
-            #     indicator = 3
+            #print(f'throttle={throttle}, steering={steering}, indicator={indicator}')
 
             #put gamepad input into queue
             throttle = round(throttle, 3)
