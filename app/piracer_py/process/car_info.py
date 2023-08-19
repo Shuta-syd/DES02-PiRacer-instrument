@@ -44,7 +44,7 @@ def car_info(q):
             #   voltage per cell: 4.2, 4.1, 4.0, 3.9, 3.8, 3.7, 3.6, 3.5, 3.4, 3.3, 3.2
             #   battery level per cell in %: 100, 91, 79, 62, 42, 12, 2, 0, 0 ,0 ,0
             x = battery_voltage / 3
-            y = 0.098 * math.exp(+1.738 * x) -35.425 #approximation!
+            y = -691.919*x^(3)+7991.667*x^(2)-30541.295*x+38661.5 #(third degree approximation!)
             battery_level = int(y)
             if battery_level > 100:
                 battery_level = 100
