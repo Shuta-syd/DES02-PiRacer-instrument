@@ -10,7 +10,7 @@ class BatteryService(object):
                   <arg type='f' name='response' direction='out'/>
               </method>
               <method name='getVoltage'>
-                  <arg type='f' name='response' direction='out'/>
+                  <arg type='i' name='response' direction='out'/>
               </method>
               <method name='getCurrent'>
                 <arg type='f' name='response' direction='out'/>
@@ -25,8 +25,9 @@ class BatteryService(object):
     self._level = 0
     self._vehicle = vehicle
 
-  def getVoltage(self) -> float:
-    _voltage          = round(self._vehicle.get_battery_voltage(),1) # in V
+  def getVoltage(self) -> int:
+    # _voltage          = round(self._vehicle.get_battery_voltage(),1) # in V
+    _voltage = 42
     return _voltage
 
   def getConsumption(self) -> float:
