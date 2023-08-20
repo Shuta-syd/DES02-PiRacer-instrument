@@ -75,7 +75,7 @@ void DBusClient::batteryInfo() {
       exit(1);
   }
 
-  qreal value = response.arguments().at(0).toInt();
+  qreal value = response.arguments().at(0).toString();
   qDebug() << value;
 
   // arg >> _level >> _consumption >> _voltage >> _current;
