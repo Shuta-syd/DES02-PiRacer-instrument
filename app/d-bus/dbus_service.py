@@ -44,11 +44,11 @@ class DbusService(object):
   def getBatteryInfo(self) -> float:
     print(self._dbus_battery);
     level = 42
-    voltage = self._dbus_battery.getVoltage() # [V]
-    consumption = self._dbus_battery.getConsumption() # [""]
-    current = self._dbus_battery.getCurrent() # [mA]
-    print(level, consumption, voltage, current)
-    return voltage  # battery level, consumption,voltage, current
+    # voltage = self._dbus_battery.getVoltage() # [V]
+    # consumption = self._dbus_battery.getConsumption() # [""]
+    # current = self._dbus_battery.getCurrent() # [mA]
+    # print(level, consumption, voltage, current)
+    return level  # battery level, consumption,voltage, current
 
 def dbus_service_process():
   loop = GLib.MainLoop()
