@@ -42,12 +42,12 @@ class DbusService(object):
     speed = self._rpm * wheel_circumference
     return speed
 
-  def getBatteryInfo() -> float:
+  def getBatteryInfo(self) -> float:
     # level = 42
-    voltage = _dbus_battery.getVoltage() # [V]
-    # consumption = _dbus_battery.getConsumption() # [""]
-    # current = _dbus_battery.getCurrent() # [mA]
-    # print(level, consumption, voltage, current)
+    voltage = self._dbus_battery.getVoltage() # [V]
+    consumption = _dbus_battery.getConsumption() # [""]
+    current = _dbus_battery.getCurrent() # [mA]
+    print(level, consumption, voltage, current)
     return voltage  # battery level, consumption,voltage, current
 
 def dbus_service_process():

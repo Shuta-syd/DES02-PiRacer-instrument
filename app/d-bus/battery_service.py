@@ -26,15 +26,15 @@ class BatteryService(object):
     self._vehicle = vehicle
 
   def getVoltage(self) -> float:
-    _voltage          = round(_vehicle.get_battery_voltage(),1) # in V
+    _voltage          = round(self._vehicle.get_battery_voltage(),1) # in V
     return _voltage
 
   def getConsumption(self) -> float:
-    _consumption      = round(_vehicle.get_power_consumption(),1) # in W
+    _consumption      = round(self._vehicle.get_power_consumption(),1) # in W
     return _consumption
 
   def getCurrent(self) -> float:
-    _current = round(_vehicle.get_battery_current(),1) # in mA
+    _current = round(self._vehicle.get_battery_current(),1) # in mA
     return _current
 
 def battery_service_process(vehicle):
