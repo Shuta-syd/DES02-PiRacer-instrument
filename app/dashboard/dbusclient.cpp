@@ -81,10 +81,10 @@ void DBusClient::batteryInfo() {
     this->_voltage = std::stof(responseData.at(2).toString());
     this->_current = std::stof(responseData.at(3).toString());
 
-    qDebug() << "Battery Level: " << level;
-    qDebug() << "Voltage: " << voltage;
-    qDebug() << "Consumption: " << consumption;
-    qDebug() << "Current: " << current;
+    qDebug() << "Battery Level: " << _level;
+    qDebug() << "Voltage: " << _voltage;
+    qDebug() << "Consumption: " << _consumption;
+    qDebug() << "Current: " << _current;
 }
 
 void DBusClient::setData() {
