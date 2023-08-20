@@ -43,10 +43,10 @@ class DbusService(object):
     return speed
 
   def getBatteryInfo(self) -> float:
-    # level = 42
+    level = 42
     voltage = self._dbus_battery.getVoltage() # [V]
-    consumption = _dbus_battery.getConsumption() # [""]
-    current = _dbus_battery.getCurrent() # [mA]
+    consumption = self._dbus_battery.getConsumption() # [""]
+    current = self._dbus_battery.getCurrent() # [mA]
     print(level, consumption, voltage, current)
     return voltage  # battery level, consumption,voltage, current
 
