@@ -24,7 +24,6 @@ class BatteryService(object):
     self._consumption = ''
     self._level = ''
     self._vehicle = vehicle
-    print(vehicle)
 
   def getVoltage(self) -> str:
     _voltage          = str(round(self._vehicle.get_battery_voltage(),1)) # in V
