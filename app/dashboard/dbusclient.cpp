@@ -76,19 +76,15 @@ void DBusClient::batteryInfo() {
   }
 
   QList<QVariant> responseData = response.arguments();
-  if (responseData.size() == 4) {
-    QString level = responseData.at(0).toString();
-    QString voltage = responseData.at(1).toString();
-    QString consumption = responseData.at(2).toString();
-    QString current = responseData.at(3).toString();
+    this->_level = std::stof(responseData.at(0).toString());
+    this->_consumption = std::stof(responseData.at(1).toString());
+    this->_voltage = std::stof(responseData.at(2).toString());
+    this->_current = std::stof(responseData.at(3).toString());
 
     qDebug() << "Battery Level: " << level;
     qDebug() << "Voltage: " << voltage;
     qDebug() << "Consumption: " << consumption;
     qDebug() << "Current: " << current;
-  } else {
-    qDebug() << "Invalid response data size.";
-  }
 }
 
 void DBusClient::setData() {
