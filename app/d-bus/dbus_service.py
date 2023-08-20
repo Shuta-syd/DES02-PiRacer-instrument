@@ -19,7 +19,7 @@ class DbusService(object):
                   <arg type='i' name='response' direction='out'/>
               </method>
               <method name='getBatteryInfo'>
-                <arg type='s' name='voltage' direction='out'/>
+                <arg type='s' name='level' direction='out'/>
                 <arg type='s' name='consumption' direction='out'/>
                 <arg type='s' name='voltage' direction='out'/>
                 <arg type='s' name='current' direction='out'/>
@@ -44,7 +44,7 @@ class DbusService(object):
     speed = self._rpm * wheel_circumference
     return speed
 
-  def getBatteryInfo(self) -> str:
+  def getBatteryInfo(self) -> tuple:
     level = "42"
     voltage = self._dbus_battery.getVoltage() # [V]
     consumption = self._dbus_battery.getConsumption() # [""]

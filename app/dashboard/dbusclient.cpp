@@ -69,12 +69,25 @@ qreal DBusClient::rpm() {
 
 void DBusClient::batteryInfo() {
   QDBusMessage response = _iface->call("getBatteryInfo");
-  printf(response);
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
       exit(1);
   }
+
+  QList<QVariant> responseData = response.arguments();
+  if (responseData.size() == 4) {
+    QString level = responseData.at(0).toString();
+    QString voltage = responseData.at(1).toString();
+    QString consumption = responseData.at(2).toString();
+    QString current = responseData.at(3).toString();
+
+    qDebug() << "Battery Level: " << level;
+    qDebug() << "Voltage: " << voltage;
+    qDebug() << "Consumption: " << consumption;
+    qDebug() << "Current: " << current;
+  } else {
+    qDebug() << "Invalid response data size.";
 }
 
 void DBusClient::setData() {
