@@ -19,7 +19,6 @@ if __name__ == '__main__':
   dbus_process = Process(target=dbus_service_process)
   dbus_process.start()
 
-  battery_process.join()
-  time.sleep(1);
-  dbus_process.join()
   car_control_process.join()
+  battery_process.join()
+  dbus_process.join()
