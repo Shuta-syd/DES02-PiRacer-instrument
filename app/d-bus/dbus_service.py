@@ -19,7 +19,7 @@ class DbusService(object):
                   <arg type='i' name='response' direction='out'/>
               </method>
               <method name='getBatteryInfo'>
-                <arg type='f' name='voltage' direction='out'/>
+                <arg type='f' name='level' direction='out'/>
               </method>
           </interface>
       </node>
@@ -42,8 +42,7 @@ class DbusService(object):
     return speed
 
   def getBatteryInfo(self) -> float:
-    print(self._dbus_battery);
-    level = 42
+    level = 42.0
     # voltage = self._dbus_battery.getVoltage() # [V]
     # consumption = self._dbus_battery.getConsumption() # [""]
     # current = self._dbus_battery.getCurrent() # [mA]
