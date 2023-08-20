@@ -76,10 +76,10 @@ void DBusClient::batteryInfo() {
   }
 
   QList<QVariant> responseData = response.arguments();
-    this->_level = std::stof(responseData.at(0).toString());
-    this->_consumption = std::stof(responseData.at(1).toString());
-    this->_voltage = std::stof(responseData.at(2).toString());
-    this->_current = std::stof(responseData.at(3).toString());
+    this->_level = responseData.at(0).toString().toDouble();
+    this->_consumption = responseData.at(1).toString().toDouble();
+    this->_voltage = responseData.at(2).toString().toDouble();
+    this->_current = responseData.at(3).toString().toDouble();
 
     qDebug() << "Battery Level: " << _level;
     qDebug() << "Voltage: " << _voltage;
