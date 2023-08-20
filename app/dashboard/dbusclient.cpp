@@ -88,6 +88,7 @@ void DBusClient::batteryInfo() {
     qDebug() << "Current: " << current;
   } else {
     qDebug() << "Invalid response data size.";
+  }
 }
 
 void DBusClient::setData() {
