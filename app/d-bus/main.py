@@ -7,6 +7,10 @@ from dbus_service import dbus_service_process
 from gamepads import ShanWanGamepad
 from monitor import monitor_processes
 
+def terminate_processes(processes):
+    for p in processes:
+        p.terminate()
+
 if __name__ == '__main__':
   piracer         = PiRacerStandard()
   shanwan_gamepad = ShanWanGamepad()
@@ -24,7 +28,13 @@ if __name__ == '__main__':
   monitoring_process = Process(target=monitor_processes, args=(processes,), name='python3_monitor_process')
   monitoring_process.start()
 
-  car_control_process.join()
-  battery_process.join()
-  dbus_process.join()
-  monitoring_process.join()
+  try:
+    car_control_process.join()
+    battery_process.join()
+    dbus_process.join()
+    monitoring_process.join()
+  except KeyboardInterrupt:
+    print("Ctrl + C detected. Terminating processes...")
+    terminate_processes(processes)
+    monitoring_process.terminate()
+    monitoring_process.join()
