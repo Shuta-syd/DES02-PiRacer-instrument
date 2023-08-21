@@ -1,10 +1,11 @@
 import time
 from multiprocessing  import Process
 from vehicles import PiRacerStandard
-from  battery_service import battery_service_process
+from battery_service import battery_service_process
 from car_control import car_control
 from dbus_service import dbus_service_process
 from gamepads import ShanWanGamepad
+from monitor import monitor_processes
 
 if __name__ == '__main__':
   piracer         = PiRacerStandard()
@@ -19,6 +20,11 @@ if __name__ == '__main__':
   dbus_process = Process(target=dbus_service_process)
   dbus_process.start()
 
+  processes = [car_control, battery_process, dbus_process]
+  monitoring_process = Process(target=monitor_processes, args=(processes,))
+  monitoring_process.start()
+
   car_control_process.join()
   battery_process.join()
   dbus_process.join()
+  monitoring_process.join()

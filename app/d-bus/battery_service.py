@@ -25,6 +25,11 @@ class BatteryService(object):
     self._level = ''
     self._vehicle = vehicle
 
+  def getLevel(self) -> str:
+    # here is calculation login
+    _level = '42'
+    return _level
+
   def getVoltage(self) -> str:
     _voltage          = str(round(self._vehicle.get_battery_voltage(),1)) # in V
     return _voltage
