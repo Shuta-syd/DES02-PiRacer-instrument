@@ -21,8 +21,8 @@ if __name__ == '__main__':
   setproctitle("python3_car_control")
   car_control_process.start()
 
-  battery_process = Process(target=battery_service_process, args=(piracer,), name='python3_batter_process')
-  setproctitle("python3_batter_process")
+  battery_process = Process(target=battery_service_process, args=(piracer,), name='python3_battery_process')
+  setproctitle("python3_battery_process")
   battery_process.start()
 
   dbus_process = Process(target=dbus_service_process, name='python3_dbus_process')
@@ -42,4 +42,3 @@ if __name__ == '__main__':
   except KeyboardInterrupt:
     print("Ctrl + C detected. Terminating processes...")
     terminate_processes(processes)
-    monitoring_process.terminate()
