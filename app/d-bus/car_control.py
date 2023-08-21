@@ -14,9 +14,7 @@ def car_control(vehicle: PiRacerStandard, gamepad: ShanWanGamepad):
             vehicle.set_steering_percent(steering)
 
             #print(f'throttle: {throttle}, steering: {steering}')
-    except KeyboardInterrupt:
-        # Exit with cmd+c
-        print(" - Car control process has been stopped. - ")
+    except Exception:
         # Reset drivetrain
         vehicle.set_steering_percent(0)
         vehicle.set_throttle_percent(0)
