@@ -30,7 +30,7 @@ if __name__ == '__main__':
   dbus_process.start()
 
   processes = [car_control_process, battery_process, dbus_process]
-  monitor_thread = threading.Thread(target=monitor_thread, args=(processes,), name='monitor_thread')
+  monitor_thread = threading.Thread(target=monitor_thread, args=(processes, piracer), name='monitor_thread')
   monitor_thread.start()
 
   setproctitle("python3_main_process")
