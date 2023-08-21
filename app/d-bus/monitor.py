@@ -1,7 +1,7 @@
 import time
 from multiprocessing import Process
 
-def monitor_processes(processes):
+def monitor_thread(processes):
      while True:
         for p in processes:
             print(p)

@@ -1,10 +1,11 @@
 import time
+import threading
 from multiprocessing  import Process
 from vehicles import PiRacerStandard
 from battery_service import battery_service_process
 from car_control import car_control
 from dbus_service import dbus_service_process
-from monitor import monitor_processes
+from monitor import monitor_thread
 from gamepads import ShanWanGamepad
 
 def terminate_processes(processes):
@@ -25,16 +26,14 @@ if __name__ == '__main__':
   dbus_process.start()
 
   processes = [car_control_process, battery_process, dbus_process]
-  monitoring_process = Process(target=monitor_processes, args=(processes,), name='python3_monitor_process')
-  monitoring_process.start()
+  monitor_thread = threading.Thread(target=monitor_thread, args=(processes,), name='monitor_thread')
+  monitor_thread.start()
 
   try:
     car_control_process.join()
     battery_process.join()
     dbus_process.join()
-    monitoring_process.join()
   except KeyboardInterrupt:
     print("Ctrl + C detected. Terminating processes...")
     terminate_processes(processes)
     monitoring_process.terminate()
-    monitoring_process.join()
