@@ -37,42 +37,42 @@ Item {
         readonly property int       _debug:     (3)
     }
 
-    QtObject {
-        id:                         alarmClass
+    // QtObject {
+    //     id:                         alarmClass
 
-        property int                type:       0
-        property string             message:    ""
-        property date               timestamp:  new Date()
+    //     property int                type:       0
+    //     property string             message:    ""
+    //     property date               timestamp:  new Date()
 
-        function alarmTypeToString(type) {
-            switch (type) {
-                case alarmTypeEnum._warn:       return "warning";
-                case alarmTypeEnum._infor:      return "information";
-                case alarmTypeEnum._debug:      return "debug";
-                default:                    return "unknown";
-            }
-        }
-    }
-    property var alarmQueue: [
-        {
-            type:       alarmTypeEnum._infor,
-            message:    "dashboard app started successfully",
-            timestamp:  new Date()
-        },
-    ];
-    function addAlarm(type, message) {
-        let newAlarm = Qt.createQmlObject('import QtQuick 2.2; QtObject { }', valueSource);
-        newAlarm.type = type;
-        newAlarm.message = message;
-        newAlarm.timestamp = new Date();
+    //     function alarmTypeToString(type) {
+    //         switch (type) {
+    //             case alarmTypeEnum._warn:       return "warning";
+    //             case alarmTypeEnum._infor:      return "information";
+    //             case alarmTypeEnum._debug:      return "debug";
+    //             default:                        return "unknown";
+    //         }
+    //     }
+    // }
+    // property var alarmQueue: [
+    //     {
+    //         type:       alarmTypeEnum._infor,
+    //         message:    "dashboard app started successfully",
+    //         timestamp:  new Date()
+    //     },
+    // ];
+    // function addAlarm(type, message) {
+    //     let newAlarm = Qt.createQmlObject('import QtQuick 2.2; QtObject { }', valueSource);
+    //     newAlarm.type = type;
+    //     newAlarm.message = message;
+    //     newAlarm.timestamp = new Date();
 
-        alarmQueue.push(newAlarm);
-        alarmTimer.start();
-    }
-    Connections {
-        target: valueSource
-        onAlarmQueueChanged: {
-            listView.model = valueSource.alarmQueue
-        }
-    }
+    //     alarmQueue.push(newAlarm);
+    //     alarmTimer.start();
+    // }
+    // Connections {
+    //     target: valueSource
+    //     onAlarmQueueChanged: {
+    //         listView.model = valueSource.alarmQueue
+    //     }
+    // }
 }

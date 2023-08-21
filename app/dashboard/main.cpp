@@ -20,6 +20,7 @@
 # include   <QJsonDocument>
 # include   <QJsonObject>
 # include   <QJsonValue>
+# include   <QtMath>
 
 
 //  macros
@@ -113,46 +114,46 @@ int         main(
     //     animations.append(animation);
     // }
 
-    // QStringList logList;
-    // QObject::connect(socket, &QTcpSocket::readyRead, [socket, valueSource, &animations, &properties]() {
-    //     QTextStream     _T(socket);
-    //     QString         _msg = _T.readAll();
-    //     qDebug() << "message received:" << _msg;
+    QStringList logList;
+    QObject::connect(socket, &QTcpSocket::readyRead, [socket, valueSource, &animations, &properties]() {
+        QTextStream     _T(socket);
+        QString         _msg = _T.readAll();
+        qDebug() << "message received:" << _msg;
 
-    //     QJsonDocument   _json = QJsonDocument::fromJson(_msg.toUtf8());
-    //     if (!_json.isNull())
-    //     {
-    //         QJsonObject _jsonObj = _json.object();
-    //         for (int i=0; i<properties.size(); i++)
-    //         {
-    //             QString  _data = _jsonObj[properties[i][0]].toString();
-    //             qDebug() << _data;
-    //             QVariant _updatedData;
-    //             if (properties[i][1] == "float")
-    //                 _updatedData = _data.toDouble();
-    //             else if (properties[i][1] == "string")
-    //                 _updatedData = _data;
-    //             else if (properties[i][1] == "short")
-    //                 _updatedData = _data.toInt();
+        QJsonDocument   _json = QJsonDocument::fromJson(_msg.toUtf8());
+        if (!_json.isNull())
+        {
+            QJsonObject _jsonObj = _json.object();
+            for (int i=0; i<properties.size(); i++)
+            {
+                QString  _data = _jsonObj[properties[i][0]].toString();
+                qDebug() << _data;
+                QVariant _updatedData;
+                if (properties[i][1] == "float")
+                    _updatedData = qFloor(_data.toDouble(), 3);
+                else if (properties[i][1] == "string")
+                    _updatedData = _data;
+                else if (properties[i][1] == "short")
+                    _updatedData = _data.toInt();
 
-    //             animations[i]->setEndValue(_updatedData);
-    //             if (animations[i]->state() != QPropertyAnimation::Running)
-    //                 animations[i]->start();
-    //         }
-    //     }
-    //     else
-    //         qWarning() << "Invalid JSON: " << _msg;
-    // });
+                animations[i]->setEndValue(_updatedData);
+                if (animations[i]->state() != QPropertyAnimation::Running)
+                    animations[i]->start();
+            }
+        }
+        else
+            qWarning() << "Invalid JSON: " << _msg;
+    });
 
     int result = app.exec();
 
-    // QFile file("log/log.txt");
-    // if (file.open(QIODevice::WriteOnly))
-    // {
-    //     QTextStream stream(&file);
-    //     for (const QString &log : logList)
-    //         stream << log << "\n";
-    // }
+    QFile file("log/log.txt");
+    if (file.open(QIODevice::WriteOnly))
+    {
+        QTextStream stream(&file);
+        for (const QString &log : logList)
+            stream << log << "\n";
+    }
 
     return result;
 }
