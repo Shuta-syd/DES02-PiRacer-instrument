@@ -82,7 +82,7 @@ void DBusClient::batteryInfo() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
-      this->level = this->_consumption = this->_voltage = this->_current = 0;
+      this->_level = this->_consumption = this->_voltage = this->_current = 0;
       return;
   }
 
