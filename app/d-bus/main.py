@@ -4,8 +4,8 @@ from vehicles import PiRacerStandard
 from battery_service import battery_service_process
 from car_control import car_control
 from dbus_service import dbus_service_process
-from gamepads import ShanWanGamepad
 from monitor import monitor_processes
+from gamepads import ShanWanGamepad
 
 def terminate_processes(processes):
     for p in processes:
@@ -24,7 +24,7 @@ if __name__ == '__main__':
   dbus_process = Process(target=dbus_service_process, name='python3_dbus_process')
   dbus_process.start()
 
-  processes = [car_control, battery_process, dbus_process]
+  processes = [car_control_process, battery_process, dbus_process]
   monitoring_process = Process(target=monitor_processes, args=(processes,), name='python3_monitor_process')
   monitoring_process.start()
 
