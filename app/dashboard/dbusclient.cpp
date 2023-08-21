@@ -32,8 +32,6 @@ void DBusClient::connectToDBus()
 void DBusClient::reconnectDBus()
 {
     qDebug() << "DBus connection lost. Attempting to reconnect...";
-    if (_iface)
-      delete _iface;
     connectToDBus();
 }
 
