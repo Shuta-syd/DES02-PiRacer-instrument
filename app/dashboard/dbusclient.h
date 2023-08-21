@@ -24,9 +24,11 @@ public:
     Q_INVOKABLE qreal getCurrent() { return _current; }
     Q_INVOKABLE qreal getConsumption() { return _consumption; }
     Q_INVOKABLE qreal getLevel() { return _level; }
+    void connectToDBus();
 
   public Q_SLOTS:
     void setData();
+    void reconnectDBus();
 
 Q_SIGNALS:
     void speedChanged(qreal);
