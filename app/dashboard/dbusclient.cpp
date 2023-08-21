@@ -45,6 +45,7 @@ qreal DBusClient::speed() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
+      return 0;
   }
   qreal value = response.arguments().at(0).toInt();
   speed_sum += value;
@@ -62,6 +63,7 @@ qreal DBusClient::rpm() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
+      return 0;
   }
 
   qreal value = response.arguments().at(0).toInt();
@@ -80,6 +82,8 @@ void DBusClient::batteryInfo() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
+      this->level = this->_consumption = this->_voltage = this->_current = 0;
+      return;
   }
 
   QList<QVariant> responseData = response.arguments();
