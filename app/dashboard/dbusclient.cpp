@@ -25,7 +25,6 @@ void DBusClient::connectToDBus()
     this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
     if (!_iface->isValid()) {
         qDebug() << "Interface not valid: " << qPrintable(_iface->lastError().message());
-        reconnectDBus();
     }
 }
 
@@ -46,7 +45,6 @@ qreal DBusClient::speed() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
-      reconnectDBus();
   }
   qreal value = response.arguments().at(0).toInt();
   speed_sum += value;
@@ -64,7 +62,6 @@ qreal DBusClient::rpm() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
-      reconnectDBus();
   }
 
   qreal value = response.arguments().at(0).toInt();
@@ -83,7 +80,6 @@ void DBusClient::batteryInfo() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
-      reconnectDBus();
   }
 
   QList<QVariant> responseData = response.arguments();
