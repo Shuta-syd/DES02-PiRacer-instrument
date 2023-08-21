@@ -14,7 +14,6 @@ def terminate_processes(processes):
         p.terminate()
 
 if __name__ == '__main__':
-  setproctitle("python3_main_process")
   piracer         = PiRacerStandard()
   shanwan_gamepad = ShanWanGamepad()
 
@@ -33,6 +32,8 @@ if __name__ == '__main__':
   processes = [car_control_process, battery_process, dbus_process]
   monitor_thread = threading.Thread(target=monitor_thread, args=(processes,), name='monitor_thread')
   monitor_thread.start()
+
+  setproctitle("python3_main_process")
 
   try:
     car_control_process.join()
