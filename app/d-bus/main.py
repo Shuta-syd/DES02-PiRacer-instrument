@@ -7,6 +7,7 @@ from car_control import car_control
 from dbus_service import dbus_service_process
 from monitor import monitor_thread
 from gamepads import ShanWanGamepad
+from setproctitle import setproctitle
 
 def terminate_processes(processes):
     for p in processes:
@@ -17,12 +18,15 @@ if __name__ == '__main__':
   shanwan_gamepad = ShanWanGamepad()
 
   car_control_process = Process(target=car_control, args=(piracer, shanwan_gamepad), name='python3_car_control')
+  setproctitle("python3_car_control")
   car_control_process.start()
 
   battery_process = Process(target=battery_service_process, args=(piracer,), name='python3_batter_process')
+  setproctitle("python3_batter_process")
   battery_process.start()
 
   dbus_process = Process(target=dbus_service_process, name='python3_dbus_process')
+  setproctitle("python3_dbus_process")
   dbus_process.start()
 
   processes = [car_control_process, battery_process, dbus_process]
