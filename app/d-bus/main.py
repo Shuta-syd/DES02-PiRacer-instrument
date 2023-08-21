@@ -14,6 +14,7 @@ def terminate_processes(processes):
         p.terminate()
 
 if __name__ == '__main__':
+  setproctitle("python3_main_process")
   piracer         = PiRacerStandard()
   shanwan_gamepad = ShanWanGamepad()
 
