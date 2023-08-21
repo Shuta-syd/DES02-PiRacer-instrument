@@ -4,6 +4,7 @@ from multiprocessing import Process
 def monitor_processes(processes):
      while True:
         for p in processes:
+            print(p)
             if not p.is_alive():
                 print(f"Process {p.name} has terminated unexpectedly!")
-        time.sleep(0.1)
+        time.sleep(1)
