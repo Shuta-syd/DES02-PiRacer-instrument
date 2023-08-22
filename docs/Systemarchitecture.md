@@ -12,7 +12,7 @@ The drivetrain of the PiRacer is connected via I2C with the Raspberry Pi 4.
 
 This is how the assembled PiRacer looks like:
 
-<img src="./imgs/Assembled_PiRacer.png" alt="2ch CAN BUS FD HAT" width="70%" height="70%">
+<img src="./imgs/Assembled_PiRacer.png" alt="2ch CAN BUS FD HAT" width="40%" height="auto">
 
 ## Wiring
 The following picture shows the wiring of the PiRacer instrument cluster.
