@@ -36,6 +36,18 @@ Item {
         onSpeedChanged: {
           valueSource.speed = dbus_client.getSpeed();
         }
+        onLevelChanged: {
+          valueSource.level = dbus_client.getLevel();
+        }
+        onConsumptionChanged: {
+          valueSource.consumption = dbus_client.getConsumption();
+        }
+        onCurrentChanged: {
+          valueSource.current = dbus_client.getCurrent();
+        }
+        onVoltageChanged: {
+          valueSource.voltage = dbus_client.getVoltage();
+        }
     }
     property string time:       (Qt.formatTime(new Date(), "hh:mm"))
     property int animationDuration: 700 // Set animation duration for properties

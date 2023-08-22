@@ -17,11 +17,21 @@ DBusClient::DBusClient(QObject *parent)
   connect(timer, &QTimer::timeout, this, &DBusClient::setData);
   timer->start(CLOCK_TIME);
 
-  this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
-  if (!_iface->isValid()) {
-      qDebug() << "Interface not valid: " << qPrintable(_iface->lastError().message());
-      exit(1);
+  connectToDBus();
+}
+
+void DBusClient::connectToDBus()
+{
+    this->_iface = new QDBusInterface("com.test.dbusService", "/com/test/dbusService", "com.test.dbusService");
+    if (!_iface->isValid()) {
+        qDebug() << "Interface not valid: " << qPrintable(_iface->lastError().message());
     }
+}
+
+void DBusClient::reconnectDBus()
+{
+    qDebug() << "DBus connection lost. Attempting to reconnect...";
+    connectToDBus();
 }
 
 DBusClient::~DBusClient() {
@@ -35,7 +45,7 @@ qreal DBusClient::speed() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
-      exit(1);
+      return 0;
   }
   qreal value = response.arguments().at(0).toInt();
   speed_sum += value;
@@ -53,7 +63,7 @@ qreal DBusClient::rpm() {
 
   if (response.type() == QDBusMessage::ErrorMessage) {
       qDebug() << "Error: " << qPrintable(response.errorMessage());
-      exit(1);
+      return 0;
   }
 
   qreal value = response.arguments().at(0).toInt();
@@ -67,12 +77,39 @@ qreal DBusClient::rpm() {
   return this->_rpm;
 }
 
+void DBusClient::batteryInfo() {
+  QDBusMessage response = _iface->call("getBatteryInfo");
+
+  if (response.type() == QDBusMessage::ErrorMessage) {
+      qDebug() << "Error: " << qPrintable(response.errorMessage());
+      this->_level = this->_consumption = this->_voltage = this->_current = 0;
+      return;
+  }
+
+  QList<QVariant> responseData = response.arguments();
+    this->_level = responseData.at(0).toString().toDouble();
+    this->_consumption = responseData.at(1).toString().toDouble();
+    this->_voltage = responseData.at(2).toString().toDouble();
+    this->_current = responseData.at(3).toString().toDouble();
+
+    qDebug() << "Battery Level: " << _level;
+    qDebug() << "Voltage: " << _voltage;
+    qDebug() << "Consumption: " << _consumption;
+    qDebug() << "Current: " << _current;
+}
+
 void DBusClient::setData() {
   this->_rpm = this->rpm();
   this->_speed = this->speed();
+  this->batteryInfo();
 
   qDebug() << "rpm: " << this->_rpm << " speed: " << this->_speed;
+  //qDebug() << "level: " this->_level << " consumption: " << this._consumption << " voltage: " << this->_voltage;
 
   emit rpmChanged(_rpm);
   emit speedChanged(_speed);
+  emit voltageChanged(_voltage);
+  emit currentChanged(_current);
+  emit consumptionChanged(_consumption);
+  emit levelChanged(_level);
 }
