@@ -4,8 +4,8 @@
 
 ## Contents Index
 [1. Software Architecture](#software-architecture)  
-[2. Basic knowledge of Architecture](./docs/basic-knowledge-of-the-architecture.md)  
-[3. CAN Communication](./docs/CAN-Communication.md)  
+[2. Basic knowledge of Architecture](./docs/Basic-Knowledge-of-the-Architecture.md)  
+[3. Hardware & System-Architecture](./docs/Systemarchitecture.md)  
 [4. RPM Calculation](./docs/RPM-Calculation.md)  
 [5. Battery Calculation](./docs/Battery_Level_Calculation.md)  
 [6. Inter Process Communication](./docs/Inter-Process-Communication.md)  
