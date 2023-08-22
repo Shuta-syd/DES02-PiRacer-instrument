@@ -7,9 +7,11 @@
 [2. Basic knowledge of Architecture](./docs/basic-knowledge-of-the-architecture.md)  
 [3. CAN Communication](./docs/CAN-Communication.md)  
 [4. RPM Calculation](./docs/RPM-Calculation.md)  
-[5. Inter Process Communication](./docs/Inter-Process-Communication.md)  
-[6. Qt & QML](./docs/Qt-QML.md)  
-[7. Startup Routine](./docs/Startup-Routine.md)
+[5. Battery Calculation](./docs/Battery_Level_Calculation.md)  
+[6. Inter Process Communication](./docs/Inter-Process-Communication.md)  
+[7. Qt & QML](./docs/Qt-QML.md)  
+[8. Startup Routine](./docs/Startup-Routine.md)  
+[9. Exception](./docs/Exception.md)  
 
 ## Software Architecture
 <img src="./docs/imgs/software-architecture.png" width="75%" height="75%">
