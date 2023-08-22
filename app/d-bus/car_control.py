@@ -1,5 +1,5 @@
-from piracer.vehicles import PiRacerStandard
-from piracer.gamepads import ShanWanGamepad
+from vehicles import PiRacerStandard
+from gamepads import ShanWanGamepad
 
 def car_control(vehicle: PiRacerStandard, gamepad: ShanWanGamepad):
     try:
