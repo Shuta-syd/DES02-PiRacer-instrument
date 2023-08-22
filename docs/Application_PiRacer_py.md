@@ -50,3 +50,4 @@ If no data is received from the CAN bus, the function sends a 0 to the socket se
 [[3]](https://realpython.com/python-sockets/), 
 [[4]](https://docs.python.org/3/library/socket.html)
 
+
