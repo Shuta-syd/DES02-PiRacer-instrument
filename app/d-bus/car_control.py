@@ -11,7 +11,7 @@ def car_control(vehicle: PiRacerStandard, gamepad: ShanWanGamepad):
             steering = gamepad_input.analog_stick_left.x
             # drive car
             vehicle.set_throttle_percent(throttle)
-            vehicle.set_steering_percent(steering)
+            vehicle.set_steering_percent(-steering)
 
             #print(f'throttle: {throttle}, steering: {steering}')
     except KeyboardInterrupt:
