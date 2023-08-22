@@ -1,7 +1,7 @@
 # Hardware & System-Architecture
 This section describes the hardware and system architecture of the PiRacer instrument cluster. 
+
 ## Materials
----
 The following materials are used for this section. The Speed Sensor (LM393) is connected with Arduino Nano/Uno and the Arduino Nano/Uno is connected with MCP2515. The CAN BUS is stablished between the MCP2515 and the 2CH CAN BUS FD HAT. 
 The 2CH CAN BUS FD HAT is connected with Raspberry Pi 4. 
 The drivetrain of the PiRacer is connected via I2C with the Raspberry Pi 4.
@@ -12,10 +12,9 @@ The drivetrain of the PiRacer is connected via I2C with the Raspberry Pi 4.
 
 This is how the assembled PiRacer looks like:
 
-<img src="./imgs/piracer-wiring.jpeg" alt="2ch CAN BUS FD HAT" width="70%" height="70%">
+<img src="./imgs/Assembled_PiRacer.png" alt="2ch CAN BUS FD HAT" width="70%" height="70%">
 
 ## Wiring
----
 The following picture shows the wiring of the PiRacer instrument cluster.
 
 <img src="./imgs/DES01_Instrument_Cluster_wiring.png" width="70%" height="70%">
@@ -42,14 +41,12 @@ The following picture shows the wiring of the PiRacer instrument cluster.
 > **Note**: D2 or D3 is optional. If you want to use interrupt, connect D2 or D3 to INT pin of MCP2515. 
 
 ## Set Up 
----
 Raspberry Pi and 2CH-CAN-FD-HAT
 ### OS: Ubuntu 22.04 LTS
 [How to set up 2CH-CAN-FD-HAT](https://www.waveshare.com/wiki/Template:2-CH_CAN_FD_HAT_User_Manual#Working_with_Raspberry_Pi)
 > **Note** Sometimes can0 and can01 is swapped, So Please note that. If they are swapped, you have to rename can0 can1.
 
 ## Code Example for testing
----
 ### Transmitter Code Example (Arduino Nano)
 > **Note**: We used to try to use MCP2515 Library, but it didn't work. So we used MCP_CAN Library instead of MCP2515 Library.
 > Maybe it might work depending on the external environment such as OS, Arduino version, etc. so please try it to use MCP2515 Library.
