@@ -1,6 +1,6 @@
 import time
-from battery_service import battery_service_process
-from dbus_service import dbus_service_process
+from .battery_service import battery_service_process
+from .dbus_service import dbus_service_process
 from multiprocessing import Process
 from setproctitle import setproctitle
 from piracer_py.car_control import car_control
