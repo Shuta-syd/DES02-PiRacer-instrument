@@ -24,7 +24,7 @@ def monitor_thread(processes, piracer):
                     new_process = restart_process(target=battery_service_process, name=p.name)
                     setproctitle("python3_battery_process")
                 elif p.name == 'python3_dbus_process':
-                    new_process = restart_process(target=dbus_service_process, args=(), name=p.name)
+                    new_process = restart_process(target=dbus_service_process, name=p.name)
                     setproctitle("python3_dbus_process")
                 processes.remove(p)
                 processes.append(new_process)
