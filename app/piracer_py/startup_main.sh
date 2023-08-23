@@ -1,5 +1,4 @@
 #!/bin/bash
-# Absolute path
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # Navigate to piracer_py directory
 if [[ "$SCRIPT_DIR" != */app/piracer_py ]]; then
@@ -8,6 +7,6 @@ if [[ "$SCRIPT_DIR" != */app/piracer_py ]]; then
 fi
 # Activate venv
 source "$SCRIPT_DIR/venv/bin/activate"
-which python3
+pip install -r $SCRIPT_DIR/requirement.txt
 # run pun.py
-sudo python3 run.py
+sudo python3 main.py
