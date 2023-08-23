@@ -16,7 +16,7 @@ def terminate_processes(processes):
 if __name__ == '__main__':
   piracer = PiRacerStandard()
 
-  car_control_process = Process(target=car_control, name='python3_car_control')
+  car_control_process = Process(target=car_control, args=(piracer, ), name='python3_car_control')
   setproctitle("python3_car_control")
   car_control_process.start()
 
