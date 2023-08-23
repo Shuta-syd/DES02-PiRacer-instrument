@@ -1,5 +1,6 @@
 import can
 import queue
+import math
 
 # CAN ID for sensors
 speedsensor_can_id  = 0x125     
@@ -27,8 +28,12 @@ def recieve_data(q):
                     #print("byte array message.data: ",'|'.join(str(value) for value in message.data))
 
                     #extract rpm_wheel and speed from byte array (message.data)
-                    rpm_wheel = message.data[2] << 8 | message.data[3] 
-                    speed     = message.data[0] << 8 | message.data[1] 
+                    rpm_wheel     = message.data[0] << 8 | message.data[1] 
+                    
+                    # calulate speed 
+                    wheel_diameter = 65.0
+                    circumference = (wheel_diameter*math.pi) / 1000
+                    speed = rpm_wheel * circumference
 
                     #print rpm_wheel and speed as integer
                     #print("RPM =   ",rpm_wheel," 1/min ", "Speed = ",speed," m/min ")
