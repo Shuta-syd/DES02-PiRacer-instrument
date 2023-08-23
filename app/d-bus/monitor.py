@@ -1,7 +1,6 @@
 import time
-from vehicles import PiRacerStandard
 from battery_service import battery_service_process
-from car_control import car_control
+from piracer_py.car_control import car_control
 from dbus_service import dbus_service_process
 from multiprocessing import Process
 from setproctitle import setproctitle
@@ -11,7 +10,7 @@ def restart_process(target, args, name):
     new_process.start()
     return new_process
 
-def monitor_thread(processes, piracer, shanwan_gamepad):
+def monitor_thread(processes, piracer):
      while True:
         for p in processes:
             if not p.is_alive():
@@ -19,10 +18,10 @@ def monitor_thread(processes, piracer, shanwan_gamepad):
                 if p.name == 'python3_car_control':
                     piracer.set_steering_percent(0)
                     piracer.set_throttle_percent(0)
-                    new_process = restart_process(target=car_control, args=(piracer, shanwan_gamepad), name=p.name)
+                    new_process = restart_process(target=car_control, name=p.name)
                     setproctitle("python3_car_control")
                 elif p.name == 'python3_battery_process':
-                    new_process = restart_process(target=battery_service_process, args=(piracer,), name=p.name)
+                    new_process = restart_process(target=battery_service_process, name=p.name)
                     setproctitle("python3_battery_process")
                 elif p.name == 'python3_dbus_process':
                     new_process = restart_process(target=dbus_service_process, args=(), name=p.name)

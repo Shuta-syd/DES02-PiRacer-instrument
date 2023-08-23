@@ -6,7 +6,6 @@ from battery_service import battery_service_process
 from piracer_py.car_control import car_control
 from dbus_service import dbus_service_process
 from monitor import monitor_thread
-from piracer_py.gamepads import ShanWanGamepad
 from setproctitle import setproctitle
 
 def terminate_processes(processes):
@@ -14,14 +13,13 @@ def terminate_processes(processes):
         p.terminate()
 
 if __name__ == '__main__':
-  piracer         = PiRacerStandard()
-  shanwan_gamepad = ShanWanGamepad()
+  piracer = PiRacerStandard()
 
-  car_control_process = Process(target=car_control, args=(piracer, shanwan_gamepad), name='python3_car_control')
+  car_control_process = Process(target=car_control, name='python3_car_control')
   setproctitle("python3_car_control")
   car_control_process.start()
 
-  battery_process = Process(target=battery_service_process, args=(piracer,), name='python3_battery_process')
+  battery_process = Process(target=battery_service_process, name='python3_battery_process')
   setproctitle("python3_battery_process")
   battery_process.start()
 
@@ -30,7 +28,7 @@ if __name__ == '__main__':
   dbus_process.start()
 
   processes = [car_control_process, battery_process, dbus_process]
-  monitor_thread = threading.Thread(target=monitor_thread, args=(processes, piracer, shanwan_gamepad), name='monitor_thread')
+  monitor_thread = threading.Thread(target=monitor_thread, args=(processes, piracer,), name='monitor_thread')
   monitor_thread.start()
 
   setproctitle("python3_main_process")

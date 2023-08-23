@@ -1,5 +1,6 @@
 from pydbus import SessionBus
 from math import pi
+from piracer_py.vehicles import PiRacerStandard
 from gi.repository import GLib
 
 class BatteryService(object):
@@ -23,7 +24,7 @@ class BatteryService(object):
     self._voltage = ''
     self._consumption = ''
     self._level = ''
-    self._vehicle = vehicle
+    self._vehicle = PiRacerStandard()
 
   def getLevel(self) -> str:
     # here is calculation login

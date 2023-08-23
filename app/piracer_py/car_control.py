@@ -1,7 +1,9 @@
 from vehicles import PiRacerStandard
 from gamepads import ShanWanGamepad
 
-def car_control(vehicle: PiRacerStandard, gamepad: ShanWanGamepad):
+def car_control():
+    vehicle         = PiRacerStandard()
+    gamepad = ShanWanGamepad()
     try:
         while True:
             # read gamepad input
