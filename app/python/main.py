@@ -24,15 +24,15 @@ if __name__ == '__main__':
   setproctitle("python3_battery_process")
   battery_process.start()
 
-  # dbus_process = Process(target=dbus_service_process, name='python3_dbus_process')
-  # setproctitle("python3_dbus_process")
-  # dbus_process.start()
+  dbus_process = Process(target=dbus_service_process, name='python3_dbus_process')
+  setproctitle("python3_dbus_process")
+  dbus_process.start()
 
-  # processes = [car_control_process, battery_process, dbus_process]
-  # monitor_thread = threading.Thread(target=monitor_thread, args=(processes, piracer,), name='monitor_thread')
-  # monitor_thread.start()
+  processes = [car_control_process, battery_process, dbus_process]
+  monitor_thread = threading.Thread(target=monitor_thread, args=(processes, piracer,), name='monitor_thread')
+  monitor_thread.start()
 
-  # setproctitle("python3_main_process")
+  setproctitle("python3_main_process")
 
   try:
     car_control_process.join()
