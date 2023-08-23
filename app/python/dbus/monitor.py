@@ -4,6 +4,7 @@ from .dbus_service import dbus_service_process
 from multiprocessing import Process
 from setproctitle import setproctitle
 from piracer_py.car_control import car_control
+from piracer_py.display_carinfo import display_carinfo
 
 def restart_process(target, args, name):
     new_process = Process(target=target, args=args, name=name)
@@ -15,6 +16,8 @@ def monitor_thread(processes, piracer):
         for p in processes:
             if not p.is_alive():
                 print(f"Process {p.name} has terminated unexpectedly!")
+                if p.name == 'python3_car_info':
+                    new_process = restart_process(target=display_carinfo, args=(piracer, ), name=p.name)
                 if p.name == 'python3_car_control':
                     piracer.set_steering_percent(0)
                     piracer.set_throttle_percent(0)
