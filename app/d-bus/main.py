@@ -1,9 +1,9 @@
 import time
 import threading
 from multiprocessing  import Process
-from piracer_py.vehicles import PiRacerStandard
+from ..piracer_py.vehicles import PiRacerStandard
 from battery_service import battery_service_process
-from piracer_py.car_control import car_control
+from ..piracer_py.car_control import car_control
 from dbus_service import dbus_service_process
 from monitor import monitor_thread
 from setproctitle import setproctitle
