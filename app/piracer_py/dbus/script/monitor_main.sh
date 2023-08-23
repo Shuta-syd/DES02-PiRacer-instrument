@@ -1,7 +1,7 @@
 #!/bin/bash
 # please make sure you have to run as user called 'seame01'
 process_name="python3_main_process"
-process_path="/home/seame01/workspace/DES02-PiRacer-instrument/app/python/dbus/script/restart.sh"
+process_path="/home/seame01/workspace/DES02-PiRacer-instrument/app/piracer_py/dbus/script/restart.sh"
 inter=3
 wait=3
 
