@@ -3,7 +3,7 @@ import time
 import socket
 import pathlib
 from datetime import datetime
-from   piracer.vehicles import PiRacerStandard
+from  vehicles import PiRacerStandard
 
 FILE_DIR = pathlib.Path(os.path.abspath(os.path.dirname(__file__)))
 
@@ -13,9 +13,9 @@ def display_carinfo(vehicle: PiRacerStandard):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         return current_time
-    
+
     def get_battery_info(vehicle: PiRacerStandard):
-        battery_voltage          = round(vehicle.get_battery_voltage(),1) # in V 
+        battery_voltage          = round(vehicle.get_battery_voltage(),1) # in V
         battery_current          = round(vehicle.get_battery_current(),1) # in mA
         power_consumption        = round(vehicle.get_power_consumption(),1) # in W
         batterylevel_info = f'{battery_voltage}V,{battery_current}mA,{power_consumption}W'
@@ -31,22 +31,22 @@ def display_carinfo(vehicle: PiRacerStandard):
         except Exception as e:
             print("Error while getting local IP address:", e)
             return None
-    
+
     def display_carinfo(currenttime, ipAddress, batterylevel, vehicle: PiRacerStandard):
-        ipAddress    = f'IP:{ipAddress}' 
-        display      = vehicle.get_display()                                                       # Get SSD1306_I2C object 
+        ipAddress    = f'IP:{ipAddress}'
+        display      = vehicle.get_display()                                                       # Get SSD1306_I2C object
         display.fill(0)                                                                            # Clear display
-        display.text(batterylevel   , 0, 0,   'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # Print first row 
+        display.text(batterylevel   , 0, 0,   'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # Print first row
         display.text(ipAddress      , 0, 10,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # Print second row
-        display.text(currenttime    , 0, 20,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   # 
+        display.text(currenttime    , 0, 20,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   #
         display.show()                                                                             # Show the updated display with both texts
     try:
         while True:
-            ipAddr  = get_ip_address()                                                              
+            ipAddr  = get_ip_address()
             batlvl  = get_battery_info(vehicle)
             curtime = get_current_time()
             display_carinfo(currenttime=curtime , ipAddress=ipAddr, batterylevel=batlvl, vehicle=vehicle)
-            time.sleep(1)                                                                                 
+            time.sleep(1)
     except KeyboardInterrupt:
         print(" - Display carinfo process has been stopped. -")
         pass
