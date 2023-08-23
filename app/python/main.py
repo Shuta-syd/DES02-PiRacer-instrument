@@ -1,13 +1,11 @@
 import time
-import sys
 import threading
 from multiprocessing  import Process
-from battery_service import battery_service_process
-from dbus_service import dbus_service_process
-from monitor import monitor_thread
+from dbus.battery_service import battery_service_process
+from dbus.dbus_service import dbus_service_process
+from dbus.monitor import monitor_thread
 from setproctitle import setproctitle
 
-sys.path.append('../')
 from piracer_py.vehicles import PiRacerStandard
 from piracer_py.car_control import car_control
 
