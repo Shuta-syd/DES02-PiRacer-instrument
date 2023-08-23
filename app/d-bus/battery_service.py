@@ -1,7 +1,10 @@
+import sys
 from pydbus import SessionBus
 from math import pi
-from ..piracer_py.vehicles import PiRacerStandard
 from gi.repository import GLib
+
+sys.path.append('../')
+from piracer_py.vehicles import PiRacerStandard
 
 class BatteryService(object):
   """
