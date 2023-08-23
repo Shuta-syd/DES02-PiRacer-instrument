@@ -1,5 +1,5 @@
-from vehicles import PiRacerStandard
-from gamepads import ShanWanGamepad
+from .vehicles import PiRacerStandard
+from .gamepads import ShanWanGamepad
 
 def car_control():
     vehicle         = PiRacerStandard()

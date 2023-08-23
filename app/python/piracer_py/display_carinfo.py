@@ -3,7 +3,7 @@ import time
 import socket
 import pathlib
 from datetime import datetime
-from  vehicles import PiRacerStandard
+from  .vehicles import PiRacerStandard
 
 FILE_DIR = pathlib.Path(os.path.abspath(os.path.dirname(__file__)))
 
