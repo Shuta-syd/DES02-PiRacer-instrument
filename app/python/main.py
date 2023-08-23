@@ -38,6 +38,8 @@ if __name__ == '__main__':
     car_control_process.join()
     battery_process.join()
     dbus_process.join()
+    monitor_thread.join()
   except KeyboardInterrupt:
     print("Ctrl + C detected. Terminating processes...")
     terminate_processes(processes)
+    exit(1)
