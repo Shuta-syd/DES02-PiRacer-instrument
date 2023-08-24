@@ -5,9 +5,9 @@ from dbus.battery_service import battery_service_process
 from dbus.dbus_service import dbus_service_process
 from dbus.monitor import monitor_thread
 from setproctitle import setproctitle
-from piracer_py.display_carinfo import display_carinfo
-from piracer_py.vehicles import PiRacerStandard
-from piracer_py.car_control import car_control
+from system.display_carinfo import display_carinfo
+from system.vehicles import PiRacerStandard
+from system.car_control import car_control
 
 def terminate_processes(processes):
     for p in processes:
