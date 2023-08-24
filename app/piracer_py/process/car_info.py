@@ -29,21 +29,17 @@ def car_info(q):
             except Exception as e:
                 print("Error while getting local IP address:", e)
 
-            # get & calc battery info
-            num_cells               = 3                                 # number of cells
-            battery_capacity         = num_cells*2600                   # in mAh
-            battery_voltage          = round(piracer.get_battery_voltage(), 3)   # in V
-            battery_current          = round(piracer.get_battery_current(), 3)   # in mA
-            if battery_current < 0:                        
-                battery_current = battery_current * (-1)                         #sometime the battery current is negative
-            power_consumption        = round(piracer.get_power_consumption(), 3) # in W
+            # get & calc battery info (battery sanyo 18650)
+            num_cells                = 3                                              # number of cells
+            battery_capacity         = num_cells*2600                                 # in mAh
+            battery_voltage          = round(abs(piracer.get_battery_voltage()), 3)   # in V
+            battery_current          = round(abs(piracer.get_battery_current()), 3)   # in mA
+            power_consumption        = round(abs(piracer.get_power_consumption()), 3) # in W
         
             # approximation of battery level in % (third degree, approximation)
-            x = battery_voltage / 3             # battery sanyo 18650 - number of cells: 3
+            x = battery_voltage / num_cells
             y = -691.919 * x**3 + 7991.667 * x**2 - 30541.295 * x + 38661.5 
-            battery_level = int(y)
-            if battery_level > 100:
-                battery_level = 100
+            battery_level = min(max(int(battery_level), 0), 100)                      # make sure, the value is in range 0-100
 
             # calculate battery hour in h, assuming that a fully charged battery can run for 4 hours
             battery_hour = round(4 * (battery_level/100), 3) # in h
