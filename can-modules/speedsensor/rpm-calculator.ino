@@ -5,9 +5,9 @@
 MCP_CAN CAN(10);
 
 /** values to calculate RPM */
-#define PPR 20
+#define PPR 20 // pluse per rotation
 #define PI 3.1415926535897932384626433832795
-#define WheelDiameter 65.0 // [mm]
+#define WHEEL_DIAMETER 65.0 // [mm]
 #define SpeedSensorDiameter 20.0 // [mm]
 #define RPM_SENSOR_MAX 1800 // Max. RPM of sensor
 
@@ -28,7 +28,7 @@ int purseCnt = 1;
 uint8_t data[8];
 int can_id = 0x125;
 int can_dlc = 8;
-double C = WheelDiameter * PI / 1000;
+double C = WHEEL_DIAMETER * PI / 1000;
 int status = 0;
 
 void setup() {
