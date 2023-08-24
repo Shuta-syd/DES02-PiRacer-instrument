@@ -3,149 +3,303 @@ import  QtQuick.Window          2.1
 import  QtQuick.Controls        1.4
 import  QtQuick.Controls.Styles 1.4
 import  QtQuick.Extras          1.4
+import  QtGraphicalEffects      1.0
+import  "."
+
 
 Window {
-    id:       root
-    title:    "QT5 based dashboard"
-    visible:  (true)
-    width:    (1024)
-    height:   (600)
-    color:    ("#161616")
+    id:             root
+    title:          "dashboard"
+    visible:        (true)
+    width:          (1248)
+    height:         (400)
+    minimumWidth:   (400)
+    minimumHeight:  (300)
+    color:          ("#000000")
 
     ValueSource {
         id:     valueSource
     }
 
-    //  Dashboards are typically in a landscape orientation, so we need to ensure
-    //  our height is never greater than our width.
+    //  ========================================================================
+    //  Top Navbar
+    Item {
+        id:     navbarContainer
+        width:  (root.width)
+        height: (30)
+
+        Item { // buttons
+            id:                 buttons
+            anchors.top:        (parent.top)
+            anchors.left:       (parent.left)
+            anchors.leftMargin: (10)
+            anchors.topMargin:  (12)
+
+            Row {
+                spacing: 8
+                Rectangle { width: 12; height: 12; color: "#FF4D00"; radius: 7 }
+                Rectangle { width: 12; height: 12; color: "#FFE500"; radius: 7 }
+                Rectangle { width: 12; height: 12; color: "#08EA1E"; radius: 7 }
+            }
+        }
+
+        Item { // battery icon
+            id:                 batteryIcon
+            width:              (35)
+            height:             (13)
+            anchors.top:        (parent.top)
+            anchors.left:       (buttons.right)
+            anchors.leftMargin: (65)
+            anchors.topMargin:  (12)
+
+            layer.enabled:      (true)
+            layer.effect:       Glow {
+                radius:             (2)
+                color:              Qt.rgba(30, 240, 253, 0.6)
+                spread:             (0.1)
+            }
+
+            // Outer Rectangle (Battery Outline)
+            Rectangle {
+                id:                 batteryOutline
+                width:              (parent.width)
+                height:             (parent.height)
+                border.color:       ("#1EF0FD")
+                border.width:       (1)
+                color:              ("transparent")
+                radius:             (2)
+            }
+
+            // Inner Rectangle (Battery Level)
+            Rectangle {
+                id:                 batteryLevel
+                width:              (batteryOutline.width * (((valueSource.level > 100) ? 100 : valueSource.level) / 100))
+                height:             (batteryOutline.height - 2)
+                anchors {
+                    verticalCenter: (batteryOutline.verticalCenter)
+                    left:           (batteryOutline.left)
+                }
+                color:              ("#1EF0FD")
+            }
+        }
+
+        // Battery percentage and estimated time
+        Item {
+            id:                     batteryInfo
+            anchors.left:           (batteryIcon.right)
+            anchors.top:            (parent.top)
+            anchors.verticalCenter: (batteryIcon.verticalCenter)
+            anchors.topMargin:      (7)
+            anchors.leftMargin:     (9)
+
+            Text {
+                text:               (Math.min(valueSource.level, 100) + "%  " + valueSource.left_hour + " hours  /  " + valueSource.voltage + "V  " + valueSource.current + "mA")
+                font.pixelSize:     (18)
+                color:              ("white")
+            }
+        }
+
+        Item { // timer
+            anchors.top:        (parent.top)
+            anchors.right:      (parent.right)
+            anchors.rightMargin:60
+            anchors.topMargin:  10
+
+            Text {
+                id:                 timeText
+                font.pixelSize:     18
+                color:              (Qt.rgba(1,1,1,1))
+                text:               (valueSource.time)
+
+                layer.effect: Glow { // shading effect
+                    radius:             10
+                    samples:            16
+                    color:              (Qt.rgba(1,1,1,1))
+                    source:             timeText
+                }
+            }
+        }
+    }
+    //  Top Navbar End
+    //  ========================================================================
+
+
+    //  ========================================================================
+//    Item {
+//        id: alarmContainer
+//        anchors.fill: parent
+//        z: 100 // Ensure it overlays other elements
+//        width: (parent.width * 0.9)
+//        anchors.centerIn: parent
+
+//        // Use a ListView to display the alarms
+//        ListView {
+//            id: listView
+//            anchors.fill: parent
+//            spacing: 5
+//            model: valueSource.alarmQueue
+
+//            delegate: AlarmBox {
+//                width: alarmContainer.width
+//                alarm: modelData
+//            }
+            
+//            // Position the ListView at the top by default
+//            // But when items overflow, the most recent alarm will be shown at the bottom.
+//            onCountChanged: positionViewAtEnd()
+//        }
+
+//        Connections {
+//            target: valueSource
+//            function alarmQueueChanged() {
+//                listView.model = valueSource.alarmQueue
+//            }
+//        }
+//    }
+
+    //  ========================================================================
+
+
+    //  ========================================================================
+    //  Content Container
     Item {
         id:               container
         width:            (root.width)
         height:           (Math.min(root.width, root.height))
-        anchors.centerIn: (parent)
 
         Row {
             id:               gaugeRow
             spacing:          (container.width * 0.02)
             anchors.centerIn: (parent)
 
-            TurnIndicator {
-                id:                     leftIndicator
-                anchors.verticalCenter: (parent.verticalCenter)
-                width:                  (height)
-                height:                 (container.height * 0.1) - (gaugeRow.spacing)
-                direction:              (Qt.LeftArrow)
-                on:                     (valueSource.turnSignal == Qt.LeftArrow)
-            }
-
+            //  ================================================================
+            //  Consumption
             Item {
-                width:                  height
-                height:                 container.height * 0.25
-                                        - gaugeRow.spacing
-                anchors.verticalCenter: parent.verticalCenter
+                id:                     consumptionContainer
+                width:                  (height * 0.75)
+                height:                 (container.height * 0.75)
+                anchors.verticalCenter: (root.verticalCenter)
+                property int padding:   (20)
 
                 CircularGauge {
-                    id:                   fuelGauge
-                    value:                valueSource.fuel
-                    maximumValue:         1
-                    y:                    parent.height / 2
-                                            - height / 2
-                                            - container.height * 0.01
-                    width:                parent.width
-                    height:               parent.height * 0.7
+                    id:                     consumption
+                    width:                  (parent.width)
+                    height:                 (parent.height)
+                    z:                      (1)
 
-                    style: IconGaugeStyle {
-                        id:                 fuelGaugeStyle
+                    value:                  (valueSource.consumption)
+                    maximumValue:           (100)
+                    tickmarksVisible:       (false)
 
-                        icon:               "qrc:/asset/images/fuel.icon.png"
-                        minWarningColor:    Qt.rgba(0.5, 0, 0, 1)
-
-                        tickmarkLabel: Text {
-                            color:            "white"
-                            visible:          (styleData.value === 0) ||
-                                                (styleData.value === 1)
-                            font.pixelSize:   fuelGaugeStyle.toPixels(0.225)
-                            text:             (styleData.value === 0) ?
-                                                "E" :
-                                                ((styleData.value === 1) ?
-                                                    "F" :
-                                                    "")
-                        }
+                    anchors {
+                        top:                (parent.top)
+                        left:               (parent.left)
+                        margins:            (consumptionContainer.padding)
+                        topMargin:          (consumptionContainer.padding + 80)
+                        leftMargin:         (0)
+                        rightMargin:        (0)
                     }
-                }
 
-                CircularGauge {
-                    value:                valueSource.temperature
-                    maximumValue:         1
-                    width:                parent.width
-                    height:               parent.height * 0.7
-                    y:                    parent.height / 2 +
-                                            container.height * 0.01
-
-                    style: IconGaugeStyle {
-                        id:                 tempGaugeStyle
-                        icon:               "qrc:/asset/images/temperature.icon.png"
-                        maxWarningColor:    Qt.rgba(0.5, 0, 0, 1)
-
-                        tickmarkLabel: Text {
-                            color:            "white"
-                            visible:          (styleData.value === 0) ||
-                                                (styleData.value === 1)
-                            font.pixelSize:   tempGaugeStyle.toPixels(0.225)
-                            text:             (styleData.value === 0) ?
-                                                "C" :
-                                                ((styleData.value === 1) ?
-                                                    "H" :
-                                                    "")
-                        }
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:      (false)
+                        isGearOn:           (false)
+                        tailX:              (145)
+                        tailY:              (624)
+                        mainLabel:          ("battery consumption (W)")
+                        mainFontSize:       (toPixels(0.45))
                     }
                 }
             }
+            //  Consumption End
+            //  ================================================================
 
-            CircularGauge {
-                id:                     speedometer
-                /*
-                    We set the width to the height, because the height will always be
-                    the more limited factor. Also, all circular controls letterbox
-                    their contents to ensure that they remain circular. However, we
-                    don't want to extra space on the left and right of our gauges,
-                    because they're laid out horizontally, and that would create
-                    large horizontal gaps between gauges on wide screens.
-                */
+
+            //  ================================================================
+            //  Speedometer
+            Item {
+                id:                     speedometerContainer
                 width:                  (height)
-                height:                 (container.height * 0.5)
-                anchors.verticalCenter: (parent.verticalCenter)
+                height:                 (container.height)
+                anchors.verticalCenter: (root.verticalCenter)
+                anchors.rightMargin:    (0)
+                property int padding:   (20)
 
-                value:                  valueSource.spd
-                maximumValue:           (50)
+                CircularGauge {
+                    id:                     speedometer
+                    width:                  (parent.width)
+                    height:                 (parent.height)
+                    z:                      (1)
 
-                style: DashboardGaugeStyle {
+                    value:                  (valueSource.speed)
+                    maximumValue:           (200)
+                    tickmarksVisible:       (false)
+
+                    anchors {
+                        top:                (parent.top)
+                        left:               (parent.left)
+                        margins:            (speedometerContainer.padding)
+                        leftMargin:         (0)
+                        rightMargin:        (0)
+                    }
+
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:      (true)
+                        isGearOn:           (true)
+                        tailX:              (160)
+                        tailY:              (624)
+                        mainLabel:          ("m/min")
+                        mainFontSize:       (toPixels(0.55))
+                        labelSteps:         (10)
+                    }
                 }
             }
+            //  Speedometer End
+            //  ================================================================
 
-            CircularGauge {
-                id:                     tachometer
-                width:                  (height)
-                height:                 (container.height * 0.25) - (gaugeRow.spacing)
-                anchors.verticalCenter: (parent.verticalCenter)
 
-                value:                  (valueSource.rpm)
-                maximumValue:           (8)
+            //  ================================================================
+            //  RPMGauge
+            Item {
+                id:                     rpmGaugeContainer
+                width:                  (height * 0.75)
+                height:                 (container.height * 0.75)
+                anchors.verticalCenter: (root.verticalCenter)
+                property int padding:   (20)
 
-                style: TachometerStyle {
+                CircularGauge {
+                    id:                     rpmGauge
+                    width:                  (parent.width)
+                    height:                 (parent.height)
+                    z:                      (1)
+
+                    value:                  (valueSource.rpm)
+                    maximumValue:           (600)
+                    tickmarksVisible:       (false)
+
+                    anchors {
+                        top:                    (parent.top)
+                        left:                   (parent.left)
+                        margins:                (rpmGaugeContainer.padding)
+                        topMargin:              (rpmGaugeContainer.padding + 80)
+                        leftMargin:             (0)
+                        rightMargin:            (0)
+                    }
+
+                    style: DashboardGaugeStyle {
+                        isIndicatorOn:          (false)
+                        isGearOn:               (false)
+                        tailX:                  (120)
+                        tailY:                  (624)
+                        mainLabel:              ("rpm")
+                        mainFontSize:           (toPixels(0.45))
+                        labelSteps:             (50)
+                    }
                 }
             }
-
-            TurnIndicator {
-                id:                     rightIndicator
-                width:                  (height)
-                height:                 (container.height * 0.1) - (gaugeRow.spacing)
-                anchors.verticalCenter: (parent.verticalCenter)
-
-                direction:              (Qt.RightArrow)
-                on:                     (valueSource.turnSignal == Qt.RightArrow)
-            }
-
+            //  RPMGauge End
+            //  ================================================================
         }
     }
-    }
+    //  Content Container End
+    //  ========================================================================
+}

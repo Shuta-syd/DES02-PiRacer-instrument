@@ -16,6 +16,12 @@
 //  library for QT animation
 # include   <QPropertyAnimation>
 
+// Library for JSON parsing
+# include   <QJsonDocument>
+# include   <QJsonObject>
+# include   <QJsonValue>
+# include   <QtMath>
+
 
 //  macros
 # define    FAILURE     -1
@@ -30,9 +36,33 @@ int         main(
 ) {
     QGuiApplication app(_arc, _arv);
 
-    //  Set DejaVu Sans Font
-    QFontDatabase::addApplicationFont(":/asset/fonts/DejaVuSans.ttf");
-    app.setFont(QFont("DejaVu Sans"));
+    //  Set Futura Heavy Font
+    QStringList fonts;
+    QList<int> fontIds;
+    
+    fonts.append("Futura_Heavy.ttf");
+    fonts.append("Futura_Heavy_Italic.ttf");
+    fonts.append("Futura_Bold.otf");
+    for (int i=0; i<fonts.size(); i++)
+    {
+        fontIds.append(QFontDatabase::addApplicationFont(":/asset/fonts/" + fonts[i]));
+        if (fontIds[i] == -1)
+        {
+            qWarning() << fonts[i] << "file not found";
+            return  (FAILURE);
+        }
+        else
+            qDebug() << "font id:" << fontIds[i] << "/" << fonts[i] << "was appended. ";
+    }
+
+    QStringList fontFamilies = QFontDatabase::applicationFontFamilies(2);
+    if (!fontFamilies.isEmpty()) {
+        QString fontFamily = fontFamilies.at(0);
+        app.setFont(QFont(fontFamily));
+    } else {
+        qWarning() << "No font families found for Futura_Bold.otf";
+        return FAILURE;
+    }
 
     //  Create and initialize the engine
     QQmlApplicationEngine engine(QUrl("qrc:/asset/qml/dashboard.qml"));
@@ -51,44 +81,68 @@ int         main(
     }
 
     //  Create and initialize the socket
-    QTcpSocket* socket = new QTcpSocket();
-    QObject::connect(socket, &QTcpSocket::connected, []()
-    {
-        qDebug() << "Connected to the server";
-    });
+    // QTcpSocket* socket = new QTcpSocket();
 
     //  Try to connect to the server
-    socket->connectToHost(HOST, PORT);
-    if (!socket->waitForConnected(3000))
-    {
-        qDebug() << "Error: " << socket->errorString();
-        return  (FAILURE);
-    }
+    // socket->connectToHost(HOST, PORT);
+    // if (!socket->waitForConnected(3000))
+    // {
+    //     qDebug() << "Error: " << socket->errorString();
+    //     return  (FAILURE);
+    // }
 
     //  Create animations for smooth transitions
-    QPropertyAnimation* speedAnimation = new QPropertyAnimation(valueSource, "spd");
-    speedAnimation->setDuration(400); // You can adjust the duration for smoothness
-    QPropertyAnimation* rpmAnimation = new QPropertyAnimation(valueSource, "rpm");
-    rpmAnimation->setDuration(400); // You can adjust the duration for smoothness
+    // QList<QList<QString>> properties = {
+    //     {"throttle",            "float",    "throttle"},
+    //     {"steering",            "float",    "steering"},
+    //     {"indicator",           "float",    "indicator"},
+    //     {"battery_voltage",     "float",    "voltage"},
+    //     {"power_consumption",   "float",    "consumption"},
+    //     {"battery_current",     "float",    "current"},
+    //     {"battery_level",       "float",    "level"},
+    //     {"battery_hour",        "float",    "left_hour"},
+    //     {"speed",               "short",    "speed"},
+    //     {"rpm",                 "short",    "rpm"},
+    //     {"ip_address",          "string",   "ip_address"},
+    //     {"curtime",             "string",   "time"},  
+    // };
 
-    //  Update the properties when data is ready
+    // QList<QPropertyAnimation *> animations;
+    // for (int i=0; i<properties.size(); i++) {
+    //     QPropertyAnimation* animation = new QPropertyAnimation(valueSource, properties[i][2].toUtf8());
+    //     animation->setDuration(400);
+    //     animations.append(animation);
+    // }
+
     QStringList logList;
-    QObject::connect(socket, &QTcpSocket::readyRead, [socket, valueSource, speedAnimation, rpmAnimation]() {
-        QTextStream _T(socket);
-        QString _msg = _T.readAll();
-        QStringList _list = _msg.split(",");
-        if (_list.size() == 2) {
-            // Smooth transition for speed
-            speedAnimation->setEndValue(_list[0].toDouble());
-            if (speedAnimation->state() != QPropertyAnimation::Running)
-                speedAnimation->start();
-            // Smooth transition for rpm
-            rpmAnimation->setEndValue(_list[1].toDouble());
-            if (rpmAnimation->state() != QPropertyAnimation::Running)
-                rpmAnimation->start();
-        } else {
-            qWarning() << "Unexpected message format: " << _msg;
+    QObject::connect(socket, &QTcpSocket::readyRead, [socket, valueSource, &animations, &properties]() {
+        QTextStream     _T(socket);
+        QString         _msg = _T.readAll();
+        qDebug() << "message received:" << _msg;
+
+        QJsonDocument   _json = QJsonDocument::fromJson(_msg.toUtf8());
+        if (!_json.isNull())
+        {
+            QJsonObject _jsonObj = _json.object();
+            for (int i=0; i<properties.size(); i++)
+            {
+                QString  _data = _jsonObj[properties[i][0]].toString();
+                qDebug() << _data;
+                QVariant _updatedData;
+                if (properties[i][1] == "float")
+                    _updatedData = qFloor(_data.toDouble(), 3);
+                else if (properties[i][1] == "string")
+                    _updatedData = _data;
+                else if (properties[i][1] == "short")
+                    _updatedData = _data.toInt();
+
+                animations[i]->setEndValue(_updatedData);
+                if (animations[i]->state() != QPropertyAnimation::Running)
+                    animations[i]->start();
+            }
         }
+        else
+            qWarning() << "Invalid JSON: " << _msg;
     });
 
     int result = app.exec();
