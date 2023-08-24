@@ -8,7 +8,7 @@ MCP_CAN CAN(10);
 #define PPR 20 // pluse per rotation
 #define PI 3.1415926535897932384626433832795
 #define WHEEL_DIAMETER 65.0 // [mm]
-#define SpeedSensorDiameter 20.0 // [mm]
+#define SPEED_SENSOR_DIAMETER 20.0 // [mm]
 #define RPM_SENSOR_MAX 1800 // Max. RPM of sensor
 
 double sample_rate = 0.0;
@@ -51,7 +51,7 @@ void loop() {
     frqRaw = 1000000 * 1000 / elapsedTimeAvg;
 
     RPM_s = (frqRaw * 60 / PPR) / 1000;
-    RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
+    RPM_w = RPM_s * (SPEED_SENSOR_DIAMETER / WheelDiameter);
     speed = RPM_w * C;
 
     Serial.print("RPM: "); Serial.print(RPM_w); Serial.print(" Speed [m/min]: "); Serial.println(speed);
