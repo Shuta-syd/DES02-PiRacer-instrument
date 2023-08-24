@@ -38,13 +38,9 @@ def car_info(q):
                 battery_current = battery_current * (-1)                         #sometime the battery current is negative
             power_consumption        = round(piracer.get_power_consumption(), 3) # in W
         
-            # approximation of battery level in % with exponential decay
-            # battery, sanyo 18650 - number of cells: 3
-            # discharhing curve per cell: https://lygte-info.dk/info/BatteryChargePercent%20UK.html
-            #   voltage per cell: 4.2, 4.1, 4.0, 3.9, 3.8, 3.7, 3.6, 3.5, 3.4, 3.3, 3.2
-            #   battery level per cell in %: 100, 91, 79, 62, 42, 12, 2, 0, 0 ,0 ,0
-            x = battery_voltage / 3
-            y = -691.919*x^(3)+7991.667*x^(2)-30541.295*x+38661.5 #(third degree approximation!)
+            # approximation of battery level in % (third degree, approximation)
+            x = battery_voltage / 3             # battery sanyo 18650 - number of cells: 3
+            y = -691.919 * x**3 + 7991.667 * x**2 - 30541.295 * x + 38661.5 
             battery_level = int(y)
             if battery_level > 100:
                 battery_level = 100
