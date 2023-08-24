@@ -1,8 +1,26 @@
 # Speed Calculation
-## Step1. RPM Calculation
+## Step1. Calculate Sampling Rate according to Nyquist Theorem
+The Nyquist Theorem states that the sampling frequency (also known as the sampling rate) must be at least twice the highest frequency component in the signal to ensure lossless reproduction of the signal after sampling.
+
+$T_a$ - the sampling period (time between consecutive samples)  
+$f_{max}$ - Maximum Frequency
+
+$$
+T_a \leq \frac{1}{2 \cdot f_{max}}
+$$
+
+> 100% throttle the piracer accelerate the speed sensor disk up to rpm_sensor = 1800
+
+$$
+  sampleRate = \frac{1}{2 \cdot \frac{RPM_{max}}{60}} * 1000
+$$
+
+> to get sampling rate in milliseconds, we need to multiply by 1000
+
+## Step2. RPM Calculation
 To get vector of RPM values, you need below variables:  
 
-$RPM_s$ *[rpm]* - rpm value of Speed Sensor Wheel  
+$RPM_s$ - rpm value of Speed Sensor Wheel  
 $PPR$ - pulses per revolution  
 $pulse$ - number of pulses in one second
 
@@ -25,7 +43,7 @@ $$
 ElapsedTimeAvg = \frac{ElapsedTime}{ReadingCount}
 $$
 
-## Step2 Speed Calculation km/h
+## Step3. Speed Calculation km/h
 To get speed km/h, you need below variables:  
 
 $Speed$ *[m/min]* - speed value  
