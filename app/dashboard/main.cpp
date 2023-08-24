@@ -81,44 +81,44 @@ int         main(
     }
 
     //  Create and initialize the socket
-    // QTcpSocket* socket = new QTcpSocket();
+    QTcpSocket* socket = new QTcpSocket();
 
-    //  Try to connect to the server
-    // socket->connectToHost(HOST, PORT);
-    // if (!socket->waitForConnected(3000))
-    // {
-    //     qDebug() << "Error: " << socket->errorString();
-    //     return  (FAILURE);
-    // }
+    //Try to connect to the server
+    socket->connectToHost(HOST, PORT);
+    if (!socket->waitForConnected(3000))
+    {
+        qDebug() << "Error: " << socket->errorString();
+        return  (FAILURE);
+    }
 
     //  Create animations for smooth transitions
-    // QList<QList<QString>> properties = {
-    //     {"throttle",            "float",    "throttle"},
-    //     {"steering",            "float",    "steering"},
-    //     {"indicator",           "float",    "indicator"},
-    //     {"battery_voltage",     "float",    "voltage"},
-    //     {"power_consumption",   "float",    "consumption"},
-    //     {"battery_current",     "float",    "current"},
-    //     {"battery_level",       "float",    "level"},
-    //     {"battery_hour",        "float",    "left_hour"},
-    //     {"speed",               "short",    "speed"},
-    //     {"rpm",                 "short",    "rpm"},
-    //     {"ip_address",          "string",   "ip_address"},
-    //     {"curtime",             "string",   "time"},  
-    // };
+    QList<QList<QString>> properties = {
+        {"throttle",            "float",    "throttle"},
+        {"steering",            "float",    "steering"},
+        {"indicator",           "float",    "indicator"},
+        {"battery_voltage",     "float",    "voltage"},
+        {"power_consumption",   "float",    "consumption"},
+        {"battery_current",     "float",    "current"},
+        {"battery_level",       "float",    "level"},
+        {"battery_hour",        "float",    "left_hour"},
+        {"speed",               "float",    "speed"},
+        {"rpm",                 "float",    "rpm"},
+        {"ip_address",          "string",   "ip_address"},
+        {"curtime",             "string",   "time"},  
+    };
 
-    // QList<QPropertyAnimation *> animations;
-    // for (int i=0; i<properties.size(); i++) {
-    //     QPropertyAnimation* animation = new QPropertyAnimation(valueSource, properties[i][2].toUtf8());
-    //     animation->setDuration(400);
-    //     animations.append(animation);
-    // }
+    QList<QPropertyAnimation *> animations;
+    for (int i=0; i<properties.size(); i++) {
+        QPropertyAnimation* animation = new QPropertyAnimation(valueSource, properties[i][2].toUtf8());
+        //animation->setDuration(50);
+        animations.append(animation);
+    }
 
     QStringList logList;
     QObject::connect(socket, &QTcpSocket::readyRead, [socket, valueSource, &animations, &properties]() {
         QTextStream     _T(socket);
         QString         _msg = _T.readAll();
-        qDebug() << "message received:" << _msg;
+        //qDebug() << "message received:" << _msg;
 
         QJsonDocument   _json = QJsonDocument::fromJson(_msg.toUtf8());
         if (!_json.isNull())
@@ -127,10 +127,10 @@ int         main(
             for (int i=0; i<properties.size(); i++)
             {
                 QString  _data = _jsonObj[properties[i][0]].toString();
-                qDebug() << _data;
+                //qDebug() << _data;
                 QVariant _updatedData;
                 if (properties[i][1] == "float")
-                    _updatedData = qFloor(_data.toDouble(), 3);
+                    _updatedData = qFloor(_data.toDouble());
                 else if (properties[i][1] == "string")
                     _updatedData = _data;
                 else if (properties[i][1] == "short")
@@ -139,6 +139,8 @@ int         main(
                 animations[i]->setEndValue(_updatedData);
                 if (animations[i]->state() != QPropertyAnimation::Running)
                     animations[i]->start();
+                    
+                qDebug() << _data;
             }
         }
         else

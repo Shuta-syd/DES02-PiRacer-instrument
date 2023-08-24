@@ -6,12 +6,11 @@ import  QtQuick.Extras          1.4
 import  QtGraphicalEffects      1.0
 import  "."
 
-
 Window {
     id:             root
     title:          "dashboard"
     visible:        (true)
-    width:          (1248)
+    width:          (1250)
     height:         (400)
     minimumWidth:   (400)
     minimumHeight:  (300)
@@ -19,6 +18,12 @@ Window {
 
     ValueSource {
         id:     valueSource
+    }
+
+    FrameAnimation {
+        id: frameAnimation
+        property real fps: smoothFrameTime > 0 ? (1.0 / smoothFrameTime) : 0
+        running: true
     }
 
     //  ========================================================================
@@ -37,9 +42,9 @@ Window {
 
             Row {
                 spacing: 8
-                Rectangle { width: 12; height: 12; color: "#FF4D00"; radius: 7 }
-                Rectangle { width: 12; height: 12; color: "#FFE500"; radius: 7 }
-                Rectangle { width: 12; height: 12; color: "#08EA1E"; radius: 7 }
+                Rectangle { width: 12; height: 12; color: "black"; radius: 0 }
+                Rectangle { width: 12; height: 12; color: "black"; radius: 0 }
+                Rectangle { width: 12; height: 12; color: "black"; radius: 0 }
             }
         }
 
@@ -93,7 +98,7 @@ Window {
             anchors.leftMargin:     (9)
 
             Text {
-                text:               (Math.min(valueSource.level, 100) + "%  " + valueSource.left_hour + " hours  /  " + valueSource.voltage + "V  " + valueSource.current + "mA")
+                text:               (parseInt(Math.min(valueSource.level, 100)) + "%  " + parseInt(valueSource.left_hour) + " hours" + "\n" + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA")
                 font.pixelSize:     (18)
                 color:              ("white")
             }
@@ -120,45 +125,6 @@ Window {
             }
         }
     }
-    //  Top Navbar End
-    //  ========================================================================
-
-
-    //  ========================================================================
-//    Item {
-//        id: alarmContainer
-//        anchors.fill: parent
-//        z: 100 // Ensure it overlays other elements
-//        width: (parent.width * 0.9)
-//        anchors.centerIn: parent
-
-//        // Use a ListView to display the alarms
-//        ListView {
-//            id: listView
-//            anchors.fill: parent
-//            spacing: 5
-//            model: valueSource.alarmQueue
-
-//            delegate: AlarmBox {
-//                width: alarmContainer.width
-//                alarm: modelData
-//            }
-            
-//            // Position the ListView at the top by default
-//            // But when items overflow, the most recent alarm will be shown at the bottom.
-//            onCountChanged: positionViewAtEnd()
-//        }
-
-//        Connections {
-//            target: valueSource
-//            function alarmQueueChanged() {
-//                listView.model = valueSource.alarmQueue
-//            }
-//        }
-//    }
-
-    //  ========================================================================
-
 
     //  ========================================================================
     //  Content Container
@@ -171,7 +137,6 @@ Window {
             id:               gaugeRow
             spacing:          (container.width * 0.02)
             anchors.centerIn: (parent)
-
             //  ================================================================
             //  Consumption
             Item {
@@ -180,6 +145,9 @@ Window {
                 height:                 (container.height * 0.75)
                 anchors.verticalCenter: (root.verticalCenter)
                 property int padding:   (20)
+
+                layer.enabled: true
+                layer.live: slider.value > 0 && frameAnimation.currentFrame % slider.value == 0
 
                 CircularGauge {
                     id:                     consumption
@@ -205,7 +173,7 @@ Window {
                         isGearOn:           (false)
                         tailX:              (145)
                         tailY:              (624)
-                        mainLabel:          ("battery consumption (W)")
+                        mainLabel:          ("Power Consumption (W)")
                         mainFontSize:       (toPixels(0.45))
                     }
                 }

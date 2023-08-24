@@ -5,7 +5,7 @@ import math
 # CAN ID for sensors
 speedsensor_can_id  = 0x125     
 # CAN bus interface (socketcan)
-bus_interface       = 'can1'    
+bus_interface       = 'can0'    
 
 def recieve_data(q):
     try:
@@ -15,7 +15,7 @@ def recieve_data(q):
         # Recieve data from can bus
         while True:
             # Receive message from CAN bus (if bus.recv() is blocking, do not block for more than 1 second)
-            message = bus.recv(timeout=10.0)
+            message = bus.recv(timeout=1.0)
 
             # if message is not None:
             if message is not None:
@@ -44,8 +44,10 @@ def recieve_data(q):
                     except queue.Full:
                         q.get()
                         q.put((speed, rpm_wheel))
+            else:
+                print("No message recieved from CAN bus.")
 
     except KeyboardInterrupt:
         # Exit with cmd+c
         bus.shutdown()
-        print(" - Recieve_data process has been stopped. - ")
+        print("Recieve_data process has been stopped.")

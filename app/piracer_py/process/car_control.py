@@ -52,7 +52,7 @@ def car_control(q):
 
     except KeyboardInterrupt:
         # Exit with cmd+c
-        print(" - Car control process has been stopped. - ")
+        print("Car control process has been stopped.")
         
         # Reset drivetrain
         vehicle.set_steering_percent(0)

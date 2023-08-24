@@ -105,8 +105,8 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                         print("Client disconnected, waiting for another connection")
                         break
 
-                    # send next message in 1 second
-                    time.sleep(1)
+                    # sending interval
+                    time.sleep(1/8)
 
             conn.close()
 
@@ -117,13 +117,13 @@ def send_data(can_queue,car_info_queue,car_control_queue):
 
         except KeyboardInterrupt:
             # Exit with cmd+c
-            print(" - Send_data process has been stopped. - ")
+            print("Send_data process has been stopped.")
             # shut down the socket server
             soc.close()
             break
 
         except Exception as e:
-            print(" - Send_data process has been stopped. - ")
+            print("Send_data process has been stopped.")
             print("An error occurred:", e)  
             break
 
