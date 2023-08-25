@@ -94,5 +94,5 @@ void DBusClient::setData() {
   emit currentChanged(_current);
   emit consumptionChanged(_consumption);
   emit levelChanged(_level);
-  emit LeftHourChanged(_hour);
+  emit leftHourChanged(_hour);
 }
