@@ -16,8 +16,8 @@ double elapsedTimeAvg = 0.0;
 double elapsedTimeSum = 100000.0;
 double elapsedTime = 0;
 double prevTime = 0;
-double millis_before = 0;
 
+unsigned long millis_before = 0;
 unsigned long frqRaw = 0;
 unsigned short RPM_s = 0;
 unsigned short RPM_w = 0;
@@ -46,19 +46,18 @@ void setup() {
 }
 
 void loop() {
-
   if (millis() - millis_before >= sample_rate) {
     detachInterrupt(digitalPinToInterrupt(SPEED_SENSOR_PIN));
-    frqRaw = 1000000 * 1000 / elapsedTimeAvg;
 
+    if (elapsedTimeAvg == 0) frqRaw = 0;
+    else  frqRaw = 1000000 * 1000 / elapsedTimeAvg;
     RPM_s = (frqRaw * 60 / PPR) / 1000;
     frqRaw = 0;
+    elapsedTimeAvg = 0;
 
     millis_before = millis();
 
-    Serial.print("RPM: "); Serial.print(RPM_w); Serial.print(" Speed [m/min]: "); Serial.println(speed);
-
-    attachInterrupt(digitalPinToInterrupt(SPEED_SENSOR_PIN), pulseCounter, FALLING);
+    attachInterrupt(digitalPinToInterrupt(SPEED_SENSOR_PIN), pulseCounter, RISING);
   }
 
   RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
@@ -66,12 +65,13 @@ void loop() {
 
   data[0] = (RPM_w >> 0) & 0xFF;
   data[1] = (RPM_w >> 8) & 0xFF;
+  Serial.print("RPM: "); Serial.print(RPM_w); Serial.print(" Speed [m/min]: "); Serial.println(speed);
 
-    status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
-    if (status == CAN_OK) {
-      Serial.println("Success");
-    } else
-      Serial.println("Error");
+  status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
+  if (status == CAN_OK) {
+    Serial.println("Success");
+  } else
+    Serial.println("Error");
   delay(50);
 }
 
