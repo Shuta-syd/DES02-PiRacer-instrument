@@ -16,7 +16,7 @@ def terminate_processes(processes):
 if __name__ == '__main__':
   piracer = PiRacerStandard()
 
-  display_carinfo_process = Process(target=display_carinfo, args=(piracer,), name='python3_car_info')
+  display_carinfo_process = Process(target=display_carinfo, args=(), name='python3_car_info')
   setproctitle("python3_car_info")
   display_carinfo_process.start()
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
   setproctitle("python3_car_control")
   car_control_process.start()
 
-  battery_process = Process(target=battery_service_process, args=(piracer, ), name='python3_battery_process')
+  battery_process = Process(target=battery_service_process, args=(), name='python3_battery_process')
   setproctitle("python3_battery_process")
   battery_process.start()
 

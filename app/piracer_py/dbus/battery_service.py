@@ -19,12 +19,12 @@ class BatteryService(object):
           </interface>
       </node>
   """
-  def __init__(self, vehicle):
+  def __init__(self):
     self._current = ''
     self._voltage = ''
     self._consumption = ''
     self._level = ''
-    self._vehicle = vehicle
+    self._vehicle = PiRacerStandard()
 
   def getLevel(self) -> str:
     # here is calculation login
@@ -43,8 +43,8 @@ class BatteryService(object):
     _current = str(round(self._vehicle.get_battery_current(),1)) # in mA
     return _current
 
-def battery_service_process(vehicle: PiRacerStandard):
+def battery_service_process():
   loop = GLib.MainLoop()
   bus = SessionBus()
-  bus.publish("com.dbus.batteryService", BatteryService(vehicle))
+  bus.publish("com.dbus.batteryService", BatteryService())
   loop.run();

@@ -7,7 +7,8 @@ from  .vehicles import PiRacerStandard
 
 FILE_DIR = pathlib.Path(os.path.abspath(os.path.dirname(__file__)))
 
-def display_carinfo(vehicle: PiRacerStandard):
+def display_carinfo():
+    vehicle = PiRacerStandard()
 
     def get_current_time():
         now = datetime.now()
