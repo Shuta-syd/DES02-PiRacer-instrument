@@ -2,6 +2,7 @@ from pydbus import SessionBus
 from math import pi
 from gi.repository import GLib
 from system.vehicles import PiRacerStandard
+from multiprocessing  import Queue
 
 class BatteryService(object):
   """
@@ -43,8 +44,9 @@ class BatteryService(object):
     _current = str(round(self._vehicle.get_battery_current(),1)) # in mA
     return _current
 
-def battery_service_process(vehicle: PiRacerStandard):
+def battery_service_process(vehicle: PiRacerStandard, communication_queue: Queue):
   loop = GLib.MainLoop()
   bus = SessionBus()
-  bus.publish("com.dbus.batteryService", BatteryService(vehicle))
+  bus.publish("com.dbus.batteryService", BatteryService(vehicle, communication_queue))
   loop.run();
+  communication_queue.put('battery_service_process ready')
