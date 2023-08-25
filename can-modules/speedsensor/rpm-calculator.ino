@@ -72,7 +72,7 @@ void loop() {
     Serial.println("Success");
   } else
     Serial.println("Error");
-  delay(50);
+  delay(100);
 }
 
 void pulseCounter() {

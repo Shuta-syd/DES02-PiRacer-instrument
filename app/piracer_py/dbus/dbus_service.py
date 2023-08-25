@@ -1,4 +1,5 @@
 import can
+import threading
 from pydbus import SessionBus
 from math import pi
 from gi.repository import GLib
@@ -20,6 +21,7 @@ class DbusService(object):
               </method>
               <method name='getBatteryInfo'>
                 <arg type='s' name='level' direction='out'/>
+                <arg type='s' name='hour' direction='out'/>
                 <arg type='s' name='consumption' direction='out'/>
                 <arg type='s' name='voltage' direction='out'/>
                 <arg type='s' name='current' direction='out'/>
@@ -27,30 +29,34 @@ class DbusService(object):
           </interface>
       </node>
   """
+  def getCanBusData(self):
+    message = self._can.recv();
+    if message is not None and message.arbitration_id == rpm_canId:
+      rpm = int.from_bytes(message.data[:2], byteorder='little', signed=False)
+      self._rpm = rpm
+
   def __init__(self):
+    can_bus_thread = threading.Thread(target=self.getCanBusData, name='can_bus_thread')
+    can_bus_thread.start()
+
     self._can = can.interface.Bus(channel=can_interface, bustype='socketcan')
     self._dbus_battery = SessionBus().get('com.dbus.batteryService')
     self._rpm = 0
 
   def getRpm(self) -> int:
-    message = self._can.recv()
-    if message is not None and message.arbitration_id == rpm_canId:
-      rpm = int.from_bytes(message.data[:2], byteorder='little', signed=False)
-      self._rpm = rpm
-      return rpm
-    return 0
+    return rpm
 
   def getSpeed(self) -> int:
     speed = self._rpm * wheel_circumference
     return speed
 
-  def getBatteryInfo(self) -> tuple:
-    level = "42"
+  def getBatteryInfo(self) -> list:
+    [level, hour] = self._dbus_battery.getLevel() # [V, h]
     voltage = self._dbus_battery.getVoltage() # [V]
-    consumption = self._dbus_battery.getConsumption() # [""]
+    consumption = self._dbus_battery.getConsumption() # [W]
     current = self._dbus_battery.getCurrent() # [mA]
-    # print(level, consumption, voltage, current)
-    return [level, consumption, voltage, current]  # battery level, consumption,voltage, current
+    print(level, consumption, voltage, current)
+    return [level, hour, consumption, voltage, current]  # battery level, left hour, consumption,voltage, current
 
 def dbus_service_process():
   loop = GLib.MainLoop()

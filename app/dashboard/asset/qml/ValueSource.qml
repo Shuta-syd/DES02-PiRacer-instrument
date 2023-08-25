@@ -14,8 +14,8 @@ Item {
     property double voltage:    (0.0)   // (float)          // V
     property double consumption:(100.0) // (float)          // W
     property double current:    (0.0)   // (float)          // mA
-    property double level:      (50.0)  // (float)          // %, (0~100)
-    property real   left_hour:  (3.0)   // (float)
+    property double level:      (0.0)  // (float)          // %, (0~100)
+    property real   left_hour:  (0)   // (float)
 
     //  about speed
     property real   speed:      (0)    // (unsigned short) // m/min
@@ -38,6 +38,9 @@ Item {
         }
         onLevelChanged: {
           valueSource.level = dbus_client.getLevel();
+        }
+        onLeftHourChanged: {
+          valueSource.level = dbus_client.getLeftHour();
         }
         onConsumptionChanged: {
           valueSource.consumption = dbus_client.getConsumption();

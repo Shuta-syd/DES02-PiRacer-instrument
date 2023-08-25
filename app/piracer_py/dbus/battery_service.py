@@ -8,6 +8,10 @@ class BatteryService(object):
   """
       <node>
           <interface name='com.dbus.batteryService'>
+              <method name='getLevel'>
+                  <arg type='s' name='response' direction='out'/>
+                  <arg type='s' name='response' direction='out'/>
+              </method>
               <method name='getConsumption'>
                   <arg type='s' name='response' direction='out'/>
               </method>
@@ -27,10 +31,17 @@ class BatteryService(object):
     self._level = ''
     self._vehicle = vehicle
 
-  def getLevel(self) -> str:
-    # here is calculation login
-    _level = '42'
-    return _level
+  def getLevel(self) -> list:
+    num_cells = 3 # number of cells
+    # approximation of battery level in % (third degree, approximation)
+    x = self._voltage / num_cells
+    y = -691.919 * x**3 + 7991.667 * x**2 - 30541.295 * x + 38661.5
+    # make sure that battery level is between 0 and 100
+    battery_level = min(max(round(y, 3), 0), 100) # in %
+
+    # calculate battery hour in h, assuming that a fully charged battery can run for 4 hours
+    battery_hour = round(4 * (battery_level/100), 3) # in h
+    return [_level, battery_hour]
 
   def getVoltage(self) -> str:
     _voltage          = str(round(self._vehicle.get_battery_voltage(),1)) # in V

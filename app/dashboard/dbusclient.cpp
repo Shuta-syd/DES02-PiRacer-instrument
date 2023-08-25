@@ -3,12 +3,7 @@
 #include <QDebug>
 #include <vector>
 
-#define CLOCK_TIME 0.01
-#define MAX_SIZE 10
-static int speed_i = 1;
-static qreal speed_sum = -1;
-static int rpm_i = 1;
-static qreal rpm_sum = -1;
+#define CLOCK_TIME 100
 
 DBusClient::DBusClient(QObject *parent)
     : QObject{parent}, _dbus(QDBusConnection::sessionBus()), _iface(Q_NULLPTR), _speed(0), _rpm(0)
@@ -48,14 +43,7 @@ qreal DBusClient::speed() {
       return 0;
   }
   qreal value = response.arguments().at(0).toInt();
-  speed_sum += value;
-  if (speed_i++ == MAX_SIZE) {
-      speed_i = 1;
-      value = speed_sum / MAX_SIZE;
-      speed_sum = 0;
-      return value;
-  }
-  return this->_speed;
+  return value;
 }
 
 qreal DBusClient::rpm() {
@@ -67,14 +55,7 @@ qreal DBusClient::rpm() {
   }
 
   qreal value = response.arguments().at(0).toInt();
-  rpm_sum += value;
-  if (rpm_i++ == MAX_SIZE) {
-      rpm_i = 1;
-      value = rpm_sum / MAX_SIZE;
-      rpm_sum = 0;
-      return value;
-  }
-  return this->_rpm;
+  return value;
 }
 
 void DBusClient::batteryInfo() {
@@ -88,9 +69,10 @@ void DBusClient::batteryInfo() {
 
   QList<QVariant> responseData = response.arguments();
     this->_level = responseData.at(0).toString().toDouble();
-    this->_consumption = responseData.at(1).toString().toDouble();
-    this->_voltage = responseData.at(2).toString().toDouble();
-    this->_current = responseData.at(3).toString().toDouble();
+    this->_hour = responseData.at(1).toString().toDouble();
+    this->_consumption = responseData.at(2).toString().toDouble();
+    this->_voltage = responseData.at(3).toString().toDouble();
+    this->_current = responseData.at(4).toString().toDouble();
 
     qDebug() << "Battery Level: " << _level;
     qDebug() << "Voltage: " << _voltage;
@@ -112,4 +94,5 @@ void DBusClient::setData() {
   emit currentChanged(_current);
   emit consumptionChanged(_consumption);
   emit levelChanged(_level);
+  emit LeftHourChanged(_hour);
 }

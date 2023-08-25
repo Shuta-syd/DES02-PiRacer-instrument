@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE qreal getCurrent() { return _current; }
     Q_INVOKABLE qreal getConsumption() { return _consumption; }
     Q_INVOKABLE qreal getLevel() { return _level; }
+    Q_INVOKABLE qreal getLeftHour() { return _hour; }
     void connectToDBus();
 
   public Q_SLOTS:
@@ -35,6 +36,7 @@ Q_SIGNALS:
     void rpmChanged(qreal);
     void voltageChanged(qreal);
     void levelChanged(qreal);
+    void leftHourChanged(qreal);
     void consumptionChanged(qreal);
     void currentChanged(qreal);
 
@@ -47,6 +49,7 @@ public:
   qreal _consumption;
   qreal _voltage;
   qreal _level;
+  qreal _hour;
 };
 
 #endif // DBUSCLIENT_H
