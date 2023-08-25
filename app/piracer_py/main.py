@@ -25,7 +25,7 @@ if __name__ == '__main__':
   setproctitle("python3_car_control")
   car_control_process.start()
 
-  battery_process = Process(target=battery_service_process, args=(piracer, communication_queue), name='python3_battery_process')
+  battery_process = Process(target=battery_service_process, args=(piracer, communication_queue, ), name='python3_battery_process')
   setproctitle("python3_battery_process")
   battery_process.start()
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     dbus_process.start()
 
   processes = [car_control_process, battery_process, dbus_process]
-  monitor_thread = threading.Thread(target=monitor_thread, args=(processes, piracer,), name='monitor_thread')
+  monitor_thread = threading.Thread(target=monitor_thread, args=(processes, piracer, communication_queue, ), name='monitor_thread')
   monitor_thread.start()
 
   setproctitle("python3_main_process")
