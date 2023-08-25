@@ -30,6 +30,7 @@ if __name__ == '__main__':
   battery_process.start()
 
   if (communication_queue.get() == 'battery_service_process ready'):
+    print('battery_service_process ready')
     dbus_process = Process(target=dbus_service_process, name='python3_dbus_process')
     setproctitle("python3_dbus_process")
     dbus_process.start()
