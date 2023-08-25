@@ -20,11 +20,11 @@ if __name__ == '__main__':
   setproctitle("python3_car_info")
   display_carinfo_process.start()
 
-  car_control_process = Process(target=car_control, args=(piracer, ), name='python3_car_control')
+  car_control_process = Process(target=car_control, args=( ), name='python3_car_control')
   setproctitle("python3_car_control")
   car_control_process.start()
 
-  battery_process = Process(target=battery_service_process, args=(), name='python3_battery_process')
+  battery_process = Process(target=battery_service_process, args=(piracer, ), name='python3_battery_process')
   setproctitle("python3_battery_process")
   battery_process.start()
 

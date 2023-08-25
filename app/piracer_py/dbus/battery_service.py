@@ -19,7 +19,7 @@ class BatteryService(object):
           </interface>
       </node>
   """
-  def __init__(self):
+  def __init__(self, vehicle):
     self._current = ''
     self._voltage = ''
     self._consumption = ''
@@ -43,8 +43,8 @@ class BatteryService(object):
     _current = str(round(self._vehicle.get_battery_current(),1)) # in mA
     return _current
 
-def battery_service_process():
+def battery_service_process(vehicle: PiRacerStandard):
   loop = GLib.MainLoop()
   bus = SessionBus()
-  bus.publish("com.dbus.batteryService", BatteryService())
+  bus.publish("com.dbus.batteryService", BatteryService(vehicle))
   loop.run();
