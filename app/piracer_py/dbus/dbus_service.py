@@ -29,22 +29,23 @@ class DbusService(object):
           </interface>
       </node>
   """
+
+  def __init__(self):
+    self._can = can.interface.Bus(channel=can_interface, bustype='socketcan')
+    self._dbus_battery = SessionBus().get('com.dbus.batteryService')
+    self._rpm = 0
+
+    can_bus_thread = threading.Thread(target=self.getCanBusData, name='can_bus_thread')
+    can_bus_thread.start()
+
   def getCanBusData(self):
     message = self._can.recv();
     if message is not None and message.arbitration_id == rpm_canId:
       rpm = int.from_bytes(message.data[:2], byteorder='little', signed=False)
       self._rpm = rpm
 
-  def __init__(self):
-    can_bus_thread = threading.Thread(target=self.getCanBusData, name='can_bus_thread')
-    can_bus_thread.start()
-
-    self._can = can.interface.Bus(channel=can_interface, bustype='socketcan')
-    self._dbus_battery = SessionBus().get('com.dbus.batteryService')
-    self._rpm = 0
-
   def getRpm(self) -> int:
-    return rpm
+    return self._rpm
 
   def getSpeed(self) -> int:
     speed = self._rpm * wheel_circumference
