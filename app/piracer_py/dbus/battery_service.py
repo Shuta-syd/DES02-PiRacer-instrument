@@ -25,7 +25,7 @@ class BatteryService(object):
     self._voltage = ''
     self._consumption = ''
     self._level = ''
-    self._vehicle = vehicle()
+    self._vehicle = vehicle
 
   def getLevel(self) -> str:
     # here is calculation login
