@@ -7,6 +7,6 @@ if [[ "$SCRIPT_DIR" != */app/piracer_py ]]; then
 fi
 # Activate venv
 source "$SCRIPT_DIR/venv/bin/activate"
-pip install -r $SCRIPT_DIR/requirement.txt
+pip install -r $SCRIPT_DIR/../requirement.txt
 # run pun.py
-sudo python3 main.py
+sudo python3 $SCRIPT_DIR/../main.py
