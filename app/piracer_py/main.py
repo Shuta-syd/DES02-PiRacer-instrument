@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
   display_carinfo_process = Process(target=display_carinfo, args=(piracer,), name='python3_car_info')
   setproctitle("python3_car_info")
-  display_carinfo_process
+  display_carinfo_process.start()
 
   car_control_process = Process(target=car_control, args=(piracer, ), name='python3_car_control')
   setproctitle("python3_car_control")

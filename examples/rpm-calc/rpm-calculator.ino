@@ -60,7 +60,7 @@ void loop() {
   data[1] = (RPM_w >> 16) & 0xFF;
   data[2] = (RPM_w >> 8) & 0xFF;
   data[3] = RPM_w & 0xFF;
-  
+
   int status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
   if (status == CAN_OK) {
     Serial.println("Success");

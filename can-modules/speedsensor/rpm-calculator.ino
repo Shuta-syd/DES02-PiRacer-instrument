@@ -16,6 +16,7 @@ double elapsedTimeAvg = 0.0;
 double elapsedTimeSum = 100000.0;
 double elapsedTime = 0;
 double prevTime = 0;
+double millis_before = 0;
 
 unsigned long frqRaw = 0;
 unsigned short RPM_s = 0;
@@ -41,7 +42,7 @@ void setup() {
   // Nyquist-Shannon Sampling Theorem
   sample_rate = (1 / ( 2 * (RPM_SENSOR_MAX / 60))) * 1000; // calculate sample rate (Nyquist) in ms
 
-  attachInterrupt(digitalPinToInterrupt(SPEED_SENSOR_PIN), purseCounter, RISING);
+  attachInterrupt(digitalPinToInterrupt(SPEED_SENSOR_PIN), pulseCounter, RISING);
 }
 
 void loop() {
@@ -54,19 +55,21 @@ void loop() {
     RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
     speed = RPM_w * C;
 
+    millis_before = millis();
+
     Serial.print("RPM: "); Serial.print(RPM_w); Serial.print(" Speed [m/min]: "); Serial.println(speed);
 
-    attachInterrupt(digitalPinToInterrupt(SPEED_SENSOR_PIN), count, FALLING);
-
-    data[0] = (RPM_w >> 0) & 0xFF;
-    data[1] = (RPM_w >> 8) & 0xFF;
+    attachInterrupt(digitalPinToInterrupt(SPEED_SENSOR_PIN), pulseCounter, FALLING);
+  }
+  data[0] = (RPM_w >> 0) & 0xFF;
+  data[1] = (RPM_w >> 8) & 0xFF;
 
     status = CAN.sendMsgBuf(can_id, 0, can_dlc, data);
     if (status == CAN_OK) {
       Serial.println("Success");
     } else
       Serial.println("Error");
-  }
+  delay(50);
 }
 
 void pulseCounter() {
