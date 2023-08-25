@@ -48,5 +48,4 @@ if __name__ == '__main__':
     monitor_thread.join()
   except KeyboardInterrupt:
     print("Ctrl + C detected. Terminating processes...")
-    terminate_processes(processes)
     exit(1)
