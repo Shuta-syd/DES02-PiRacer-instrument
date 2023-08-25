@@ -1,6 +1,6 @@
 import time
 import threading
-from multiprocessing  import Process
+from multiprocessing  import Process, Queue
 from dbus.battery_service import battery_service_process
 from dbus.dbus_service import dbus_service_process
 from dbus.monitor import monitor_thread
@@ -14,6 +14,7 @@ def terminate_processes(processes):
         p.terminate()
 
 if __name__ == '__main__':
+  communication_queue = Queue()
   piracer = PiRacerStandard()
 
   display_carinfo_process = Process(target=display_carinfo, args=(), name='python3_car_info')
@@ -27,10 +28,12 @@ if __name__ == '__main__':
   battery_process = Process(target=battery_service_process, args=(piracer, ), name='python3_battery_process')
   setproctitle("python3_battery_process")
   battery_process.start()
+  communication_queue.put('battery_service_process ready')
 
-  dbus_process = Process(target=dbus_service_process, name='python3_dbus_process')
-  setproctitle("python3_dbus_process")
-  dbus_process.start()
+  if (communication_queue.get() == 'battery_service_process ready'):
+    dbus_process = Process(target=dbus_service_process, name='python3_dbus_process')
+    setproctitle("python3_dbus_process")
+    dbus_process.start()
 
   processes = [car_control_process, battery_process, dbus_process]
   monitor_thread = threading.Thread(target=monitor_thread, args=(processes, piracer,), name='monitor_thread')
