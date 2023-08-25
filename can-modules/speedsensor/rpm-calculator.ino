@@ -52,8 +52,7 @@ void loop() {
     frqRaw = 1000000 * 1000 / elapsedTimeAvg;
 
     RPM_s = (frqRaw * 60 / PPR) / 1000;
-    RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
-    speed = RPM_w * C;
+    frqRaw = 0;
 
     millis_before = millis();
 
@@ -61,6 +60,10 @@ void loop() {
 
     attachInterrupt(digitalPinToInterrupt(SPEED_SENSOR_PIN), pulseCounter, FALLING);
   }
+
+  RPM_w = RPM_s * (SpeedSensorDiameter / WheelDiameter);
+  speed = RPM_w * C;
+
   data[0] = (RPM_w >> 0) & 0xFF;
   data[1] = (RPM_w >> 8) & 0xFF;
 
