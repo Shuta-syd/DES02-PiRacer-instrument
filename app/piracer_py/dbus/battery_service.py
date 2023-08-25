@@ -29,6 +29,7 @@ class BatteryService(object):
     self._voltage = ''
     self._consumption = ''
     self._level = ''
+    self._hour = ''
     self._vehicle = vehicle
 
   def getLevel(self) -> list:
@@ -37,11 +38,13 @@ class BatteryService(object):
     x = round(self._vehicle.get_battery_voltage(),1) / num_cells
     y = -691.919 * x**3 + 7991.667 * x**2 - 30541.295 * x + 38661.5
     # make sure that battery level is between 0 and 100
-    battery_level = str(min(max(round(y, 3), 0), 100)) # in %
+    battery_level = min(max(round(y, 3), 0), 100) # in %
 
     # calculate battery hour in h, assuming that a fully charged battery can run for 4 hours
-    battery_hour = str(round(4 * (battery_level/100), 3)) # in h
-    return [_level, battery_hour]
+    battery_hour = round(4 * (battery_level/100), 3) # in h
+    _level = str(battery_level)
+    _hour = str(battery_hour)
+    return [_level, _hour]
 
   def getVoltage(self) -> str:
     _voltage          = str(round(self._vehicle.get_battery_voltage(),1)) # in V
