@@ -47,6 +47,6 @@ class BatteryService(object):
 def battery_service_process(vehicle: PiRacerStandard, communication_queue: Queue):
   loop = GLib.MainLoop()
   bus = SessionBus()
-  bus.publish("com.dbus.batteryService", BatteryService(vehicle, communication_queue))
+  bus.publish("com.dbus.batteryService", BatteryService(vehicle))
   loop.run();
   communication_queue.put('battery_service_process ready')
