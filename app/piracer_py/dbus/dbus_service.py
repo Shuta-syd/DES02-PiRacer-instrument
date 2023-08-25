@@ -39,10 +39,11 @@ class DbusService(object):
     can_bus_thread.start()
 
   def getCanBusData(self):
-    message = self._can.recv();
-    if message is not None and message.arbitration_id == rpm_canId:
-      rpm = int.from_bytes(message.data[:2], byteorder='little', signed=False)
-      self._rpm = rpm
+    while True:
+      message = self._can.recv();
+      if message is not None and message.arbitration_id == rpm_canId:
+        rpm = int.from_bytes(message.data[:2], byteorder='little', signed=False)
+        self._rpm = rpm
 
   def getRpm(self) -> int:
     return self._rpm
