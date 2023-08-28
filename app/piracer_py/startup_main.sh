@@ -1,25 +1,22 @@
-#!/bin/bash
+# #!/bin/bash
 
-# Get absolute path
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+# echo "Startup piracer_py main"
 
-# Navigate to piracer_py directory
-if [[ "$SCRIPT_DIR" != */app/piracer_py ]]; then
-    echo "Error: The script must be located in [PROJECT_DIR]/app/piracer_py"
-    exit 1
+# Define the folder and virtual environment name
+PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+VENV_NAME="venv"
+
+# Check if the virtual environment exists
+if [ ! -d "$PROJECT_DIR/$VENV_NAME" ]; then
+    echo "Creating a new virtual environment..."
+    python3 -m venv "$PROJECT_DIR/$VENV_NAME"
 fi
 
-# check if virtual environment in this directory already exists
-if [ ! -d "$SCRIPT_DIR/venv" ]; then
-    echo "Virtual environment not found."
-    # create a virtual envirement and install dependencies
-    python3 -m venv venv
-    # install dependencies
-    pip install -r $SCRIPT_DIR/requirement.txt
-fi
-# Activate venv
-source "$SCRIPT_DIR/venv/bin/activate"
-#
-# which python3
-# run pun.py
-sudo python3 run.py
+# Activate the virtual environment
+source "$PROJECT_DIR/$VENV_NAME/bin/activate"
+
+# Install dependencies
+pip install -r "$PROJECT_DIR/requirements.txt"
+
+# Run main.py
+python "$PROJECT_DIR/main.py"

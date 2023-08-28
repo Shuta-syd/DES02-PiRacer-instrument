@@ -1,7 +1,6 @@
 import time
 from multiprocessing        import Process
 from setproctitle           import setproctitle
-
 from process.car_control    import car_control
 from process.car_info       import car_info
 from process.recieve_data   import recieve_data

@@ -12,7 +12,7 @@ def send_data(can_queue,car_info_queue,car_control_queue):
     soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     soc.bind((server_address, server_port))
     soc.listen(1)
-    print(f"Listening on {server_address}:{server_port}")
+    #print(f"Listening on {server_address}:{server_port}")
 
     while True:
         try:

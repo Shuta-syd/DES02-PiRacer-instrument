@@ -1,8 +1,10 @@
 import  multiprocessing
 from    multiprocessing         import Process 
 import  threading
-from    setproctitle            import setproctitle
+from setproctitle import setproctitle
 import  sys
+# Why this error:   File "/home/seame01/workspace/TCP-Version_DES02-PiRacer-instrument/DES02-PiRacer-instrument/app/piracer_py/main.py", line 4, in <module> from setproctitle import setproctitle ModuleNotFoundError: No module named 'setproctitle'
+# Solution:         sudo apt-get install python3-setproctitle
 
 from    process.car_info        import car_info
 from    process.car_control     import car_control
@@ -25,11 +27,11 @@ if __name__ == '__main__':
 
     # Run seperate processes
     car_info_process = Process(target=car_info, args=(car_info_queue,))
-    #setproctitle("python3_car_info")
+    setproctitle("python3_car_info")
     car_info_process.start()
 
     car_control_process = Process(target=car_control, args=(car_control_queue,))
-    #setproctitle("python3_car_control")
+    setproctitle("python3_car_control")
     car_control_process.start()
 
     recieve_data_process = Process(target=recieve_data, args=(can_queue,))
