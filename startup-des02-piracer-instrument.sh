@@ -1,4 +1,4 @@
-##!/bin/bash
+#!/bin/bash
 
 echo "Startup DES02 Piracer Instrument"
 
@@ -6,7 +6,7 @@ echo "Startup DES02 Piracer Instrument"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Step 1: Start CAN Modules
-chmod 755 $SCRIPT_DIR/can-modules/steering/startup-can.sh
+chmod 755 $SCRIPT_DIR/can-modules/speedsensor/startup-can.sh
 $SCRIPT_DIR/can-modules/speedsensor/startup-can.sh
 
 # Step 2: Start Applications

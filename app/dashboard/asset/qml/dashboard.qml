@@ -20,11 +20,6 @@ Window {
         id:     valueSource
     }
 
-    FrameAnimation {
-        id: frameAnimation
-        property real fps: smoothFrameTime > 0 ? (1.0 / smoothFrameTime) : 0
-        running: true
-    }
 
     //  ========================================================================
     //  Top Navbar
@@ -146,8 +141,6 @@ Window {
                 anchors.verticalCenter: (root.verticalCenter)
                 property int padding:   (20)
 
-                layer.enabled: true
-                layer.live: slider.value > 0 && frameAnimation.currentFrame % slider.value == 0
 
                 CircularGauge {
                     id:                     consumption

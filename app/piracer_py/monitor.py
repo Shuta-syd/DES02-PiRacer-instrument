@@ -21,28 +21,28 @@ def monitor_thread(processes, queues):
             if not p.is_alive():
                 print(f"{p.name} has terminated unexpectedly!")
 
-                #if p.name == 'python3_car_info':
-                if p.name == 'Process-1':                    
+                if p.name == 'python3_car_info':
+                #if p.name == 'Process-1':                    
                     q = queues[1]
                     new_process = restart_process(target=car_info, args=(q, ), name=p.name)
-                    #setproctitle("python3_car_info")
+                    setproctitle("python3_car_info")
 
-                #if p.name == 'python3_car_control':
-                if p.name == 'Process-2':
+                if p.name == 'python3_car_control':
+                #if p.name == 'Process-2':
                     q = queues[2]
                     new_process = restart_process(target=car_control, args=(q, ), name=p.name)
-                    #setproctitle("python3_car_control")
+                    setproctitle("python3_car_control")
 
-                #elif p.name == 'python3_recieve_data_process':
-                if p.name == 'Process-3':
+                if p.name == 'python3_recieve_data_process':
+                #if p.name == 'Process-3':
                     q = queues[0]
                     new_process = restart_process(target=recieve_data, args=(q, ),  name=p.name)
-                    #setproctitle("python3_recieve_data_process")
+                    setproctitle("python3_recieve_data_process")
 
-                #elif p.name == 'python3_send_data_process':
-                if p.name == 'Process-4':
+                if p.name == 'python3_send_data_process':
+                #if p.name == 'Process-4':
                     new_process = restart_process(target=send_data, args=(queues[0],queues[1],queues[2],), name=p.name)
-                    #setproctitle("python3_send_data_process")
+                    setproctitle("python3_send_data_process")
 
                 processes.remove(p)
                 processes.append(new_process)

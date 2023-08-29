@@ -1,4 +1,4 @@
-# #!/bin/bash
+#!/bin/bash
 
 # echo "Startup piracer_py main"
 
@@ -16,7 +16,11 @@ fi
 source "$PROJECT_DIR/$VENV_NAME/bin/activate"
 
 # Install dependencies
-pip install -r "$PROJECT_DIR/requirements.txt"
+echo "Installing dependencies ...."
+{
+    pip install -r "$PROJECT_DIR/requirements.txt"
+} &> /dev/null
+echo "Dependencies installed."
 
 # Run main.py
 python "$PROJECT_DIR/main.py"
