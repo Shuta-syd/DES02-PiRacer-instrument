@@ -9,46 +9,33 @@ if [[ "$SCRIPT_DIR" != */app/piracer_py ]]; then
     exit 1
 fi
 
+# monitoring the main process
+process_name="python3_main_process"
+
+# function to restart the process
 function restart()
 {
     # kill a python processes by pattern
     sudo pkill -f "python3_main_process"
-    sudo pkill -f "python3_car_info"
-    sudo pkill -f "python3_car_control"
-    sudo pkill -f "python3_recieve_data"
-    sudo pkill -f "python3_send_data"
-
-    # kill by pgrep (saver)
-    # sudo kill $(pgrep -f 'python main.py')
-    # sudo kill $(pgrep -f '/process/car_control.py')
-    # sudo kill $(pgrep -f '/process/car_control.py')
-    # sudo kill $(pgrep -f '/process/recieve_data.py')
-    # sudo kill $(pgrep -f '/process/send_data.py')
 
     #start main.py (again)
-    python3 main.py
-    #./startup_main.sh
+    #python3 main.py
+    ./startup_main.sh
 }
-
-# monitoring the main process
-process_name="python3_main_process"
 
 # this is a trap for ctrl + c 
-function ctrl_c()
-{
-  exit 0
-}
 trap ctrl_c INT
+function ctrl_c() {
+    echo "Stop monitoring."
+    exit 1
+}
 
+# check if the process is alive
 while true; do
-  isAliveProcess=$(ps -ef | grep "$process_name" |
-                  grep -v grep | wc -l)
-
+  isAliveProcess = $(ps -ef | grep "$process_name" | grep -v grep | wc -l)
   if [ $isAliveProcess -eq 0 ]; then
     echo "${process_name} off. Process restart."
     restart 
   fi
   sleep 3
 done
-
-
