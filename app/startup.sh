@@ -15,8 +15,8 @@ $PARENT_DIR/can-modules/setup_can.sh&
 # #$ARDUINO upload -b arduino:avr:nano:cpu=atmega328old rpm-calculator -p /dev/ttyUSB0
 
 # # startup d-bus service & monitor
-$DIR/app/piracer_py/startup_py.sh&
-$DIR/app/piracer_py/startup_monitor.sh&
+$DIR/piracer_py/startup_py.sh&
+$DIR/piracer_py/startup_monitor.sh&
 
 # # startup to build application
-$DIR/app/dashboard/build.sh&
+$DIR/dashboard/build.sh&
