@@ -6,6 +6,7 @@ if [[ "$SCRIPT_DIR" != */app/piracer_py ]]; then
     exit 1
 fi
 # Activate venv
+python3 -m venv $SCRIPT_DIR/venv&
 source "$SCRIPT_DIR/venv/bin/activate"&
 pip install -r $SCRIPT_DIR/../requirement.txt&
 python $SCRIPT_DIR/main.py&
