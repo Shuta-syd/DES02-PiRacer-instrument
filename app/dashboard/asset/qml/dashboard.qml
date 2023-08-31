@@ -138,7 +138,7 @@ Window {
                     z:                      (1)
 
                     value:                  (valueSource.consumption)
-                    maximumValue:           (100)
+                    maximumValue:           (25)
                     tickmarksVisible:       (false)
 
                     anchors {
