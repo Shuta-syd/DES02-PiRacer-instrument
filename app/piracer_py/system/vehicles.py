@@ -50,7 +50,8 @@ class PiRacerBase:
 
     def get_power_consumption(self) -> float:
         """Returns the current power consumption of the system in W."""
-        return self.battery_monitor.power
+
+        return round(abs(self.voltage * self.current / 1000), 3) # in W
 
     def get_display(self) -> SSD1306_I2C:
         """Returns a display object to draw on the display."""
