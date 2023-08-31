@@ -34,6 +34,9 @@ class PiRacerBase:
     def __init__(self) -> None:
         self.i2c_bus = busio.I2C(SCL, SDA)
         self.display = SSD1306_I2C(128, 32, self.i2c_bus, addr=0x3c)
+        self.voltage = 0.0
+        self.current = 0.0
+
 
     def _warmup(self) -> None:
         self.set_steering_percent(0.0)
@@ -42,11 +45,13 @@ class PiRacerBase:
 
     def get_battery_voltage(self) -> float:
         """Returns the current battery voltage in V."""
-        return self.battery_monitor.bus_voltage + self.battery_monitor.shunt_voltage
+        self.voltage = self.battery_monitor.bus_voltage + self.battery_monitor.shunt_voltage
+        return self.voltage
 
     def get_battery_current(self) -> float:
         """Returns the current battery current in mA."""
-        return self.battery_monitor.current
+        self.current = self.battery_monitor.current
+        return self.current
 
     def get_power_consumption(self) -> float:
         """Returns the current power consumption of the system in W."""
