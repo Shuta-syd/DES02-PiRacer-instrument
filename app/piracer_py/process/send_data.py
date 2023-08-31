@@ -12,9 +12,15 @@ def send_data(can_queue,car_info_queue,car_control_queue):
     soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     soc.bind((server_address, server_port))
     soc.listen(1)
-    #print(f"Listening on {server_address}:{server_port}")
+    print(f"TCP Server online. Listening on: {server_address}:{server_port}")
 
     while True:
+
+        #create a shallow copy of the queues
+        copy_can_queue           = can_queue
+        copy_car_info_queue      = car_info_queue
+        copy_car_control_queue   = car_control_queue
+
         try:
             # wait for connection from client, will block until connection arrives
             conn, addr = soc.accept() 
@@ -42,7 +48,7 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                     # If not empty get can info and save in data dict.
                     # If queue is empty, print message and use default dict
                     try: 
-                        can_bus         = can_queue.get_nowait()
+                        can_bus         = copy_can_queue.get_nowait()
                         speed           = can_bus[0]
                         rpm             = can_bus[1]
                         data["speed"]   = speed
@@ -54,7 +60,7 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                     # If not empty get car info and save in data dict.
                     # If queue is empty, print message and use default dict
                     try:
-                        car_info        = car_info_queue.get_nowait() 
+                        car_info            = copy_car_info_queue.get_nowait() 
                         ip_address          = car_info[0]
                         battery_voltage     = car_info[1]
                         power_consumption   = car_info[2]
@@ -76,7 +82,7 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                     # If not empty get car control info and save in data dict.
                     # If queue is empty, print message and use default dict
                     try:
-                        car_control     = car_control_queue.get_nowait()
+                        car_control     = copy_car_control_queue.get_nowait()
                         throttle        = car_control[0]
                         steering        = car_control[1]
                         indicator       = car_control[2]
