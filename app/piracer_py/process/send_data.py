@@ -54,8 +54,9 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                         data["speed"]   = speed
                         data["rpm"]     = rpm
                     except queue.Empty:
-                        print("can_queue is empty")
-
+                        #print("can_queue is empty")
+                        pass
+                    
                     # get last message from car_info_queue.
                     # If not empty get car info and save in data dict.
                     # If queue is empty, print message and use default dict
@@ -76,7 +77,8 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                         data["battery_hour"]        = battery_hour
                         data["curtime"]             = curtime
                     except queue.Empty:
-                        print("car_info_queue is empty")
+                        #print("car_info_queue is empty")
+                        pass
 
                     # get last message from car_control_queue.
                     # If not empty get car control info and save in data dict.
@@ -90,7 +92,8 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                         data["steering"]    = steering
                         data["indicator"]   = indicator
                     except queue.Empty:
-                        print("car_control_queue is empty")
+                        #print("car_control_queue is empty")
+                        pass
 
                     # convert all values in data to string
                     data = {key: str(value) for key, value in data.items()}
@@ -104,10 +107,9 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                         conn.sendall(message.encode('utf-8'))
 
                         # print message with timestamp to console
-                        print(f"{int(time.time())} - {message}")
+                        # print(f"{int(time.time())} - {message}")
 
                     except (BrokenPipeError, ConnectionResetError):
-
                         print("Client disconnected, waiting for another connection")
                         break
 

@@ -20,7 +20,6 @@ Window {
         id:     valueSource
     }
 
-
     //  ========================================================================
     //  Top Navbar
     Item {
@@ -28,13 +27,15 @@ Window {
         width:  (root.width)
         height: (30)
 
-        Item { // battery icon
+        
+        // battery icon
+        Item { 
             id:                 batteryIcon
             width:              (35)
             height:             (13)
             anchors.top:        (parent.top)
-            anchors.left:       (buttons.right)
-            anchors.leftMargin: (65)
+            anchors.left:       (parent.left)
+            anchors.leftMargin: (200)
             anchors.topMargin:  (12)
 
             layer.enabled:      (true)
@@ -75,16 +76,17 @@ Window {
             anchors.top:            (parent.top)
             anchors.verticalCenter: (batteryIcon.verticalCenter)
             anchors.topMargin:      (7)
-            anchors.leftMargin:     (9)
+            anchors.leftMargin:     (15)
 
             Text {
-                text:               (parseInt(Math.min(valueSource.level, 100)) + "%  " + parseInt(valueSource.left_hour) + " hours" + "\n" + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA" + parseInt(valueSource.gear))
+                text:               (parseInt(Math.min(valueSource.level, 100)) + "%  "  + parseInt(valueSource.left_hour) + " hours" + "\n" 
+                                        + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA" )
                 font.pixelSize:     (18)
                 color:              ("white")
             }
         }
 
-        Item { // timer
+        Item { 
             anchors.top:        (parent.top)
             anchors.right:      (parent.right)
             anchors.rightMargin:60
@@ -117,6 +119,8 @@ Window {
             id:               gaugeRow
             spacing:          (container.width * 0.02)
             anchors.centerIn: (parent)
+
+            
             //  ================================================================
             //  Consumption
             Item {
@@ -134,8 +138,9 @@ Window {
                     z:                      (1)
 
                     value:                  (valueSource.consumption)
-                    maximumValue:           (100)
+                    maximumValue:           (50)
                     tickmarksVisible:       (false)
+                    //property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
                         top:                (parent.top)
@@ -153,6 +158,16 @@ Window {
                         tailY:              (624)
                         mainLabel:          ("Power Consumption (W)")
                         mainFontSize:       (toPixels(0.45))
+                        labelSteps:         (5)
+                    }
+
+                    NumberAnimation {
+                        //target: consumption
+                        //property: "ndlAngle"
+                        target: needle
+                        //to: map(valueSource.consumption, 0, 100, -135, 135)
+                        easing.type: Easing.InOutQuad
+                        duration: 60
                     }
                 }
             }
@@ -179,7 +194,7 @@ Window {
                     value:                  (valueSource.speed)
                     maximumValue:           (200)
                     tickmarksVisible:       (false)
-                    property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
+                    //property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
                         top:                (parent.top)
@@ -200,11 +215,12 @@ Window {
                     }
 
                     NumberAnimation {
-                        target: speedometer
-                        property: "ndlAngle"
-                        to: map(valueSource.speed, 0, 100, -135, 135)
+                        //target: speedometer
+                        target: needle
+                        //property: "ndlAngle"
+                        //to: map(valueSource.speed, 0, 100, -135, 135)
                         easing.type: Easing.InOutQuad
-                        duration: 60
+                        duration: 10
                     }
                 }
             }
@@ -228,9 +244,9 @@ Window {
                     z:                      (1)
 
                     value:                  (valueSource.rpm)
-                    maximumValue:           (600)
+                    maximumValue:           (700)
                     tickmarksVisible:       (false)
-                    property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
+                    //property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
                         top:                    (parent.top)
@@ -252,13 +268,13 @@ Window {
                     }
 
                     NumberAnimation {
-                        target: rpmGauge
-                        property: "ndlAngle"
-                        to: map(valueSource.rpm, 0, 100, -135, 135)
+                        //target: rpmGauge
+                        //property: "ndlAngle"
+                        target: needle
+                        //to: map(valueSource.rpm, 0, 100, -135, 135)
                         easing.type: Easing.InOutQuad
-                        duration: 
+                        duration: 60
                     }
-
                 }
             }
             //  RPMGauge End

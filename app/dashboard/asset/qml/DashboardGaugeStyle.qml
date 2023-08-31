@@ -191,14 +191,18 @@ CircularGaugeStyle {
             }
         }
         property string blinkState: ("off")
-        // onIndicatorChanged: {
-        //     if(indicator === 3) {
-        //         blinkTimer.start();
-        //     } else {
-        //         blinkTimer.stop();
-        //         blinkState = false;  // Make sure blinkState is reset when indicator is not 3.
-        //     }
-        // }
+        
+        /*        
+        onIndicatorChanged: {
+            if(indicator === 3) {
+                blinkTimer.start();
+            } else {
+                blinkTimer.stop();
+                blinkState = false;  // Make sure blinkState is reset when indicator is not 3.
+            }
+        }
+        */
+        
         Component.onCompleted: {
             if (indicator === 3) {
                 blinkTimer.start();

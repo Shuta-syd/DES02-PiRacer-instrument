@@ -10,7 +10,7 @@ bus_interface       = 'can1'
 def recieve_data(q):
     try:
         # Set up CAN bus
-        bus = can.interface.Bus(channel=bus_interface, bustype='socketcan')
+        bus = can.interface.Bus(channel=bus_interface, bustype ='socketcan')
 
         # Recieve data from can bus
         while True:
@@ -33,7 +33,7 @@ def recieve_data(q):
                     # calulate speed 
                     wheel_diameter = 65.0
                     circumference = (wheel_diameter*math.pi) / 1000
-                    speed = rpm_wheel * circumference
+                    speed = round(abs(rpm_wheel * circumference),3)
 
                     #print rpm_wheel and speed as integer
                     #print("RPM =   ",rpm_wheel," 1/min ", "Speed = ",speed," m/min ")

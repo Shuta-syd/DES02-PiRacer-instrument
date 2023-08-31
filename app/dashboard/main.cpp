@@ -138,8 +138,8 @@ int         main(
                 else if (properties[i][1] == "short")
                     _updatedData = _data.toInt();
 
-                if (properties[i][0] == "speed" && abs(valueSource.property("speed") - _updatedData) > 20)
-                    continue;
+                // if (properties[i][0] == "speed" && abs(valueSource.property("speed") - _updatedData) > 20)
+                //     continue;                
 
                 animations[i]->setEndValue(_updatedData);
                 if (animations[i]->state() != QPropertyAnimation::Running)

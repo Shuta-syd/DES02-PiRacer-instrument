@@ -2,7 +2,7 @@
 
 #get the path of the script
 SCRIPT_PATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-ARDUINO = $SCRIPT_PATH/rpm-caluclator
+#ARDUINO = $SCRIPT_PATH/rpm-caluclator
 
 # Step 1 : Flash Arduino
 # echo "Flashing Arduino ..."
