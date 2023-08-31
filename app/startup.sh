@@ -16,6 +16,13 @@ $PARENT_DIR/can-modules/setup_can.sh&
 
 # # startup d-bus service & monitor
 $DIR/piracer_py/startup_py.sh&
+
+# wait until python3_main_process appears
+while ! pgrep -f python3_main_process ; do
+  echo "Waiting for main_python process..."
+  sleep 1
+done
+
 $DIR/piracer_py/startup_monitor.sh&
 
 # # startup to build application
