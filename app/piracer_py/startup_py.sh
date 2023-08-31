@@ -8,5 +8,8 @@ fi
 # Activate venv
 python3 -m venv $SCRIPT_DIR/venv
 source $SCRIPT_DIR/venv/bin/activate
-pip install -r $SCRIPT_DIR/requirements.txt
-python $SCRIPT_DIR/main.py
+echo "Installing dependencies..."
+pip install -r $SCRIPT_DIR/requirements.txt &> /dev/null
+echo "Installed dependencies"
+echo "Starting main.py..."
+python3 $SCRIPT_DIR/main.py
