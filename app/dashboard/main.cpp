@@ -145,7 +145,7 @@ int         main(
                 if (animations[i]->state() != QPropertyAnimation::Running)
                     animations[i]->start();
                     
-                qDebug() << _data;
+                //qDebug() << _data;
             }
         }
         else

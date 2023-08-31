@@ -25,9 +25,6 @@ if __name__ == '__main__':
     car_control_queue   = multiprocessing.Queue(queue_size)
     queues              = [can_queue, car_info_queue, car_control_queue]
 
-    # set name of the main process
-    setproctitle("python3_main_process")
-
     # Run seperate processes
     car_info_process = Process(target=car_info, args=(car_info_queue,))
     setproctitle("python3_car_info")
@@ -49,6 +46,9 @@ if __name__ == '__main__':
     processes   = [car_info_process, car_control_process, recieve_data_process, send_data_process]
     monitor_thread = threading.Thread(target=monitor_thread, args=(processes, queues,), name='monitor_thread')
     monitor_thread.start()
+
+    # set name of the main process
+    setproctitle("python3_main_process")
 
     try: 
         # Wait for the processes to finish

@@ -162,9 +162,8 @@ Window {
                     }
 
                     NumberAnimation {
-                        //target: consumption
-                        //property: "ndlAngle"
-                        target: needle
+                        target: consumption
+                        property: "ndlAngle"
                         //to: map(valueSource.consumption, 0, 100, -135, 135)
                         easing.type: Easing.InOutQuad
                         duration: 60
@@ -215,9 +214,8 @@ Window {
                     }
 
                     NumberAnimation {
-                        //target: speedometer
-                        target: needle
-                        //property: "ndlAngle"
+                        target: speedometer
+                        property: "ndlAngle"
                         //to: map(valueSource.speed, 0, 100, -135, 135)
                         easing.type: Easing.InOutQuad
                         duration: 10
@@ -268,9 +266,8 @@ Window {
                     }
 
                     NumberAnimation {
-                        //target: rpmGauge
-                        //property: "ndlAngle"
-                        target: needle
+                        target: rpmGauge
+                        property: "ndlAngle"
                         //to: map(valueSource.rpm, 0, 100, -135, 135)
                         easing.type: Easing.InOutQuad
                         duration: 60

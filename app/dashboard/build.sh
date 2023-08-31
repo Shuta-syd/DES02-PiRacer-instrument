@@ -10,7 +10,5 @@ $SCRIPT_DIR/clean.sh
 qmake $SCRIPT_DIR/dashboard.pro
 make
 
-echo "Build done."
-
 # start build
 $SCRIPT_DIR/dashboard
