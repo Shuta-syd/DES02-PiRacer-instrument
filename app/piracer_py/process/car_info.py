@@ -15,21 +15,26 @@ def car_info(q):
     power_consumption_queue = queue.Queue(maxsize=5) 
     battery_level_queue     = queue.Queue(maxsize=50) 
     display = piracer.get_display()
+
+    # get ip address
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)    # Create a socket object
+        s.connect(("1.1.1.1", 1))                               # Connect to a non-existent external server
+        local_ip_address = s.getsockname()[0]                   # Get the local IP address from the socket
+        s.close()                                               # Close the socket
+    except Exception as e:
+        print("Error while getting local IP address:", e)
+
+    display.fill(0) # Clear display                                                                         
+    display.text(f"IP: {local_ip_address}" , 0, 0,   'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')    
+    display.show() 
+
     try:
         while True:
             # get time information
             now = datetime.now()
             curtime = now.strftime("%H:%M:%S")
         
-            # get ip address
-            try:
-                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)    # Create a socket object
-                s.connect(("1.1.1.1", 1))                               # Connect to a non-existent external server
-                local_ip_address = s.getsockname()[0]                   # Get the local IP address from the socket
-                s.close()                                               # Close the socket
-            except Exception as e:
-                print("Error while getting local IP address:", e)
-
             # get & calc battery info (battery sanyo 18650)
             num_cells                = 3                                              # number of cells
             battery_voltage          = round(abs(piracer.get_battery_voltage()), 3)   # in V
@@ -69,12 +74,6 @@ def car_info(q):
             except queue.Full:
                 q.get()
                 q.put((local_ip_address, battery_voltage, power_consumption, battery_current, battery_level, battery_hour, curtime))  
-
-            display.fill(0)  # Clear display                                                                         
-            display.text(f"IP: {local_ip_address}" , 0, 0,   'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
-            display.text(f"Battery: {battery_level} % ", 0, 10,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
-            display.text(f"{curtime}", 0, 20,  'white', font_name=FILE_DIR/'fonts'/'font5x8.bin')   
-            display.show() 
 
     except KeyboardInterrupt:
         print("Display carinfo process has been stopped.")
