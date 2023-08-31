@@ -33,7 +33,8 @@ def car_info(q):
             battery_capacity         = num_cells*2600                                 # in mAh
             battery_voltage          = round(abs(piracer.get_battery_voltage()), 3)   # in V
             battery_current          = round(abs(piracer.get_battery_current()), 3)   # in mA
-            power_consumption        = round(abs(piracer.get_power_consumption()), 3) # in W
+            #power_consumption        = round(abs(piracer.get_power_consumption()), 3) # in W
+            power_consumption       = round(abs(battery_voltage * battery_current / 1000), 3) # in W    
         
             # approximation of battery level in % (third degree, approximation)
             x = battery_voltage / num_cells

@@ -1,3 +1,10 @@
+QT5에서 QML을 사용해 Dashboard Gauge를 만들었어. 여기서 CircularGagueStyle을 사용중인데, 여기에 숫자의 위치를 가르키는 화살표 needle을 재사용성이 높고 애니메이션도 적용할 수 있도록 수정하고 싶어.
+먼저 maximumValue와 minumumValue(0으로 고정), 그리고 value를 이용해서 needle이 하는지 계산하고 싶어. 참고로 GaugeNumberLabel의 각도 -235 ~ 55 안에만 존재해야해.
+위치를 정하면 거기에 Canvas를 통해 포인터 원과 꼬리를 그릴거야. 이 Gauge는 재사용되어야 하니까 위치는 절대위치로 찾으면 안되고, 부모의 width/height, 위치를 이용해서 그려야 해. 이건 밑의 전체 코드를 보고 참고해서 그려줘.
+위치를 잡으면, 거기에 먼저 현재 숫자에 맞는 각도에 맞는 위치에 해당하는 포인터 원을 그릴거야. 그 다음 그 점으로부터 중심점으로 가는 꼬리를 그려줘. 원래도 흐리지만 갈수록 흐려져야 하고, 전체 길이 중 절반 정도 왔을 때 색이 다 없어지는 그라데이션이 있어야 해.  참고로 가운데 점의 위치는 parent의 width/height와 위치를 사용해서 구해줘.
+색은 rgb(30, 240, 253)를 베이스 칼라로 사용해줘.
+
+
 import  QtQuick                 2.2
 import  QtQuick.Controls.Styles 1.4
 import  QtGraphicalEffects      1.0
@@ -29,7 +36,7 @@ CircularGaugeStyle {
 
     //  - For indicators
     property real   indicator:          (valueSource.indicator)
-    property bool   isIndicatorOn:      (true)
+    property bool   isIndicatorOn:      (false)
 
     //  - For gear
     property string gear:               (valueSource.gear)
@@ -352,7 +359,7 @@ CircularGaugeStyle {
             var _ctx = getContext("2d");
             _ctx.reset();
 
-            var speedAngle = speedometer.ndlAngle;
+            var speedAngle = map(control.value, 0, 100, -135, 135);
 
             // Circle tip (end of needle) position
             var tipX = xCenter;

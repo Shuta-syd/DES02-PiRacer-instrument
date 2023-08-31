@@ -24,9 +24,9 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                     
                     # create default dict with names but no data
                     data = {
-                        "throttle": "",
-                        "steering": "",
-                        "indicator": "",
+                        "throttle": "0",
+                        "steering": "0",
+                        "indicator": "0",
                         "battery_voltage": "",
                         "power_consumption": "",
                         "battery_current": "",
@@ -105,8 +105,8 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                         print("Client disconnected, waiting for another connection")
                         break
 
-                    # sending interval
-                    time.sleep(1/8)
+                    # sending interval, 60 Hz
+                    time.sleep(1/10)
 
             conn.close()
 

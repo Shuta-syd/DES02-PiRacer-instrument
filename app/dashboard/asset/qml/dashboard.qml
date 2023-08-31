@@ -28,21 +28,6 @@ Window {
         width:  (root.width)
         height: (30)
 
-        Item { // buttons
-            id:                 buttons
-            anchors.top:        (parent.top)
-            anchors.left:       (parent.left)
-            anchors.leftMargin: (10)
-            anchors.topMargin:  (12)
-
-            Row {
-                spacing: 8
-                Rectangle { width: 12; height: 12; color: "black"; radius: 0 }
-                Rectangle { width: 12; height: 12; color: "black"; radius: 0 }
-                Rectangle { width: 12; height: 12; color: "black"; radius: 0 }
-            }
-        }
-
         Item { // battery icon
             id:                 batteryIcon
             width:              (35)
@@ -93,7 +78,7 @@ Window {
             anchors.leftMargin:     (9)
 
             Text {
-                text:               (parseInt(Math.min(valueSource.level, 100)) + "%  " + parseInt(valueSource.left_hour) + " hours" + "\n" + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA")
+                text:               (parseInt(Math.min(valueSource.level, 100)) + "%  " + parseInt(valueSource.left_hour) + " hours" + "\n" + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA" + parseInt(valueSource.gear))
                 font.pixelSize:     (18)
                 color:              ("white")
             }
@@ -194,6 +179,7 @@ Window {
                     value:                  (valueSource.speed)
                     maximumValue:           (200)
                     tickmarksVisible:       (false)
+                    property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
                         top:                (parent.top)
@@ -206,11 +192,19 @@ Window {
                     style: DashboardGaugeStyle {
                         isIndicatorOn:      (true)
                         isGearOn:           (true)
-                        tailX:              (160)
+                        tailX:              (180)
                         tailY:              (624)
                         mainLabel:          ("m/min")
                         mainFontSize:       (toPixels(0.55))
                         labelSteps:         (10)
+                    }
+
+                    NumberAnimation {
+                        target: speedometer
+                        property: "ndlAngle"
+                        to: map(valueSource.speed, 0, 100, -135, 135)
+                        easing.type: Easing.InOutQuad
+                        duration: 60
                     }
                 }
             }
@@ -236,6 +230,7 @@ Window {
                     value:                  (valueSource.rpm)
                     maximumValue:           (600)
                     tickmarksVisible:       (false)
+                    property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
                         top:                    (parent.top)
@@ -255,6 +250,15 @@ Window {
                         mainFontSize:           (toPixels(0.45))
                         labelSteps:             (50)
                     }
+
+                    NumberAnimation {
+                        target: rpmGauge
+                        property: "ndlAngle"
+                        to: map(valueSource.rpm, 0, 100, -135, 135)
+                        easing.type: Easing.InOutQuad
+                        duration: 
+                    }
+
                 }
             }
             //  RPMGauge End

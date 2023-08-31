@@ -19,12 +19,11 @@ def terminate_processes(processes):
 if __name__ == '__main__':
          
     # Create a queues for data exchange between processes. 
-    queue_size = 10
+    queue_size = 1000
     can_queue           = multiprocessing.Queue(queue_size)
     car_info_queue      = multiprocessing.Queue(queue_size)
     car_control_queue   = multiprocessing.Queue(queue_size)
     queues              = [can_queue, car_info_queue, car_control_queue]
-
 
     # set name of the main process
     setproctitle("python3_main_process")

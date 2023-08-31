@@ -110,7 +110,7 @@ int         main(
     QList<QPropertyAnimation *> animations;
     for (int i=0; i<properties.size(); i++) {
         QPropertyAnimation* animation = new QPropertyAnimation(valueSource, properties[i][2].toUtf8());
-        //animation->setDuration(50);
+        animation->setDuration(0);
         animations.append(animation);
     }
 
@@ -129,12 +129,17 @@ int         main(
                 QString  _data = _jsonObj[properties[i][0]].toString();
                 //qDebug() << _data;
                 QVariant _updatedData;
-                if (properties[i][1] == "float")
+                if (_data == "")
+                    continue;
+                else if (properties[i][1] == "float")
                     _updatedData = qFloor(_data.toDouble());
                 else if (properties[i][1] == "string")
                     _updatedData = _data;
                 else if (properties[i][1] == "short")
                     _updatedData = _data.toInt();
+
+                if (properties[i][0] == "speed" && abs(valueSource.property("speed") - _updatedData) > 20)
+                    continue;
 
                 animations[i]->setEndValue(_updatedData);
                 if (animations[i]->state() != QPropertyAnimation::Running)
