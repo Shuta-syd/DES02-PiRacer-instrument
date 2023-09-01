@@ -1,11 +1,12 @@
 #!/bin/bash
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-echo "Building Dashboard ..."
-$SCRIPT_DIR/clean.sh
-qmake $SCRIPT_DIR/dashboard.pro
-make
+echo "$(ls -l $SCRIPT_DIR)"
+# echo "Building Dashboard ..."
+# $SCRIPT_DIR/clean.sh
+# qmake $SCRIPT_DIR/dashboard.pro
+# make
 
-echo "Build done."
+# echo "Build done."
 
-$SCRIPT_DIR/dashboard
+# $SCRIPT_DIR/dashboard
