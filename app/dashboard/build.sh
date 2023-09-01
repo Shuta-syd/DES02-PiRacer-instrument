@@ -3,7 +3,10 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 echo "Building Dashboard ..."
 qmake $SCRIPT_DIR/dashboard.pro
-make -f $SCRIPT_DIR/Makefile
+
+sleep 3
+
+make
 
 echo "Build done."
 

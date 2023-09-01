@@ -25,38 +25,39 @@ class BatteryService(object):
       </node>
   """
   def __init__(self, vehicle):
-    self._current = ''
-    self._voltage = ''
-    self._consumption = ''
-    self._level = ''
-    self._hour = ''
+    self._current = 0.0
+    self._voltage = 0.0
+    self._consumption = 0.0
+    self._level = 0.0
+    self._hour = 0.0
     self._vehicle = vehicle
 
   def getLevel(self) -> list:
     num_cells = 3 # number of cells
     # approximation of battery level in % (third degree, approximation)
-    x = round(abs(self._vehicle.get_battery_voltage()), 3) / num_cells
+    x = self._voltage / num_cells
     y = -691.919 * x**3 + 7991.667 * x**2 - 30541.295 * x + 38661.5
     # make sure that battery level is between 0 and 100
-    battery_level = min(max(round(y, 3), 0), 100) # in %
+    self._level = min(max(round(y, 3), 0), 100) # in %
 
     # calculate battery hour in h, assuming that a fully charged battery can run for 4 hours
-    battery_hour = round(4 * (battery_level/100), 3) # in h
-    _level = str(battery_level)
-    _hour = str(battery_hour)
-    return [_level, _hour]
+    self._hour = round(4 * (self._level/100), 3) # in h
+
+    level = str(self._level)
+    hour = str(self._hour)
+    return [level, hour]
 
   def getVoltage(self) -> str:
-    _voltage          = str(round(abs(self._vehicle.get_battery_voltage()),3)) # in V
-    return _voltage
+    _voltage          = round(abs(self._vehicle.get_battery_voltage()),3) # in V
+    return str(_voltage)
 
   def getConsumption(self) -> str:
-    _consumption      = str(round(abs(self._vehicle.get_power_consumption()), 3)) # in W
-    return _consumption
+    _consumption      = round(abs(self._vehicle.get_power_consumption()), 3) # in W
+    return str(_consumption)
 
   def getCurrent(self) -> str:
-    _current = str(round(abs(self._vehicle.get_battery_current()), 3)) # in mA
-    return _current
+    _current = round(abs(self._vehicle.get_battery_current()), 3) # in mA
+    return str(_current)
 
 def battery_service_process(vehicle: PiRacerStandard, communication_queue: Queue):
   loop = GLib.MainLoop()
