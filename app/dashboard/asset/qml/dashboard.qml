@@ -27,13 +27,13 @@ Window {
         width:  (root.width)
         height: (30)
 
-        Item { // battery icon
+        Item {
             id:                 batteryIcon
             width:              (35)
             height:             (13)
             anchors.top:        (parent.top)
-            anchors.left:       (buttons.right)
-            anchors.leftMargin: (65)
+            anchors.left:       (buttons.left)
+            anchors.leftMargin: (200)
             anchors.topMargin:  (12)
 
             layer.enabled:      (true)
@@ -74,7 +74,7 @@ Window {
             anchors.top:            (parent.top)
             anchors.verticalCenter: (batteryIcon.verticalCenter)
             anchors.topMargin:      (7)
-            anchors.leftMargin:     (9)
+            anchors.leftMargin:     (15)
 
             Text {
                 text:               (parseInt(Math.min(valueSource.level, 100)) + "%  " + parseInt(valueSource.left_hour) + " hours"
@@ -129,16 +129,15 @@ Window {
                 height:                 (container.height * 0.75)
                 anchors.verticalCenter: (root.verticalCenter)
                 property int padding:   (20)
-                visible:                (true)
 
                 CircularGauge {
                     id:                     consumption
-                    width:                  (parent.width - 10)
-                    height:                 (parent.height - 10)
+                    width:                  (parent.width)
+                    height:                 (parent.height)
                     z:                      (1)
 
                     value:                  (valueSource.consumption)
-                    maximumValue:           (25)
+                    maximumValue:           (50)
                     tickmarksVisible:       (false)
 
                     anchors {
@@ -146,6 +145,8 @@ Window {
                         left:               (parent.left)
                         margins:            (consumptionContainer.padding)
                         topMargin:          (consumptionContainer.padding + 80)
+                        leftMargin: (0)
+                        rightMargin: (0)
                     }
 
                     style: DashboardGaugeStyle {
@@ -153,10 +154,12 @@ Window {
                         isGearOn:           (false)
                         tailX:              (145)
                         tailY:              (624)
-                        mainLabel:          ("battery consumption (W)")
+                        mainLabel: ("Power Consumption (W)")
                         mainFontSize:       (toPixels(0.45))
+                        labelSteps: (5)
                     }
                 }
+            }
 
             //  ================================================================
             //  Speedometer
@@ -165,12 +168,13 @@ Window {
                 width:                  (height)
                 height:                 (container.height)
                 anchors.verticalCenter: (root.verticalCenter)
+                anchors.rightMargin: (0)
                 property int padding:   (20)
 
                 CircularGauge {
                     id:                     speedometer
-                    width:                  (parent.width - 40)
-                    height:                 (parent.height - 40)
+                    width: (parent.width)
+                    height: (parent.height)
                     z:                      (1)
 
                     value:                  (valueSource.speed)
@@ -181,15 +185,18 @@ Window {
                         top:                (parent.top)
                         left:               (parent.left)
                         margins:            (speedometerContainer.padding)
+                        leftMargin: (0)
+                        rightMargin: (0)
                     }
 
                     style: DashboardGaugeStyle {
                         isIndicatorOn:      (true)
                         isGearOn:           (true)
-                        tailX:              (160)
+                        tailX:              (180)
                         tailY:              (624)
                         mainLabel:          ("m/min")
                         mainFontSize:       (toPixels(0.55))
+                        labelSteps: (10)
                     }
                 }
             }
@@ -208,12 +215,12 @@ Window {
 
                 CircularGauge {
                     id:                     rpmGauge
-                    width:                  (parent.width - 10)
-                    height:                 (parent.height - 10)
+                    width:                  (parent.width)
+                    height:                 (parent.height)
                     z:                      (1)
 
                     value:                  (valueSource.rpm)
-                    maximumValue:           (600)
+                    maximumValue:           (700)
                     tickmarksVisible:       (false)
 
                     anchors {
@@ -221,6 +228,8 @@ Window {
                         left:                   (parent.left)
                         margins:                (rpmGaugeContainer.padding)
                         topMargin:              (rpmGaugeContainer.padding + 80)
+                        leftMargin: (0)
+                        rightMargin: (0)
                     }
 
                     style: DashboardGaugeStyle {
@@ -228,8 +237,9 @@ Window {
                         isGearOn:               (false)
                         tailX:                  (120)
                         tailY:                  (624)
-                        mainLabel:              ("rpm (x10)")
+                        mainLabel:              ("rpm")
                         mainFontSize:           (toPixels(0.45))
+                        labelSteps: (50)
                     }
                 }
             }
@@ -239,5 +249,4 @@ Window {
     }
     //  Content Container End
     //  ========================================================================
-  }
 }
