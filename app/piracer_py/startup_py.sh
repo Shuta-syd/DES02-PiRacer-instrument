@@ -11,7 +11,7 @@ source $SCRIPT_DIR/venv/bin/activate
 
 echo "Installing dependencies..."
 pip install -r $SCRIPT_DIR/requirements.txt &> /dev/null
-echo "Installed dependencies"
+echo "Done Install dependencies"
 
 echo "Starting main.py..."
 python3 $SCRIPT_DIR/main.py
