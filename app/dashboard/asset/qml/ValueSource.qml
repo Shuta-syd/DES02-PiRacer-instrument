@@ -20,11 +20,12 @@ Item {
     property real   speed:      (0)     // (unsigned short) // m/min
     property real   rpm:        (0)     // (unsigned short)
 
-    property string gear: {
-        if (throttle === 0)     return ("P");
-        if (throttle <   0)     return ("R");
-        if (throttle >   0)     return ("D");
-    }
+    property string gear:       ("P")
+    // {
+    //     if (throttle === 0)     return ("P");
+    //     if (throttle <   0)     return ("R");
+    //     if (throttle >   0)     return ("D");
+    // }
     property string ip_address: ("192.168.0.0")
     property string time:       (Qt.formatTime(new Date(), "hh:mm"))
 }

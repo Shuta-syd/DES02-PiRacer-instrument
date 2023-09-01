@@ -110,7 +110,7 @@ int         main(
     QList<QPropertyAnimation *> animations;
     for (int i=0; i<properties.size(); i++) {
         QPropertyAnimation* animation = new QPropertyAnimation(valueSource, properties[i][2].toUtf8());
-        animation->setDuration(0);
+        animation->setDuration(50);
         animations.append(animation);
     }
 
@@ -144,12 +144,31 @@ int         main(
                 animations[i]->setEndValue(_updatedData);
                 if (animations[i]->state() != QPropertyAnimation::Running)
                     animations[i]->start();
-                    
-                //qDebug() << _data;
+
+                if (properties[i][0] == "throttle")
+                {
+                    if (_data.toDouble() > 0) {
+                        //qDebug() << "throttle :" << _data.toDouble() << "detected, > 0," << (_data.toDouble() > 0);
+                        valueSource->setProperty("gear", "D");
+                    } else if (_data.toDouble() < 0) {
+                        //qDebug() << "throttle :" << _data.toDouble() << "detected, < 0," << (_data.toDouble() < 0);
+                        valueSource->setProperty("gear", "R");
+                    } else if (_data.toDouble() == 0) {
+                        //qDebug() << "throttle :" << _data.toDouble() << "detected, = 0," << (_data.toDouble() == 0);
+                        valueSource->setProperty("gear", "P");
+                    }
+                }
+                // if (_jsonObj["throttle"].toString().toDouble() > 0)
+                //     valueSource->setProperty("gear", "D");
+                // else if (_jsonObj["throttle"].toString().toInt() < 0)
+                //     valueSource->setProperty("gear", "R");
+                // else if (_jsonObj["throttle"].toString().toInt() == 0)
+                //     valueSource->setProperty("gear", "P");
             }
         }
         else
-            qWarning() << "Invalid JSON: " << _msg;
+            //qWarning() << "Invalid JSON: " << _msg;
+            qWarning() << "Invalid JSON: ";
     });
 
     int result = app.exec();

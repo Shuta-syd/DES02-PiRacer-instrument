@@ -25,20 +25,20 @@ if __name__ == '__main__':
     car_control_queue   = multiprocessing.Queue(queue_size)
     queues              = [can_queue, car_info_queue, car_control_queue]
 
-    # Run seperate processes
-    car_info_process = Process(target=car_info, args=(car_info_queue,))
+    # Run processes
+    car_info_process = Process(name="python3_car_info", target=car_info, args=(car_info_queue,)) 
     setproctitle("python3_car_info")
     car_info_process.start()
 
-    car_control_process = Process(target=car_control, args=(car_control_queue,))
+    car_control_process = Process(name = "python3_car_control",target=car_control, args=(car_control_queue,))
     setproctitle("python3_car_control")
     car_control_process.start()
 
-    recieve_data_process = Process(target=recieve_data, args=(can_queue,))
+    recieve_data_process = Process(name = "python3_recieve_data", target=recieve_data, args=(can_queue,))
     setproctitle("python3_recieve_data")
     recieve_data_process.start()
 
-    send_data_process = Process(target=send_data, args=(can_queue,car_info_queue,car_control_queue))
+    send_data_process = Process(name = "python3_send_data", target=send_data, args=(can_queue,car_info_queue,car_control_queue))
     setproctitle("python3_send_data")
     send_data_process.start()
     
@@ -59,8 +59,7 @@ if __name__ == '__main__':
 
     # Exit with cmd+c
     except KeyboardInterrupt:         
-        print(" - PiRacer_py has been stopped. - ")
-        # Terminate all processes
-        terminate_processes(processes)
         # Exit the program
+        print("ENDE")
+        terminate_processes(processes)
         sys.exit(1)

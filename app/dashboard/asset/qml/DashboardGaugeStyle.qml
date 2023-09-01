@@ -1,6 +1,7 @@
 import  QtQuick                 2.2
 import  QtQuick.Controls.Styles 1.4
 import  QtGraphicalEffects      1.0
+import  QtQuick.Controls        2.15
 
 
 CircularGaugeStyle {
@@ -28,11 +29,11 @@ CircularGaugeStyle {
     property real   maximumValue:       (60)
 
     //  - For indicators
-    property real   indicator:          (valueSource.indicator)
+    property real   indicator:          (0)
     property bool   isIndicatorOn:      (true)
 
     //  - For gear
-    property string gear:               (valueSource.gear)
+    property string gear:               ("P")
     property bool   isGearOn:           (true)
 
     //  - For needle
@@ -192,17 +193,6 @@ CircularGaugeStyle {
         }
         property string blinkState: ("off")
         
-        /*        
-        onIndicatorChanged: {
-            if(indicator === 3) {
-                blinkTimer.start();
-            } else {
-                blinkTimer.stop();
-                blinkState = false;  // Make sure blinkState is reset when indicator is not 3.
-            }
-        }
-        */
-        
         Component.onCompleted: {
             if (indicator === 3) {
                 blinkTimer.start();
@@ -247,6 +237,20 @@ CircularGaugeStyle {
             }
 
             _ctx.restore();
+        }
+
+        function paintIndicator(isOn) {
+            if (isOn === true) {
+                if (indicator === 1 || (indicator === 3 && blinkState))
+                    drawIndicatorArrow(_ctx, xCenter - 50, yCenter, 180, true);
+                else
+                    drawIndicatorArrow(_ctx, xCenter - 50, yCenter, 180, false);
+
+                if (indicator === 2 || (indicator === 3 && blinkState))
+                    drawIndicatorArrow(_ctx, xCenter + 50, yCenter, 0, true);
+                else
+                    drawIndicatorArrow(_ctx, xCenter + 50, yCenter, 0, false);
+            }
         }
         //  Turn Indicator End
         //  ====================================================================
@@ -307,6 +311,10 @@ CircularGaugeStyle {
             _ctx.textBaseline = "middle";
             _ctx.fillText(gearLabel, x + boxWidth / 2, y + boxHeight / 2);
         }
+
+        function paintGear(isOn) {
+            
+        }
         //  ====================================================================
         //  Gear Drawing End
 
@@ -322,17 +330,18 @@ CircularGaugeStyle {
             //  drawing indicator
             if (isIndicatorOn === true) {
                 if (indicator === 1 || (indicator === 3 && blinkState))
-                    drawIndicatorArrow(_ctx, xCenter - 40, yCenter, 180, true);
+                    drawIndicatorArrow(_ctx, xCenter - 50, yCenter, 180, true);
                 else
-                    drawIndicatorArrow(_ctx, xCenter - 40, yCenter, 180, false);
+                    drawIndicatorArrow(_ctx, xCenter - 50, yCenter, 180, false);
 
                 if (indicator === 2 || (indicator === 3 && blinkState))
-                    drawIndicatorArrow(_ctx, xCenter + 40, yCenter, 0, true);
+                    drawIndicatorArrow(_ctx, xCenter + 50, yCenter, 0, true);
                 else
-                    drawIndicatorArrow(_ctx, xCenter + 40, yCenter, 0, false);
+                    drawIndicatorArrow(_ctx, xCenter + 50, yCenter, 0, false);
             }
 
             //  drawing gear
+            console.log("gear : ", gear, "valueSource-gear : ", valueSource.gear);
             if (isGearOn === true) {
                 drawGearButton(_ctx, xCenter - 55, yCenter + 130, "P", gear === "P");
                 drawGearButton(_ctx, xCenter - 10, yCenter + 130, "D", gear === "D");

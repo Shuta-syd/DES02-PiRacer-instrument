@@ -8,6 +8,11 @@ speedsensor_can_id  = 0x125
 bus_interface       = 'can1'    
 
 def recieve_data(q):
+
+    #rpm queue for rpm_wheel moving average calulation
+    rpm_queue = queue.Queue(maxsize=10)
+    speed_queue = queue.Queue(maxsize=10)
+
     try:
         # Set up CAN bus
         bus = can.interface.Bus(channel=bus_interface, bustype ='socketcan')
@@ -34,6 +39,24 @@ def recieve_data(q):
                     wheel_diameter = 65.0
                     circumference = (wheel_diameter*math.pi) / 1000
                     speed = round(abs(rpm_wheel * circumference),3)
+
+                    # moving average rpm
+                    try: 
+                        rpm_queue.put_nowait(rpm_wheel)
+                    except queue.Full:
+                        rpm_queue.get()
+                        rpm_queue.put(rpm_wheel)
+                    rpm_wheel_list = list(rpm_queue.queue)
+                    rpm_wheel = round(sum(rpm_wheel_list)/len(rpm_wheel_list), 3)
+
+                    # moving average speed
+                    try:
+                        speed_queue.put_nowait(speed)
+                    except queue.Full:
+                        speed_queue.get()
+                        speed_queue.put(speed)  
+                    speed_list = list(speed_queue.queue)
+                    speed = round(sum(speed_list)/len(speed_list), 3)
 
                     #print rpm_wheel and speed as integer
                     #print("RPM =   ",rpm_wheel," 1/min ", "Speed = ",speed," m/min ")

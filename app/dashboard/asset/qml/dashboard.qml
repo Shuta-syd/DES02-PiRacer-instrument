@@ -153,7 +153,9 @@ Window {
 
                     style: DashboardGaugeStyle {
                         isIndicatorOn:      (false)
+                        indicator:          (valueSource.indicator)
                         isGearOn:           (false)
+                        gear:               (valueSource.gear)
                         tailX:              (145)
                         tailY:              (624)
                         mainLabel:          ("Power Consumption (W)")
@@ -247,30 +249,30 @@ Window {
                     //property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
-                        top:                    (parent.top)
-                        left:                   (parent.left)
-                        margins:                (rpmGaugeContainer.padding)
-                        topMargin:              (rpmGaugeContainer.padding + 80)
-                        leftMargin:             (0)
-                        rightMargin:            (0)
+                        top:                (parent.top)
+                        left:               (parent.left)
+                        margins:            (rpmGaugeContainer.padding)
+                        topMargin:          (rpmGaugeContainer.padding + 80)
+                        leftMargin:         (0)
+                        rightMargin:        (0)
                     }
 
                     style: DashboardGaugeStyle {
-                        isIndicatorOn:          (false)
-                        isGearOn:               (false)
-                        tailX:                  (120)
-                        tailY:                  (624)
-                        mainLabel:              ("rpm")
-                        mainFontSize:           (toPixels(0.45))
-                        labelSteps:             (50)
+                        isIndicatorOn:      (false)
+                        isGearOn:           (false)
+                        tailX:              (120)
+                        tailY:              (624)
+                        mainLabel:          ("rpm")
+                        mainFontSize:       (toPixels(0.45))
+                        labelSteps:         (50)
                     }
 
                     NumberAnimation {
-                        target: rpmGauge
-                        property: "ndlAngle"
-                        //to: map(valueSource.rpm, 0, 100, -135, 135)
-                        easing.type: Easing.InOutQuad
-                        duration: 60
+                        target:             (rpmGauge)
+                        property:           ("ndlAngle")
+                        // to: map(valueSource.rpm, 0, 100, -135, 135)
+                        easing.type:        (Easing.InOutQuad)
+                        duration:           (60)
                     }
                 }
             }
