@@ -19,7 +19,7 @@ $DIR/piracer_py/startup_py.sh&
 
 # wait until python3_main_process appears
 while ! pgrep -f python3_main_process ; do
-  echo "Waiting for main_python process..."
+  echo "\rWaiting for main_python process..."
   sleep 1
 done
 
