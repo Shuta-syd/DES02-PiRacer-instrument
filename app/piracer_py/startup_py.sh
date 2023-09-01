@@ -15,4 +15,3 @@ echo "Installed dependencies"
 
 echo "Starting main.py..."
 python3 $SCRIPT_DIR/main.py
-echo "Started main.py"
