@@ -78,7 +78,7 @@ Window {
 
             Text {
                 text:               (parseInt(Math.min(valueSource.level, 100)) + "%  " + parseInt(valueSource.left_hour) + " hours"
-                                    + "\n" + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA" + parseInt(valueSource.gear))
+                                    + "\n" + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA")
                 font.pixelSize:     (18)
                 color:              ("white")
             }

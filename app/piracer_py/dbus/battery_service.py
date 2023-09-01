@@ -35,7 +35,7 @@ class BatteryService(object):
   def getLevel(self) -> list:
     num_cells = 3 # number of cells
     # approximation of battery level in % (third degree, approximation)
-    x = round(self._vehicle.get_battery_voltage(),1) / num_cells
+    x = self._voltage / num_cells
     y = -691.919 * x**3 + 7991.667 * x**2 - 30541.295 * x + 38661.5
     # make sure that battery level is between 0 and 100
     battery_level = min(max(round(y, 3), 0), 100) # in %
@@ -47,15 +47,15 @@ class BatteryService(object):
     return [_level, _hour]
 
   def getVoltage(self) -> str:
-    _voltage          = str(round(self._vehicle.get_battery_voltage(),1)) # in V
+    _voltage          = str(round(abs(self._vehicle.get_battery_voltage(),3))) # in V
     return _voltage
 
   def getConsumption(self) -> str:
-    _consumption      = str(round(self._vehicle.get_power_consumption(),1)) # in W
+    _consumption      = str(round(abs(self._vehicle.get_power_consumption(),3))) # in W
     return _consumption
 
   def getCurrent(self) -> str:
-    _current = str(round(self._vehicle.get_battery_current(),1)) # in mA
+    _current = str(round(abs(self._vehicle.get_battery_current(),3))) # in mA
     return _current
 
 def battery_service_process(vehicle: PiRacerStandard, communication_queue: Queue):
