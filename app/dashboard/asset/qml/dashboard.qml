@@ -4,13 +4,13 @@ import  QtQuick.Controls        1.4
 import  QtQuick.Controls.Styles 1.4
 import  QtQuick.Extras          1.4
 import  QtGraphicalEffects      1.0
-
+import  "."
 
 Window {
     id:             root
     title:          "dashboard"
     visible:        (true)
-    width:          (1248)
+    width:          (1250)
     height:         (400)
     minimumWidth:   (400)
     minimumHeight:  (300)
@@ -27,12 +27,14 @@ Window {
         width:  (root.width)
         height: (30)
 
+
+        // battery icon
         Item {
             id:                 batteryIcon
             width:              (35)
             height:             (13)
             anchors.top:        (parent.top)
-            anchors.left:       (buttons.left)
+            anchors.left:       (parent.left)
             anchors.leftMargin: (200)
             anchors.topMargin:  (12)
 
@@ -77,14 +79,14 @@ Window {
             anchors.leftMargin:     (15)
 
             Text {
-                text:               (parseInt(Math.min(valueSource.level, 100)) + "%  " + parseInt(valueSource.left_hour) + " hours"
-                                    + "\n" + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA")
+                text:               (parseInt(Math.min(valueSource.level, 100)) + "%  "  + parseInt(valueSource.left_hour) + " hours" + "\n"
+                                        + parseInt(valueSource.voltage) + " V " + " " + parseInt(valueSource.current) + " mA" )
                 font.pixelSize:     (18)
                 color:              ("white")
             }
         }
 
-        Item { // timer
+        Item {
             anchors.top:        (parent.top)
             anchors.right:      (parent.right)
             anchors.rightMargin:60
@@ -105,9 +107,6 @@ Window {
             }
         }
     }
-    //  Top Navbar End
-    //  ========================================================================
-
 
     //  ========================================================================
     //  Content Container
@@ -121,6 +120,7 @@ Window {
             spacing:          (container.width * 0.02)
             anchors.centerIn: (parent)
 
+
             //  ================================================================
             //  Consumption
             Item {
@@ -129,6 +129,7 @@ Window {
                 height:                 (container.height * 0.75)
                 anchors.verticalCenter: (root.verticalCenter)
                 property int padding:   (20)
+
 
                 CircularGauge {
                     id:                     consumption
@@ -139,14 +140,15 @@ Window {
                     value:                  (valueSource.consumption)
                     maximumValue:           (50)
                     tickmarksVisible:       (false)
+                    //property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
                         top:                (parent.top)
                         left:               (parent.left)
                         margins:            (consumptionContainer.padding)
                         topMargin:          (consumptionContainer.padding + 80)
-                        leftMargin: (0)
-                        rightMargin: (0)
+                        leftMargin:         (0)
+                        rightMargin:        (0)
                     }
 
                     style: DashboardGaugeStyle {
@@ -154,12 +156,23 @@ Window {
                         isGearOn:           (false)
                         tailX:              (145)
                         tailY:              (624)
-                        mainLabel: ("Power Consumption (W)")
+                        mainLabel:          ("Power Consumption (W)")
                         mainFontSize:       (toPixels(0.45))
-                        maxValue: (50)
+                        labelSteps:         (5)
+                    }
+
+                    NumberAnimation {
+                        target: consumption
+                        property: "ndlAngle"
+                        //to: map(valueSource.consumption, 0, 100, -135, 135)
+                        easing.type: Easing.InOutQuad
+                        duration: 60
                     }
                 }
             }
+            //  Consumption End
+            //  ================================================================
+
 
             //  ================================================================
             //  Speedometer
@@ -168,25 +181,26 @@ Window {
                 width:                  (height)
                 height:                 (container.height)
                 anchors.verticalCenter: (root.verticalCenter)
-                anchors.rightMargin: (0)
+                anchors.rightMargin:    (0)
                 property int padding:   (20)
 
                 CircularGauge {
                     id:                     speedometer
-                    width: (parent.width)
-                    height: (parent.height)
+                    width:                  (parent.width)
+                    height:                 (parent.height)
                     z:                      (1)
 
                     value:                  (valueSource.speed)
-                    maximumValue:           (180)
+                    maximumValue:           (200)
                     tickmarksVisible:       (false)
+                    //property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
                         top:                (parent.top)
                         left:               (parent.left)
                         margins:            (speedometerContainer.padding)
-                        leftMargin: (0)
-                        rightMargin: (0)
+                        leftMargin:         (0)
+                        rightMargin:        (0)
                     }
 
                     style: DashboardGaugeStyle {
@@ -196,7 +210,15 @@ Window {
                         tailY:              (624)
                         mainLabel:          ("m/min")
                         mainFontSize:       (toPixels(0.55))
-                        maxValue:           (180)
+                        labelSteps:         (10)
+                    }
+
+                    NumberAnimation {
+                        target: speedometer
+                        property: "ndlAngle"
+                        //to: map(valueSource.speed, 0, 100, -135, 135)
+                        easing.type: Easing.InOutQuad
+                        duration: 10
                     }
                 }
             }
@@ -222,14 +244,15 @@ Window {
                     value:                  (valueSource.rpm)
                     maximumValue:           (700)
                     tickmarksVisible:       (false)
+                    //property real ndlAngle: (map(valueSource.speed, 0, 100, -135, 135))
 
                     anchors {
                         top:                    (parent.top)
                         left:                   (parent.left)
                         margins:                (rpmGaugeContainer.padding)
                         topMargin:              (rpmGaugeContainer.padding + 80)
-                        leftMargin: (0)
-                        rightMargin: (0)
+                        leftMargin:             (0)
+                        rightMargin:            (0)
                     }
 
                     style: DashboardGaugeStyle {
@@ -239,7 +262,15 @@ Window {
                         tailY:                  (624)
                         mainLabel:              ("rpm")
                         mainFontSize:           (toPixels(0.45))
-                        maxValue:               (800)
+                        labelSteps:             (50)
+                    }
+
+                    NumberAnimation {
+                        target: rpmGauge
+                        property: "ndlAngle"
+                        //to: map(valueSource.rpm, 0, 100, -135, 135)
+                        easing.type: Easing.InOutQuad
+                        duration: 60
                     }
                 }
             }
