@@ -1,7 +1,7 @@
 #!/bin/bash
 PROCESS_NAME="python3_main_process"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-RESTART_SCRIPT="$SCRIPT_DIR/script/restart.sh"
+RESTART_SCRIPT="$SCRIPT_DIR/restart.sh"
 inter=3
 wait=3
 
