@@ -32,4 +32,5 @@ echo "Waiting for main_python process..... Done"
 $DIR/piracer_py/startup_monitor.sh&
 
 # startup to build application
-$DIR/dashboard/build.sh&
+cd $DIR/dashboard
+./build.sh
