@@ -14,7 +14,7 @@ $PARENT_DIR/can-modules/setup_can.sh&
 # #$ARDUINO compile -b arduino:avr:nano:cpu=atmega328old rpm-calculator
 # #$ARDUINO upload -b arduino:avr:nano:cpu=atmega328old rpm-calculator -p /dev/ttyUSB0
 
-# # startup d-bus service & monitor
+# startup d-bus service & monitor
 $DIR/piracer_py/startup_py.sh&
 
 # wait until python3_main_process appears
@@ -31,5 +31,5 @@ echo "Waiting for main_python process..... Done"
 
 $DIR/piracer_py/startup_monitor.sh&
 
-# # startup to build application
+# startup to build application
 $DIR/dashboard/build.sh&
