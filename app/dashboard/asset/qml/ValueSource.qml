@@ -40,7 +40,7 @@ Item {
           valueSource.level = dbus_client.getLevel();
         }
         onLeftHourChanged: {
-          valueSource.level = dbus_client.getLeftHour();
+          valueSource.left_hour = dbus_client.getLeftHour();
         }
         onConsumptionChanged: {
           valueSource.consumption = dbus_client.getConsumption();

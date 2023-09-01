@@ -156,6 +156,7 @@ Window {
                         tailY:              (624)
                         mainLabel: ("Power Consumption (W)")
                         mainFontSize:       (toPixels(0.45))
+                        maxValue: (50)
                     }
                 }
             }
@@ -195,6 +196,7 @@ Window {
                         tailY:              (624)
                         mainLabel:          ("m/min")
                         mainFontSize:       (toPixels(0.55))
+                        maxValue:           (180)
                     }
                 }
             }
@@ -237,6 +239,7 @@ Window {
                         tailY:                  (624)
                         mainLabel:              ("rpm")
                         mainFontSize:           (toPixels(0.45))
+                        maxValue:               (800)
                     }
                 }
             }

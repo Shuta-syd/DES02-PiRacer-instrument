@@ -57,7 +57,7 @@ class DbusService(object):
     voltage = self._dbus_battery.getVoltage() # [V]
     consumption = self._dbus_battery.getConsumption() # [W]
     current = self._dbus_battery.getCurrent() # [mA]
-    print(level, consumption, voltage, current)
+    print(level, hour, consumption, voltage, current)
     return [level, hour, consumption, voltage, current]  # battery level, left hour, consumption,voltage, current
 
 def dbus_service_process():

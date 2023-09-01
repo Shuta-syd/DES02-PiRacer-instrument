@@ -21,6 +21,7 @@ CircularGaugeStyle {
     property real   needleBaseWidth:    (toPixels(0.01))
     property real   tailX:              (0)
     property real   tailY:              (0)
+    property real   maxValue:          (0)
 
     //  - For Main Text/Labels
     property string mainLabel:          ("")
@@ -30,6 +31,7 @@ CircularGaugeStyle {
     //  - For indicators
     property real   indicator:          (valueSource.indicator)
     property bool   isIndicatorOn:      (false)
+
 
     //  - For gear
     property string gear:               (valueSource.gear)
@@ -72,7 +74,7 @@ CircularGaugeStyle {
         );
         _ctx.stroke();
 
-        // 
+        //
         _ctx.beginPath();
         var gradient = _ctx.createLinearGradient(
                             xCenter,  0,
@@ -160,7 +162,7 @@ CircularGaugeStyle {
                 font.italic: true
 
                 property int value: index * 5
-                property real angle: map(value, 0, 60, -235, 55)
+                property real angle: map(value, 0, maxValue, -235, 55)
                 property string labelText: String(value)
                 property real labelSize: value % 10 === 0 ? toPixels(0.08) : toPixels(0.07)
                 property color labelColor: value % 10 === 0 ? "#E0E0E0" : "#696969"
@@ -181,9 +183,9 @@ CircularGaugeStyle {
             running: indicator === 3
             repeat: true
             onTriggered: {
-                if(blinkState === "on")     
+                if(blinkState === "on")
                     blinkState = "off";
-                else                        
+                else
                     blinkState = "on";
             }
         }
@@ -205,14 +207,14 @@ CircularGaugeStyle {
             _ctx.save();
             _ctx.translate(x, y);
             _ctx.rotate(degToRad(rotationAngle));
-            
+
             // Draw the base triangle first
             _ctx.beginPath();
             _ctx.moveTo(40, -10);
             _ctx.lineTo(55, 0);
             _ctx.lineTo(40, 10);
             _ctx.closePath();
-            
+
             if (active) {
                 _ctx.fillStyle = "#1EF0FD";
             } else {
@@ -226,13 +228,13 @@ CircularGaugeStyle {
                 gradient.addColorStop(0,   "rgba(3, 240, 253, 0.1)");
                 gradient.addColorStop(0.5, "rgba(3, 240, 253, 0.01)");
                 gradient.addColorStop(0.7, "rgba(3, 240, 253, 0)");
-                
+
                 // Using shadow as a trick to add blur to the radial gradient
                 _ctx.shadowColor = "#1EF0FD";
                 _ctx.shadowBlur = 10;  // Adjust this value to increase or decrease the blur intensity
                 _ctx.shadowOffsetX = 0;
                 _ctx.shadowOffsetY = 0;
-                
+
                 _ctx.fillStyle = gradient;
                 _ctx.beginPath();
                 _ctx.arc(47.5, 0, 30, 0, 2 * Math.PI, false);
