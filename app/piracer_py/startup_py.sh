@@ -6,7 +6,6 @@ if [[ "$SCRIPT_DIR" != */app/piracer_py ]]; then
     exit 1
 fi
 
-echo $SCRIPT_DIR | systemd-cat -t test-log
 
 # Activate venv
 python3 -m venv $SCRIPT_DIR/venv
