@@ -1,10 +1,8 @@
 #!/bin/bash
-DIR=$(pwd)
-PARENT_DIR="$(cd .. && pwd)"
+export DIR=$(pwd)
+export PARENT_DIR="$(cd .. && pwd)"
 cd $DIR
 
-echo $DIR
-echo $SCRIPT_DIR
 # startup Arduino
 chmod 755 $PARENT_DIR/can-modules/setup_can.sh
 chmod 755 $DIR/piracer_py/startup_py.sh
