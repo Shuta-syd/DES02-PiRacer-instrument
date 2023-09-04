@@ -1,6 +1,10 @@
 #!/bin/bash
 export DIR=$(pwd)
 export PARENT_DIR="$(cd .. && pwd)"
+
+echo $DIR | systemd-cat -t test-log
+echo $PARENT_DIR | systemd-cat -t test-log
+
 cd $DIR
 
 # startup Arduino
