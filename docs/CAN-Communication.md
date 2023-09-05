@@ -51,7 +51,7 @@ Raspberry Pi and 2CH-CAN-FD-HAT
 > **Note**: We used to try to use MCP2515 Library, but it didn't work. So we used MCP_CAN Library instead of MCP2515 Library.
 > Maybe it might work depending on the external environment such as OS, Arduino version, etc. so please try it to use MCP2515 Library.
 
-```c++
+```ino
 #include <mcp_can.h>
 #include <SPI.h>
 
