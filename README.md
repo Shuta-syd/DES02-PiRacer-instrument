@@ -1,7 +1,7 @@
 # DES02-PiRacer-instrument
 ## Branch Version
-Application using D-BUS -> **dbus-version** branch  
-Application using TCP/IP -> **tcp-version** branch
+Application using D-BUS -> `dbus-version` branch  
+Application using TCP/IP -> `tcp-version` branch
 
 ## Demonstration
 <img src="./docs/imgs/demonstration.gif">
