@@ -27,21 +27,13 @@ Application using TCP/IP -> `tcp-version` branch
 │   ├── d-bus # D-BUS server (python)
 │   ├── dashboard # application dir for dashboard
 │   │   ├── asset
-│   │   │   ├── fonts
-│   │   │   ├── images
 │   │   │   └── qml
-│   │   └── log
 │   └── piracer_py # dir to control piracer (gamepad, display etc.)
-│       ├── piracer
-│       ├── process
-│          └── fonts
 ├── can-modules # send data to can bus from any sensor
 │   └── speedsensor
 ├── docs # docs explains this project
 │   └── imgs
 └── examples # example to understand project knowledge
     ├── can
-    │   ├── receiver
-    │   └── transmitter
     └── rpm-calc
 ```
