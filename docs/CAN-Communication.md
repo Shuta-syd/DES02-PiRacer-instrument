@@ -1,4 +1,4 @@
-# Hardware & System-Architecture
+# CAN Communication
 This section describes the hardware and system architecture of the PiRacer instrument cluster. 
 
 ## Materials
