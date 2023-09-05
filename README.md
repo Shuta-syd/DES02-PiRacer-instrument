@@ -1,10 +1,10 @@
 # DES02-PiRacer-instrument
-## Demonstration
-<img src="./docs/imgs/demonstration.gif">
-
-## Version
+## Branch Version
 Application using D-BUS -> **dbus-version** branch  
 Application using TCP/IP -> **tcp-version** branch
+
+## Demonstration
+<img src="./docs/imgs/demonstration.gif">
 
 ## Contents Index
 [1. Software Architecture](#software-architecture)  
