@@ -18,6 +18,31 @@ You can see the full subject in this link. [SEA-ME/DES-Instrument-Cluster](https
 ## :question:  How to use
 1. Choose what versions to use. (TCP Socket vs D-bus)<br>
 To see details about the architecture, see [Software Architecture](#classical_building--software-architecture) of README or [basic-knowledge-of-the-architecture.md](/docs/basic-knowledge-of-the-architecture.md)
+2. Clone the repository to your PiRacer.<br>
+```bash
+git clone https://github.com/Shuta-Syd/DES02-PiRacer-instrument
+```
+3. Move to directory and checkout to version that you want to use.
+```bash
+cd DES02-PiRacer-instrument/
+
+# tcp-socket version
+git checkout tcp-version
+
+# dbus version
+git checkout dbus-version
+```
+
+4. Run startup shell file.
+```
+./startup-des02.sh
+```
+
+5. If you find any kinds of bugs or issues, please contact us.<br>
+Collaborators
+- [KKWANH](https://github.com/KKWANH) : kwanho0096@gmail.com
+- [Shuta-Syd](https://github.com/Shuta-Syd)
+- [KianWasabi](https://github.com/KianWasabi)
 
 ## :memo:  Documentations
 You can see all documentations in [`/docs/`](/docs/) folder.
