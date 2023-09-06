@@ -4,9 +4,8 @@
 - [DES02-PiRacer-instrument](#des02-piracer-instrument)
   - [Table of contents](#table-of-contents)
   - [:microphone: Introduction](#microphone-introduction)
-  - [:classical\_building: Software Architecture](#classical_building-software-architecture)
   - [:runner: Demonstration](#runner-demonstration)
-  - [Software Architecture](#software-architecture)
+  - [:classical\_building: Software Architecture](#classical_building-software-architecture)
   - [Project Structure](#project-structure)
 
 ## :microphone: Introduction
@@ -15,15 +14,16 @@ This project is part of [SEA-ME Project](https://github.com/SEA-ME).
 
 You can see the full subject in this link. [SEA-ME/DES-Instrument-Cluster](https://github.com/SEA-ME/DES-Instrument-Cluster)
 
-## :classical_building: Software Architecture
-Application using D-BUS -> `dbus-version` branch  
-Application using TCP/IP -> `tcp-version` branch
-
 ## :runner: Demonstration
-<img src="./docs/imgs/demonstration.gif">
+<img src="./docs/imgs/demonstration.gif" width="80%" margin="120%">
 
-## Software Architecture
-<img src="./docs/imgs/software-architecture.png" width="100%" height="75%">
+## :classical_building: Software Architecture
+Application using `TCP Socket` ➝ [**`tcp-version` branch** *(link)*](https://github.com/tree/tcp-version)
+Application using `D-BUS` ➝ [**`dbus-version` branch** *(link)*](https://github.com/tree/dbus-version)
+
+| TCP Version | DBUS Version |
+|:-------:|:-------:|
+|<img src="./docs/imgs/architecture-socket.png" width="100%">|<img src="./docs/imgs/architecture-socket.png" width="100%">|
 
 ## Project Structure
 ``` bash
