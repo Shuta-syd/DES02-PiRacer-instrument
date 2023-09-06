@@ -5,8 +5,8 @@
   - [Table of contents](#table-of-contents)
   - [:microphone:  Introduction](#microphone--introduction)
   - [:question:  How to use](#question--how-to-use)
-  - [:classical\_building:  Software Architecture](#classical_building--software-architecture)
   - [:memo:  Documentations](#memo--documentations)
+  - [:classical\_building:  Software Architecture](#classical_building--software-architecture)
   - [:runner:  Demonstration](#runner--demonstration)
 
 ## :microphone:  Introduction
@@ -18,15 +18,6 @@ You can see the full subject in this link. [SEA-ME/DES-Instrument-Cluster](https
 ## :question:  How to use
 - Choose what versions to use. (TCP Socket vs D-bus)
 To see details about the architecture, see [Software Architecture](#classical_building--software-architecture) of README or [basic-knowledge-of-the-architecture.md](/docs/basic-knowledge-of-the-architecture.md)
-
-## :classical_building:  Software Architecture
-Application using `TCP Socket` ➝ [**`tcp-version` branch** (link)](https://github.com/Shuta-Syd/DES02-Piracer-Instrument/tree/tcp-version)
-Application using `D-BUS` ➝ [**`dbus-version` branch** (link)](https://github.com/Shuta-Syd/DES02-Piracer-Instrument/tree/dbus-version)
-
-| TCP Version | DBUS Version |
-|:-------:|:-------:|
-|[V1-tcp-socket.md](/docs/V1-tcp-socket.md)| |
-|<img src="./docs/imgs/architecture-socket.png" width="100%">|<img src="./docs/imgs/architecture-socket.png" width="100%">|
 
 ## :memo:  Documentations
 You can see all documentations in [`/docs/`](/docs/) folder.
@@ -41,6 +32,15 @@ You can see all documentations in [`/docs/`](/docs/) folder.
 - [RPM-Calculation.md](/docs/RPM-Calculation.md)
 - [Startup-Routine.md](/docs/Startup-Routine.md)
 - [V1-tcp-socket.md](/docs/V1-tcp-socket.md)
+
+## :classical_building:  Software Architecture
+Application using `TCP Socket` ➝ [**`tcp-version` branch** (link)](https://github.com/Shuta-Syd/DES02-Piracer-Instrument/tree/tcp-version)
+Application using `D-BUS` ➝ [**`dbus-version` branch** (link)](https://github.com/Shuta-Syd/DES02-Piracer-Instrument/tree/dbus-version)
+
+| TCP Version | DBUS Version |
+|:-------:|:-------:|
+|[V1-tcp-socket.md](/docs/V1-tcp-socket.md)| |
+|<img src="./docs/imgs/architecture-socket.png" width="100%">|<img src="./docs/imgs/architecture-socket.png" width="100%">|
 
 ## :runner:  Demonstration
 <img src="./docs/imgs/demonstration.gif" width="80%" margin="120%">
