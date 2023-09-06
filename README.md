@@ -7,7 +7,7 @@
   - [:question:  How to use](#question--how-to-use)
   - [:memo:  Documentations](#memo--documentations)
   - [:classical\_building:  Software Architecture](#classical_building--software-architecture)
-  - [:runner:  Demonstration](#runner--demonstration)
+  - [:runner:  Demonstration Video](#runner--demonstration-video)
 
 ## :microphone:  Introduction
 This project is part of [SEA-ME Project](https://github.com/SEA-ME).
@@ -16,7 +16,7 @@ This project is part of [SEA-ME Project](https://github.com/SEA-ME).
 You can see the full subject in this link. [SEA-ME/DES-Instrument-Cluster](https://github.com/SEA-ME/DES-Instrument-Cluster)
 
 ## :question:  How to use
-- Choose what versions to use. (TCP Socket vs D-bus)
+1. Choose what versions to use. (TCP Socket vs D-bus)<br>
 To see details about the architecture, see [Software Architecture](#classical_building--software-architecture) of README or [basic-knowledge-of-the-architecture.md](/docs/basic-knowledge-of-the-architecture.md)
 
 ## :memo:  Documentations
@@ -42,5 +42,5 @@ Application using `D-BUS` ➝ [**`dbus-version` branch** (link)](https://github.
 |[V1-tcp-socket.md](/docs/V1-tcp-socket.md)| |
 |<img src="./docs/imgs/architecture-socket.png" width="100%">|<img src="./docs/imgs/architecture-socket.png" width="100%">|
 
-## :runner:  Demonstration
+## :runner:  Demonstration Video
 <img src="./docs/imgs/demonstration.gif" width="80%" margin="120%">
