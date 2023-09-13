@@ -56,7 +56,7 @@ You can see all documentations in [`/docs/`](/docs/) folder.
 - [LCD-Display.md](/docs/LCD-Display.md)
 - [RPM-Calculation.md](/docs/RPM-Calculation.md)
 - [Startup-Routine.md](/docs/Startup-Routine.md)
-- [V1-tcp-socket.md](/docs/V1-tcp-socket.md)
+- [tcp-version.md](/docs/V1-tcp-socket.md)
 
 ## :classical_building:  Software Architecture
 Application using `TCP Socket` ➝ [**`tcp-version` branch** (link)](https://github.com/Shuta-Syd/DES02-Piracer-Instrument/tree/tcp-version) <br/>
@@ -66,7 +66,7 @@ You can see differences in this documentation. [(Link)](https://github.com/Shuta
 
 | TCP Version | DBUS Version |
 |:-------:|:-------:|
-|[V1-tcp-socket.md](/docs/V1-tcp-socket.md)| |
+|[tcp-version.md](/docs/V1-tcp-socket.md)| |
 |<img src="./docs/imgs/architecture-socket.png" width="100%">|<img src="./docs/imgs/architecture-socket.png" width="100%">|
 
 ## :runner:  Demonstration Video
