@@ -2,13 +2,12 @@
 
 !!!! DOCUMENTATION IN PROGRESS !!!!
 
-We decided to build two versions of the Piracer Application. <br>
-V1 [branch for tcp-version](/Shuta-syd/DES02-PiRacer-instrument/tree/tcp-version) <br>  and V2 [branch for dbus-version](/Shuta-syd/DES02-PiRacer-instrument/tree/dbus-version) <br>
-The following documentation narrows down the details on [V1 (tcp-version)](/Shuta-syd/DES02-PiRacer-instrument/tree/tcp-version). 
+We decided to build two versions of the Piracer Application - the [V1 TCP-Version](/Shuta-syd/DES02-PiRacer-instrument/tree/tcp-version) and [V2 DBUS-Version](/Shuta-syd/DES02-PiRacer-instrument/tree/dbus-version). <br>
+The following documentation narrows down the details on [V1 TCP-Version](/Shuta-syd/DES02-PiRacer-instrument/tree/tcp-version). 
 
 ## Introduction
 ### Multiprocessing
-Multiprocessing in Python is a module that enables concurrent execution of multiple processes, allowing programs to utilize multiple CPU cores for improved performance. It provides a way to create and manage separate processes, each with its own memory space and resources, allowing them to run independently. This is particularly useful for CPU-bound tasks, such as data processing and intensive computations, as it can significantly reduce execution time. Python's multiprocessing module offers a high-level interface for creating and managing processes, with features like the Pool class for parallelizing function calls and tools for inter-process communication like pipes and queues. It is a powerful tool for optimizing multi-core systems and achieving faster program execution in Python.
+Multiprocessing is a technique that enables concurrent execution of multiple processes, allowing programs to utilize multiple CPU cores for improved performance. It provides a way to create and manage separate processes, each with its own memory space and resources, allowing them to run independently. This is particularly useful for CPU-bound tasks, such as data processing and intensive computations, as it can significantly reduce execution time. Python's multiprocessing module offers a high-level interface for creating and managing processes, with features like the Pool class for parallelizing function calls and tools for inter-process communication like pipes and queues. It is a powerful tool for optimizing multi-core systems and achieving faster program execution in Python.
 
 ### Queues
 Queues in Python's `multiprocessing` module enable secure communication between concurrent processes by preventing data corruption and race conditions. <br>
