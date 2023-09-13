@@ -70,4 +70,4 @@ You can see differences in this documentation. [(Link)](https://github.com/Shuta
 |<img src="./docs/imgs/architecture-socket.png" width="100%">|<img src="./docs/imgs/architecture-socket.png" width="100%">|
 
 ## :runner:  Demonstration Video
-<img src="./docs/imgs/demonstration.gif" width="80%" margin="120%">
+<img src="./docs/imgs/demonstration.gif" width="40%" margin="120%">
