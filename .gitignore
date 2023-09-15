@@ -25,3 +25,5 @@ venv.bak/
 
 # Python Temporary Files
 __pycache__/
+
+pid.txt
