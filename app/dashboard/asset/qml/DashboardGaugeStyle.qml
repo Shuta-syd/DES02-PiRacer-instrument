@@ -258,6 +258,7 @@ CircularGaugeStyle {
         //  ====================================================================
         //  Gear Drawing
         function drawGearButton(_ctx, x, y, gearLabel, isActive) {
+            //console.log("drawGearButton Function Launched!");
             // Define colors based on active state
             const textColor     = isActive ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.6)";
             const boxColor      = isActive ? "rgba(227,227,227,0.15)" : "rgba(227,227,227,0.1)";
@@ -311,10 +312,6 @@ CircularGaugeStyle {
             _ctx.textBaseline = "middle";
             _ctx.fillText(gearLabel, x + boxWidth / 2, y + boxHeight / 2);
         }
-
-        function paintGear(isOn) {
-            
-        }
         //  ====================================================================
         //  Gear Drawing End
 
@@ -341,7 +338,7 @@ CircularGaugeStyle {
             }
 
             //  drawing gear
-            console.log("gear : ", gear, "valueSource-gear : ", valueSource.gear);
+            //console.log("gear : ", gear, "valueSource-gear : ", valueSource.gear);
             if (isGearOn === true) {
                 drawGearButton(_ctx, xCenter - 55, yCenter + 130, "P", gear === "P");
                 drawGearButton(_ctx, xCenter - 10, yCenter + 130, "D", gear === "D");

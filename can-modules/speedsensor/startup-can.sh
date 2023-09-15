@@ -1,11 +1,13 @@
 #!/bin/bash
 
-#get the path of the script
-SCRIPT_PATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-#ARDUINO = $SCRIPT_PATH/rpm-caluclator
+# Get the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Step 0: Store Process id in pid.txt
+sudo echo $$ >> $SCRIPT_DIR/../pid.txt
 
 # Step 1 : Flash Arduino
-echo "Arduino flashed with can-modules/speedsensor code?"
+# echo "Arduino flashed with can-modules/speedsensor code?"
 
 # Step 2: Setup Can Interfaces
 {

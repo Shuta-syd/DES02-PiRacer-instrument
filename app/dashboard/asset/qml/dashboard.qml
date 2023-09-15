@@ -153,9 +153,7 @@ Window {
 
                     style: DashboardGaugeStyle {
                         isIndicatorOn:      (false)
-                        indicator:          (valueSource.indicator)
                         isGearOn:           (false)
-                        gear:               (valueSource.gear)
                         tailX:              (145)
                         tailY:              (624)
                         mainLabel:          ("Power Consumption (W)")
@@ -207,7 +205,9 @@ Window {
 
                     style: DashboardGaugeStyle {
                         isIndicatorOn:      (true)
+                        indicator:          (valueSource.indicator)
                         isGearOn:           (true)
+                        gear:               (valueSource.gear)
                         tailX:              (180)
                         tailY:              (624)
                         mainLabel:          ("m/min")

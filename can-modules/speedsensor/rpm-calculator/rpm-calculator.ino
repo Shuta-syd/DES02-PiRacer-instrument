@@ -94,4 +94,3 @@ void loop() {
   send_to_CAN();
   print_terminal();
 }
-

@@ -3,7 +3,7 @@ import time
 import queue
 import json
 
-server_address = 'localhost'
+server_address = "localhost"
 server_port = 23513
 
 def send_data(can_queue,car_info_queue,car_control_queue):
@@ -107,7 +107,7 @@ def send_data(can_queue,car_info_queue,car_control_queue):
                         conn.sendall(message.encode('utf-8'))
 
                         # print message with timestamp to console
-                        # print(f"{int(time.time())} - {message}")
+                        #print(f"{int(time.time())} - {message}")
 
                     except (BrokenPipeError, ConnectionResetError):
                         print("Client disconnected, waiting for another connection")

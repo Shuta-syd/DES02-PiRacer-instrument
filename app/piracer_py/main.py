@@ -1,23 +1,20 @@
 import  multiprocessing
 from    multiprocessing         import Process 
 import  threading
-from setproctitle import setproctitle
+from    setproctitle            import setproctitle
 import  sys
-# Why this error:   File "/home/seame01/workspace/TCP-Version_DES02-PiRacer-instrument/DES02-PiRacer-instrument/app/piracer_py/main.py", line 4, in <module> from setproctitle import setproctitle ModuleNotFoundError: No module named 'setproctitle'
-# Solution:         sudo apt-get install python3-setproctitle
 
 from    process.car_info        import car_info
 from    process.car_control     import car_control
 from    process.recieve_data    import recieve_data
 from    process.send_data       import send_data
-from    monitor                  import monitor_thread
+from    monitor                 import monitor_thread
 
 def terminate_processes(processes):
     for p in processes:
         p.terminate()
 
-if __name__ == '__main__':
-         
+def main():
     # Create a queues for data exchange between processes. 
     queue_size = 3
     can_queue           = multiprocessing.Queue(queue_size)
@@ -59,7 +56,8 @@ if __name__ == '__main__':
 
     # Exit with cmd+c
     except KeyboardInterrupt:         
-        # Exit the program
-        print("ENDE")
         terminate_processes(processes)
         sys.exit(1)
+
+if __name__ == '__main__':
+    main()

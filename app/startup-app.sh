@@ -1,13 +1,20 @@
 #!/bin/bash
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-# Step1: Kill processes from previous run
+# Get the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Step 0: Store process id in text file
+sudo echo $$ >> $SCRIPT_DIR/../pid.txt
+
+# Step1: Kill processes
 sudo pkill -f "python3"
 sudo pkill -f "python3_main_process"
 sudo pkill -f "python3_car_info"
 sudo pkill -f "python3_car_control"
 sudo pkill -f "python3_recieve_data"
 sudo pkill -f "python3_send_data"
+
+sleep 5
 
 # Step2: Run piracer_py main
 chmod 755 $SCRIPT_DIR/piracer_py/startup_main.sh
