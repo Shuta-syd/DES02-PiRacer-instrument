@@ -1,3 +1,5 @@
 # DES02-PiRacer-instrument
 ## TCP Version
-BRANCH FOR V1 : Running with TCP 
+This branch holds a PiRacer Instument CLuster running a TCP socket server to send the data to the dashboard. 
+## Documentation
+See: LINK 
