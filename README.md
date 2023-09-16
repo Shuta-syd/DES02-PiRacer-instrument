@@ -60,7 +60,7 @@ You can see all documentations in [`/docs/`](/docs/) folder.
 - [LCD-Display.md](/docs/LCD-Display.md)
 - [RPM-Calculation.md](/docs/RPM-Calculation.md)
 - [Startup-Routine.md](/docs/Startup-Routine.md)
-- [tcp-version.md](/docs/V1-tcp-socket.md)
+- [tcp-version.md](/docs/tcp-version.md)
 
 ## :classical_building:  Software Architecture
 Application using `TCP Socket` ➝ [**`tcp-version` branch** (link)](https://github.com/Shuta-Syd/DES02-Piracer-Instrument/tree/tcp-version) <br/>
