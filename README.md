@@ -8,6 +8,7 @@
   - [:memo:  Documentations](#memo--documentations)
   - [:classical\_building:  Software Architecture](#classical_building--software-architecture)
   - [:runner:  Demonstration Video](#runner--demonstration-video)
+  - [👷 Known Issues](#known-issues)
 
 ## :microphone:  Introduction
 This project is part of [SEA-ME Project](https://github.com/SEA-ME).
@@ -71,3 +72,13 @@ You can see differences in this documentation. [(Link)](https://github.com/Shuta
 
 ## :runner:  Demonstration Video
 <img src="./docs/imgs/demonstration.gif" width="40%" margin="120%">
+
+
+## 👷 Known Issues 
+Known issues we found while testing:
+- Gear Selection & Indicator in the dashboard does not work.
+  - The dashboard recieves & process the needed information correctly but is not updating. 
+- Sometimes the CAN HAT assigns the CAN Bus to CAN interface 0 instead of 1.
+  - We assume this can be solved by optimizing the Pi's interface settings (single/double SPI Mode).  
+- When the PiRacer is running on batteries only, it indicates a low power supply. It seems like the processes are running "slower" which can results in a significant delay in some processes like the remote control.
+  - We assume that a propper priorisation of the python processes can fix this problem.
