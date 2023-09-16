@@ -39,8 +39,7 @@ git checkout dbus-version
 # tcp-socket version
 ./startup-des02.sh
 # dbus version
-cd DES02-PiRacer-instrument/app
-./startup.sh
+./app/startup.sh
 ```
 
 5. If you find any kinds of bugs or issues, please contact us.<br>
