@@ -1,5 +1,31 @@
 ## RPi Start-up routine 
 ### Intro
+On UNIX Systems there are several several approaches to achieve a "Start-Up-Routine" , depending on the specific needs and the Unix flavor you are using (e.g., Linux, macOS, Rasbrian). 
+Common methods are: 
+
+    Startup Scripts (init.d or systemd):
+        System V Init (init.d): On older Unix systems like CentOS 6 or Debian 7, you can create startup scripts in the /etc/init.d/ directory. These scripts typically include start, stop, and restart commands for your services. Use the chkconfig or update-rc.d command to manage their runlevels.
+        Systemd: On modern Linux distributions like Ubuntu 16.04+ or CentOS 7+, systemd is the init system. You can create unit files in /etc/systemd/system/ or /lib/systemd/system/. Use systemctl to enable, start, stop, or manage services.
+
+    Cron Jobs:
+        You can use the cron scheduler to run scripts or commands at specific times or intervals. Use the crontab command to edit the user-specific cron jobs or add scripts to the /etc/cron.d/ directory for system-wide tasks.
+
+    User-Specific Startup Scripts:
+        For tasks that should run when a user logs in, you can add commands or scripts to the user's .bashrc, .bash_profile, .profile, or equivalent shell startup files.
+
+    Global Startup Scripts:
+        To execute tasks for all users when they log in, you can add commands or scripts to global shell startup files like /etc/profile or /etc/bash.bashrc (location may vary depending on the Unix distribution).
+
+    Startup Services (rc.local):
+        On some Unix systems, you can add custom commands or scripts to the /etc/rc.local file, which runs at the end of the system's boot process.
+
+    Initramfs Scripts:
+        For more advanced startup tasks or customization of the early boot process, you can create custom initramfs scripts. This is typically done by experienced system administrators and requires a good understanding of the boot process.
+
+    Using daemons and Supervisors:
+        Some applications may come with their own daemon management scripts or supervisor tools (e.g., supervisord, runit
+
+
 One .sh file starts from .service that will start the other following .sh files
 ### app/dashboard
 Start-up routine for dashboard
