@@ -1,4 +1,4 @@
-## RPi Start-up routine 
+## Start-up Routine on Rasbian OS
 ### Intro
 On UNIX Systems there are several several approaches to achieve a "Start-Up-Routine" , depending on the specific needs and the Unix flavor you are using (e.g., Linux, macOS, Rasbrian). 
 Common methods are: 
