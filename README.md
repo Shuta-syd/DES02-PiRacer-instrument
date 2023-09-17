@@ -80,8 +80,8 @@ You can see differences in this documentation. [(Link)](https://github.com/Shuta
 ## 👷 Known Issues 
 Some issues we found while testing:
 - Gear Selection & Indicators do not work.
-  - The dashboard recieves & process the needed information correctly but is not updating. 
-- Sometimes the CAN HAT assigns the CAN Bus to CAN interface 0 instead of 1.
+  - The dashboard is not updating the Indicator & Gear Selection. 
+- The CAN HAT driver randomly assigns the CAN Bus to CAN interface 0 instead of 1 sometimes.
   - We assume this can be solved by adjusting the Pi's interface settings (single/double SPI Mode for CAN HAT).
-- When the PiRacer is running wihout power supply (batteries only), it shows a warning that the voltage is to low. Furthermore, it seems like the processes are running "slower" which can results in a significant delay in some processes like remote control.
+- When the PiRacer is running wihout a regular power supply (batteries only), it displays a low voltage warning. Furthermore, id this happens, it seems like the processes are running "slower" which can results in a significant delay in some processes like remote control.
   - We assume that a propper priorisation of the python processes can fix this problem. In addition using a more lightweight OS or diable not needed features could be sufficient. 
