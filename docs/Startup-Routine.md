@@ -1,4 +1,4 @@
-## Start-up Routine on Rasbian OS
+## Start-up Routine
 
 ### Intro
 On UNIX Systems there are several several approaches to achieve a "Start-Up-Routine" , depending on the specific needs and the Unix flavor you are using (e.g., Linux, macOS, Rasbrian). 
